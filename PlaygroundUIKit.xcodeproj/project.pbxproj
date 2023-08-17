@@ -1,0 +1,723 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BAB4D0462A42A80300B340C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0452A42A80300B340C5 /* AppDelegate.swift */; };
+		BAB4D0482A42A80300B340C5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0472A42A80300B340C5 /* SceneDelegate.swift */; };
+		BAB4D04A2A42A80300B340C5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0492A42A80300B340C5 /* ViewController.swift */; };
+		BAB4D04F2A42A80400B340C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAB4D04E2A42A80400B340C5 /* Assets.xcassets */; };
+		BAB4D0522A42A80400B340C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAB4D0502A42A80400B340C5 /* LaunchScreen.storyboard */; };
+		BAB4D05D2A42A80400B340C5 /* PlaygroundUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D05C2A42A80400B340C5 /* PlaygroundUIKitTests.swift */; };
+		BAB4D0672A42A80400B340C5 /* PlaygroundUIKitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0662A42A80400B340C5 /* PlaygroundUIKitUITests.swift */; };
+		BAB4D0692A42A80400B340C5 /* PlaygroundUIKitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0682A42A80400B340C5 /* PlaygroundUIKitUITestsLaunchTests.swift */; };
+		BAB4D07A2A42DDB100B340C5 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0792A42DDB100B340C5 /* RootView.swift */; };
+		BAB4D07C2A42DDC300B340C5 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D07B2A42DDC300B340C5 /* RootViewController.swift */; };
+		BAB4D07E2A42E43600B340C5 /* PhpickerTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D07D2A42E43600B340C5 /* PhpickerTestViewController.swift */; };
+		BAB4D0832A42E7BE00B340C5 /* SizeConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0822A42E7BE00B340C5 /* SizeConstant.swift */; };
+		BAB4D0872A42F8A600B340C5 /* PhpickerTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0862A42F8A600B340C5 /* PhpickerTestView.swift */; };
+		BAD188852A7BC6480014FDD1 /* ListButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188842A7BC6480014FDD1 /* ListButtonTestView.swift */; };
+		BAD188872A7BC65A0014FDD1 /* ListButtonTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188862A7BC65A0014FDD1 /* ListButtonTestViewController.swift */; };
+		BAD1888B2A7BC9790014FDD1 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD1888A2A7BC9790014FDD1 /* UIViewExtension.swift */; };
+		BAD188902A7C04E70014FDD1 /* arrow-down-gray@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD1888D2A7C04E60014FDD1 /* arrow-down-gray@3x.png */; };
+		BAD188912A7C04E70014FDD1 /* arrow-down-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD1888E2A7C04E60014FDD1 /* arrow-down-gray.png */; };
+		BAD188922A7C04E70014FDD1 /* arrow-down-gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD1888F2A7C04E60014FDD1 /* arrow-down-gray@2x.png */; };
+		BAD188942A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188932A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift */; };
+		BAD188962A7CD1C60014FDD1 /* AccordionButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188952A7CD1C60014FDD1 /* AccordionButtonTestView.swift */; };
+		BAD188B42A7D50B40014FDD1 /* minus-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188B12A7D50B40014FDD1 /* minus-icon@3x.png */; };
+		BAD188B52A7D50B40014FDD1 /* minus-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188B22A7D50B40014FDD1 /* minus-icon@2x.png */; };
+		BAD188B62A7D50B40014FDD1 /* minus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188B32A7D50B40014FDD1 /* minus-icon.png */; };
+		BAD188BA2A7D50C60014FDD1 /* plus-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188B72A7D50C60014FDD1 /* plus-icon@3x.png */; };
+		BAD188BB2A7D50C60014FDD1 /* plus-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188B82A7D50C60014FDD1 /* plus-icon@2x.png */; };
+		BAD188BC2A7D50C60014FDD1 /* plus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188B92A7D50C60014FDD1 /* plus-icon.png */; };
+		BAD188C02A7D50DF0014FDD1 /* arrow-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188BD2A7D50DF0014FDD1 /* arrow-icon@2x.png */; };
+		BAD188C12A7D50DF0014FDD1 /* arrow-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188BE2A7D50DF0014FDD1 /* arrow-icon@3x.png */; };
+		BAD188C22A7D50DF0014FDD1 /* arrow-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188BF2A7D50DF0014FDD1 /* arrow-icon.png */; };
+		BAD188C42A8071320014FDD1 /* PickerTextFieldTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188C32A8071320014FDD1 /* PickerTextFieldTestViewController.swift */; };
+		BAD188C62A80715B0014FDD1 /* PickerTextFieldTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BAB4D0592A42A80400B340C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BAB4D03A2A42A80300B340C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BAB4D0412A42A80300B340C5;
+			remoteInfo = PlaygroundUIKit;
+		};
+		BAB4D0632A42A80400B340C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BAB4D03A2A42A80300B340C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BAB4D0412A42A80300B340C5;
+			remoteInfo = PlaygroundUIKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BAB4D0422A42A80300B340C5 /* PlaygroundUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlaygroundUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAB4D0452A42A80300B340C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BAB4D0472A42A80300B340C5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		BAB4D0492A42A80300B340C5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BAB4D04E2A42A80400B340C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BAB4D0512A42A80400B340C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BAB4D0532A42A80400B340C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BAB4D0582A42A80400B340C5 /* PlaygroundUIKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlaygroundUIKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAB4D05C2A42A80400B340C5 /* PlaygroundUIKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundUIKitTests.swift; sourceTree = "<group>"; };
+		BAB4D0622A42A80400B340C5 /* PlaygroundUIKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlaygroundUIKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAB4D0662A42A80400B340C5 /* PlaygroundUIKitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundUIKitUITests.swift; sourceTree = "<group>"; };
+		BAB4D0682A42A80400B340C5 /* PlaygroundUIKitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundUIKitUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BAB4D0792A42DDB100B340C5 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		BAB4D07B2A42DDC300B340C5 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		BAB4D07D2A42E43600B340C5 /* PhpickerTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhpickerTestViewController.swift; sourceTree = "<group>"; };
+		BAB4D0822A42E7BE00B340C5 /* SizeConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeConstant.swift; sourceTree = "<group>"; };
+		BAB4D0862A42F8A600B340C5 /* PhpickerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhpickerTestView.swift; sourceTree = "<group>"; };
+		BAD188842A7BC6480014FDD1 /* ListButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListButtonTestView.swift; sourceTree = "<group>"; };
+		BAD188862A7BC65A0014FDD1 /* ListButtonTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListButtonTestViewController.swift; sourceTree = "<group>"; };
+		BAD1888A2A7BC9790014FDD1 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		BAD1888D2A7C04E60014FDD1 /* arrow-down-gray@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-down-gray@3x.png"; sourceTree = "<group>"; };
+		BAD1888E2A7C04E60014FDD1 /* arrow-down-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-down-gray.png"; sourceTree = "<group>"; };
+		BAD1888F2A7C04E60014FDD1 /* arrow-down-gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-down-gray@2x.png"; sourceTree = "<group>"; };
+		BAD188932A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccordionButtonTestViewController.swift; sourceTree = "<group>"; };
+		BAD188952A7CD1C60014FDD1 /* AccordionButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccordionButtonTestView.swift; sourceTree = "<group>"; };
+		BAD188B12A7D50B40014FDD1 /* minus-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minus-icon@3x.png"; sourceTree = "<group>"; };
+		BAD188B22A7D50B40014FDD1 /* minus-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minus-icon@2x.png"; sourceTree = "<group>"; };
+		BAD188B32A7D50B40014FDD1 /* minus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minus-icon.png"; sourceTree = "<group>"; };
+		BAD188B72A7D50C60014FDD1 /* plus-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus-icon@3x.png"; sourceTree = "<group>"; };
+		BAD188B82A7D50C60014FDD1 /* plus-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus-icon@2x.png"; sourceTree = "<group>"; };
+		BAD188B92A7D50C60014FDD1 /* plus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus-icon.png"; sourceTree = "<group>"; };
+		BAD188BD2A7D50DF0014FDD1 /* arrow-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-icon@2x.png"; sourceTree = "<group>"; };
+		BAD188BE2A7D50DF0014FDD1 /* arrow-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-icon@3x.png"; sourceTree = "<group>"; };
+		BAD188BF2A7D50DF0014FDD1 /* arrow-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-icon.png"; sourceTree = "<group>"; };
+		BAD188C32A8071320014FDD1 /* PickerTextFieldTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTextFieldTestViewController.swift; sourceTree = "<group>"; };
+		BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTextFieldTestView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BAB4D03F2A42A80300B340C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAB4D0552A42A80400B340C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAB4D05F2A42A80400B340C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BAB4D0392A42A80300B340C5 = {
+			isa = PBXGroup;
+			children = (
+				BAB4D0442A42A80300B340C5 /* PlaygroundUIKit */,
+				BAB4D05B2A42A80400B340C5 /* PlaygroundUIKitTests */,
+				BAB4D0652A42A80400B340C5 /* PlaygroundUIKitUITests */,
+				BAB4D0432A42A80300B340C5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BAB4D0432A42A80300B340C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BAB4D0422A42A80300B340C5 /* PlaygroundUIKit.app */,
+				BAB4D0582A42A80400B340C5 /* PlaygroundUIKitTests.xctest */,
+				BAB4D0622A42A80400B340C5 /* PlaygroundUIKitUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BAB4D0442A42A80300B340C5 /* PlaygroundUIKit */ = {
+			isa = PBXGroup;
+			children = (
+				BAD1888C2A7C04CE0014FDD1 /* Resources */,
+				BAD188892A7BC9600014FDD1 /* Extension */,
+				BAB4D0812A42E7A300B340C5 /* Constants */,
+				BAB4D0782A42DD7800B340C5 /* Controllers */,
+				BAB4D0772A42DD6C00B340C5 /* Views */,
+				BAB4D0452A42A80300B340C5 /* AppDelegate.swift */,
+				BAB4D0472A42A80300B340C5 /* SceneDelegate.swift */,
+				BAB4D0492A42A80300B340C5 /* ViewController.swift */,
+				BAB4D04E2A42A80400B340C5 /* Assets.xcassets */,
+				BAB4D0502A42A80400B340C5 /* LaunchScreen.storyboard */,
+				BAB4D0532A42A80400B340C5 /* Info.plist */,
+			);
+			path = PlaygroundUIKit;
+			sourceTree = "<group>";
+		};
+		BAB4D05B2A42A80400B340C5 /* PlaygroundUIKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				BAB4D05C2A42A80400B340C5 /* PlaygroundUIKitTests.swift */,
+			);
+			path = PlaygroundUIKitTests;
+			sourceTree = "<group>";
+		};
+		BAB4D0652A42A80400B340C5 /* PlaygroundUIKitUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BAB4D0662A42A80400B340C5 /* PlaygroundUIKitUITests.swift */,
+				BAB4D0682A42A80400B340C5 /* PlaygroundUIKitUITestsLaunchTests.swift */,
+			);
+			path = PlaygroundUIKitUITests;
+			sourceTree = "<group>";
+		};
+		BAB4D0772A42DD6C00B340C5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BAB4D0792A42DDB100B340C5 /* RootView.swift */,
+				BAB4D0862A42F8A600B340C5 /* PhpickerTestView.swift */,
+				BAD188842A7BC6480014FDD1 /* ListButtonTestView.swift */,
+				BAD188952A7CD1C60014FDD1 /* AccordionButtonTestView.swift */,
+				BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BAB4D0782A42DD7800B340C5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BAB4D07B2A42DDC300B340C5 /* RootViewController.swift */,
+				BAB4D07D2A42E43600B340C5 /* PhpickerTestViewController.swift */,
+				BAD188862A7BC65A0014FDD1 /* ListButtonTestViewController.swift */,
+				BAD188932A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift */,
+				BAD188C32A8071320014FDD1 /* PickerTextFieldTestViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BAB4D0812A42E7A300B340C5 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				BAB4D0822A42E7BE00B340C5 /* SizeConstant.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		BAD188892A7BC9600014FDD1 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BAD1888A2A7BC9790014FDD1 /* UIViewExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		BAD1888C2A7C04CE0014FDD1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BAD188BF2A7D50DF0014FDD1 /* arrow-icon.png */,
+				BAD188BD2A7D50DF0014FDD1 /* arrow-icon@2x.png */,
+				BAD188BE2A7D50DF0014FDD1 /* arrow-icon@3x.png */,
+				BAD1888E2A7C04E60014FDD1 /* arrow-down-gray.png */,
+				BAD1888F2A7C04E60014FDD1 /* arrow-down-gray@2x.png */,
+				BAD1888D2A7C04E60014FDD1 /* arrow-down-gray@3x.png */,
+				BAD188B32A7D50B40014FDD1 /* minus-icon.png */,
+				BAD188B22A7D50B40014FDD1 /* minus-icon@2x.png */,
+				BAD188B12A7D50B40014FDD1 /* minus-icon@3x.png */,
+				BAD188B92A7D50C60014FDD1 /* plus-icon.png */,
+				BAD188B82A7D50C60014FDD1 /* plus-icon@2x.png */,
+				BAD188B72A7D50C60014FDD1 /* plus-icon@3x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BAB4D0412A42A80300B340C5 /* PlaygroundUIKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAB4D06C2A42A80400B340C5 /* Build configuration list for PBXNativeTarget "PlaygroundUIKit" */;
+			buildPhases = (
+				BAB4D03E2A42A80300B340C5 /* Sources */,
+				BAB4D03F2A42A80300B340C5 /* Frameworks */,
+				BAB4D0402A42A80300B340C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlaygroundUIKit;
+			productName = PlaygroundUIKit;
+			productReference = BAB4D0422A42A80300B340C5 /* PlaygroundUIKit.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BAB4D0572A42A80400B340C5 /* PlaygroundUIKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAB4D06F2A42A80400B340C5 /* Build configuration list for PBXNativeTarget "PlaygroundUIKitTests" */;
+			buildPhases = (
+				BAB4D0542A42A80400B340C5 /* Sources */,
+				BAB4D0552A42A80400B340C5 /* Frameworks */,
+				BAB4D0562A42A80400B340C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BAB4D05A2A42A80400B340C5 /* PBXTargetDependency */,
+			);
+			name = PlaygroundUIKitTests;
+			productName = PlaygroundUIKitTests;
+			productReference = BAB4D0582A42A80400B340C5 /* PlaygroundUIKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BAB4D0612A42A80400B340C5 /* PlaygroundUIKitUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAB4D0722A42A80400B340C5 /* Build configuration list for PBXNativeTarget "PlaygroundUIKitUITests" */;
+			buildPhases = (
+				BAB4D05E2A42A80400B340C5 /* Sources */,
+				BAB4D05F2A42A80400B340C5 /* Frameworks */,
+				BAB4D0602A42A80400B340C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BAB4D0642A42A80400B340C5 /* PBXTargetDependency */,
+			);
+			name = PlaygroundUIKitUITests;
+			productName = PlaygroundUIKitUITests;
+			productReference = BAB4D0622A42A80400B340C5 /* PlaygroundUIKitUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BAB4D03A2A42A80300B340C5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					BAB4D0412A42A80300B340C5 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					BAB4D0572A42A80400B340C5 = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = BAB4D0412A42A80300B340C5;
+					};
+					BAB4D0612A42A80400B340C5 = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = BAB4D0412A42A80300B340C5;
+					};
+				};
+			};
+			buildConfigurationList = BAB4D03D2A42A80300B340C5 /* Build configuration list for PBXProject "PlaygroundUIKit" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BAB4D0392A42A80300B340C5;
+			productRefGroup = BAB4D0432A42A80300B340C5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BAB4D0412A42A80300B340C5 /* PlaygroundUIKit */,
+				BAB4D0572A42A80400B340C5 /* PlaygroundUIKitTests */,
+				BAB4D0612A42A80400B340C5 /* PlaygroundUIKitUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BAB4D0402A42A80300B340C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAB4D0522A42A80400B340C5 /* LaunchScreen.storyboard in Resources */,
+				BAD188BC2A7D50C60014FDD1 /* plus-icon.png in Resources */,
+				BAB4D04F2A42A80400B340C5 /* Assets.xcassets in Resources */,
+				BAD188C02A7D50DF0014FDD1 /* arrow-icon@2x.png in Resources */,
+				BAD188912A7C04E70014FDD1 /* arrow-down-gray.png in Resources */,
+				BAD188BB2A7D50C60014FDD1 /* plus-icon@2x.png in Resources */,
+				BAD188C22A7D50DF0014FDD1 /* arrow-icon.png in Resources */,
+				BAD188C12A7D50DF0014FDD1 /* arrow-icon@3x.png in Resources */,
+				BAD188B62A7D50B40014FDD1 /* minus-icon.png in Resources */,
+				BAD188B52A7D50B40014FDD1 /* minus-icon@2x.png in Resources */,
+				BAD188BA2A7D50C60014FDD1 /* plus-icon@3x.png in Resources */,
+				BAD188B42A7D50B40014FDD1 /* minus-icon@3x.png in Resources */,
+				BAD188902A7C04E70014FDD1 /* arrow-down-gray@3x.png in Resources */,
+				BAD188922A7C04E70014FDD1 /* arrow-down-gray@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAB4D0562A42A80400B340C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAB4D0602A42A80400B340C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BAB4D03E2A42A80300B340C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAD188C62A80715B0014FDD1 /* PickerTextFieldTestView.swift in Sources */,
+				BAD188C42A8071320014FDD1 /* PickerTextFieldTestViewController.swift in Sources */,
+				BAB4D07C2A42DDC300B340C5 /* RootViewController.swift in Sources */,
+				BAB4D07A2A42DDB100B340C5 /* RootView.swift in Sources */,
+				BAD1888B2A7BC9790014FDD1 /* UIViewExtension.swift in Sources */,
+				BAD188942A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift in Sources */,
+				BAB4D0872A42F8A600B340C5 /* PhpickerTestView.swift in Sources */,
+				BAB4D0832A42E7BE00B340C5 /* SizeConstant.swift in Sources */,
+				BAD188872A7BC65A0014FDD1 /* ListButtonTestViewController.swift in Sources */,
+				BAD188962A7CD1C60014FDD1 /* AccordionButtonTestView.swift in Sources */,
+				BAB4D07E2A42E43600B340C5 /* PhpickerTestViewController.swift in Sources */,
+				BAB4D04A2A42A80300B340C5 /* ViewController.swift in Sources */,
+				BAD188852A7BC6480014FDD1 /* ListButtonTestView.swift in Sources */,
+				BAB4D0462A42A80300B340C5 /* AppDelegate.swift in Sources */,
+				BAB4D0482A42A80300B340C5 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAB4D0542A42A80400B340C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAB4D05D2A42A80400B340C5 /* PlaygroundUIKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAB4D05E2A42A80400B340C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAB4D0692A42A80400B340C5 /* PlaygroundUIKitUITestsLaunchTests.swift in Sources */,
+				BAB4D0672A42A80400B340C5 /* PlaygroundUIKitUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BAB4D05A2A42A80400B340C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BAB4D0412A42A80300B340C5 /* PlaygroundUIKit */;
+			targetProxy = BAB4D0592A42A80400B340C5 /* PBXContainerItemProxy */;
+		};
+		BAB4D0642A42A80400B340C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BAB4D0412A42A80300B340C5 /* PlaygroundUIKit */;
+			targetProxy = BAB4D0632A42A80400B340C5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BAB4D0502A42A80400B340C5 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BAB4D0512A42A80400B340C5 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BAB4D06A2A42A80400B340C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BAB4D06B2A42A80400B340C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BAB4D06D2A42A80400B340C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlaygroundUIKit/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = sakai.PlaygroundUIKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BAB4D06E2A42A80400B340C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlaygroundUIKit/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = sakai.PlaygroundUIKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BAB4D0702A42A80400B340C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = sakai.PlaygroundUIKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaygroundUIKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PlaygroundUIKit";
+			};
+			name = Debug;
+		};
+		BAB4D0712A42A80400B340C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = sakai.PlaygroundUIKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaygroundUIKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PlaygroundUIKit";
+			};
+			name = Release;
+		};
+		BAB4D0732A42A80400B340C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = sakai.PlaygroundUIKitUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PlaygroundUIKit;
+			};
+			name = Debug;
+		};
+		BAB4D0742A42A80400B340C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = sakai.PlaygroundUIKitUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PlaygroundUIKit;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BAB4D03D2A42A80300B340C5 /* Build configuration list for PBXProject "PlaygroundUIKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAB4D06A2A42A80400B340C5 /* Debug */,
+				BAB4D06B2A42A80400B340C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAB4D06C2A42A80400B340C5 /* Build configuration list for PBXNativeTarget "PlaygroundUIKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAB4D06D2A42A80400B340C5 /* Debug */,
+				BAB4D06E2A42A80400B340C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAB4D06F2A42A80400B340C5 /* Build configuration list for PBXNativeTarget "PlaygroundUIKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAB4D0702A42A80400B340C5 /* Debug */,
+				BAB4D0712A42A80400B340C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAB4D0722A42A80400B340C5 /* Build configuration list for PBXNativeTarget "PlaygroundUIKitUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAB4D0732A42A80400B340C5 /* Debug */,
+				BAB4D0742A42A80400B340C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BAB4D03A2A42A80300B340C5 /* Project object */;
+}
