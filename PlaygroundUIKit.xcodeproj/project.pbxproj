@@ -39,6 +39,7 @@
 		BAD188C22A7D50DF0014FDD1 /* arrow-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188BF2A7D50DF0014FDD1 /* arrow-icon.png */; };
 		BAD188C42A8071320014FDD1 /* PickerTextFieldTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188C32A8071320014FDD1 /* PickerTextFieldTestViewController.swift */; };
 		BAD188C62A80715B0014FDD1 /* PickerTextFieldTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */; };
+		E158D5D92AEBBC3D009D6E49 /* GitTestFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		BAD188BF2A7D50DF0014FDD1 /* arrow-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-icon.png"; sourceTree = "<group>"; };
 		BAD188C32A8071320014FDD1 /* PickerTextFieldTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTextFieldTestViewController.swift; sourceTree = "<group>"; };
 		BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTextFieldTestView.swift; sourceTree = "<group>"; };
+		E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTestFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 				BAB4D04E2A42A80400B340C5 /* Assets.xcassets */,
 				BAB4D0502A42A80400B340C5 /* LaunchScreen.storyboard */,
 				BAB4D0532A42A80400B340C5 /* Info.plist */,
+				E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */,
 			);
 			path = PlaygroundUIKit;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E158D5D92AEBBC3D009D6E49 /* GitTestFile.swift in Sources */,
 				BAD188C62A80715B0014FDD1 /* PickerTextFieldTestView.swift in Sources */,
 				BAD188C42A8071320014FDD1 /* PickerTextFieldTestViewController.swift in Sources */,
 				BAB4D07C2A42DDC300B340C5 /* RootViewController.swift in Sources */,
