@@ -30,19 +30,28 @@ class ListButtonTestView: UIView {
     
     // MARK: - ViewLoad
     func viewLoad() {
-        listButton = ListButton(title: "あいうえお",
+        let listButtonText: UILabel = UILabel()
+        listButtonText.text = "あいうえお"
+        listButtonText.textColor = .black
+        let listButtonView: UIView = UIView()
+        listButtonView.addSubview(listButtonText)
+        listButtonText.translatesAutoresizingMaskIntoConstraints = false
+        listButtonText.topAnchor.constraint(equalTo: listButtonView.topAnchor, constant: 15).isActive = true
+        listButtonText.bottomAnchor.constraint(equalTo: listButtonView.bottomAnchor, constant: -15).isActive = true
+        listButtonText.leadingAnchor.constraint(equalTo: listButtonView.leadingAnchor, constant: 12).isActive = true
+        
+        listButton = ListButton(contentView: listButtonView,
                                 borderColor: .lightGray,
                                 target: self,
                                 action: #selector(listButtonTapAction))
-        listButton?.setAutoLayout(paddingLeft: 12, paddingRight: 12)
+        listButton?.setAutoLayout(paddingRight: 12)
         
         self.addSubview(listButton!)
         
         listButton?.translatesAutoresizingMaskIntoConstraints = false
+        listButton?.topAnchor.constraint(equalTo: self.topAnchor, constant: 50).isActive = true
         listButton?.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9).isActive = true
-        listButton?.heightAnchor.constraint(equalToConstant: 44).isActive = true
         listButton?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        listButton?.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
     }
     
     @objc func listButtonTapAction(_ sender: UIButton) {
@@ -55,7 +64,7 @@ class ListButtonTestView: UIView {
 class ListButton: UIControl {
     
     // MARK: - Member
-    let titleLabel: UILabel = UILabel()
+    var contentView: UIView?
     let imageView: UIImageView = UIImageView()
     var borderColor: UIColor?
     var borderWidth: CGFloat?
@@ -84,19 +93,25 @@ class ListButton: UIControl {
         super.init(frame: frame)
     }
     
-    convenience init(title: String,
-                     titleColor: UIColor = .black,
+    /// 引数付きinit
+    /// - Parameters:
+    ///   - contentView: ボタン内部に設定するView
+    ///   - borderColor: 枠線の色
+    ///   - borderWidth: 枠線の太さ
+    ///   - highlightColor: ハイライト時の色
+    ///   - target: タップ時のアクションを飛ばす相手（基本はViewを配置した画面）
+    ///   - action: タップ時のアクション
+    convenience init(contentView: UIView,
                      borderColor: UIColor = .lightGray,
                      borderWidth: CGFloat = 1.0,
+                     highlightColor: UIColor = .lightGray,
                      target: Any? = nil,
                      action: Selector? = nil) {
         self.init()
         
-        // ボタンのタイトルを設定
-        titleLabel.text = title
-        titleLabel.textColor = titleColor
-        titleLabel.sizeToFit()
-        self.addSubview(titleLabel)
+        // ボタンの中身のViewを設定
+        self.contentView = contentView
+        self.addSubview(contentView)
         
         // 「＞」の画像を設定
         imageView.image = UIImage(named: "arrow-icon")
@@ -115,7 +130,7 @@ class ListButton: UIControl {
         }
         
         // ハイライト用のviewを設定
-        highlightView.backgroundColor = .lightGray
+        highlightView.backgroundColor = highlightColor
         highlightView.alpha = 0.0
         self.addSubview(highlightView)
         
@@ -127,11 +142,12 @@ class ListButton: UIControl {
     
     
     // MARK: - AutoLayout
-    func setAutoLayout(paddingLeft: CGFloat = 0.0, paddingRight: CGFloat = 0.0) {
-        // タイトルの設定
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: paddingLeft).isActive = true
-        titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+    func setAutoLayout(paddingRight: CGFloat = 0.0) {
+        // ボタンの中身のViewの設定
+        contentView?.translatesAutoresizingMaskIntoConstraints = false
+        contentView?.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        contentView?.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        contentView?.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         // 画像の設定
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -paddingRight).isActive = true
