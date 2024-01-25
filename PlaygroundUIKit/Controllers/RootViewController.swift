@@ -65,5 +65,9 @@ class RootViewController: UIViewController, RootViewDelegate {
         self.navigationController?.pushViewController(PickerTextFieldTestViewController(), animated: true)
     }
     
+    func tableViewButtonTapAction() {
+        self.navigationController?.pushViewController(TableViewTestViewController(), animated: true)
+    }
+    
     
 }

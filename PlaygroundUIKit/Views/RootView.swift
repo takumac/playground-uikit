@@ -13,6 +13,7 @@ protocol RootViewDelegate {
     func listButtonButtonTapAction()
     func accordionButtonButtonTapAction()
     func pickerTextFieldButtonTapAction()
+    func tableViewButtonTapAction()
 }
 
 class RootView: UIView {
@@ -34,6 +35,9 @@ class RootView: UIView {
     
     /// PickerTextFieldの実験画面に飛ぶためのボタン
     let pickerTextFieldButton: UIButton = UIButton()
+    
+    /// TableViewの実験画面に飛ぶためのボタン
+    let tableViewButton: UIButton = UIButton()
     
     // MARK: Init
     override init(frame: CGRect) {
@@ -79,6 +83,13 @@ class RootView: UIView {
         pickerTextFieldButton.addTarget(self, action: #selector(pickerTextFieldButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(pickerTextFieldButton)
         
+        tableViewButton.setTitle("tableViewButton", for: .normal)
+        tableViewButton.setTitleColor(.blue, for: .normal)
+        tableViewButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        tableViewButton.sizeToFit()
+        tableViewButton.addTarget(self, action: #selector(tableViewButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(tableViewButton)
+        
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
         
@@ -101,18 +112,22 @@ class RootView: UIView {
         phpickerButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
         listButtonButton.translatesAutoresizingMaskIntoConstraints = false
-        listButtonButton.topAnchor.constraint(equalTo: phpickerButton.topAnchor, constant: 50).isActive = true
+        listButtonButton.topAnchor.constraint(equalTo: phpickerButton.bottomAnchor, constant: 50).isActive = true
         listButtonButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
         accordionButtonButton.translatesAutoresizingMaskIntoConstraints = false
-        accordionButtonButton.topAnchor.constraint(equalTo: listButtonButton.topAnchor, constant: 50).isActive = true
+        accordionButtonButton.topAnchor.constraint(equalTo: listButtonButton.bottomAnchor, constant: 50).isActive = true
         accordionButtonButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
         pickerTextFieldButton.translatesAutoresizingMaskIntoConstraints = false
-        pickerTextFieldButton.topAnchor.constraint(equalTo: accordionButtonButton.topAnchor, constant: 50).isActive = true
+        pickerTextFieldButton.topAnchor.constraint(equalTo: accordionButtonButton.bottomAnchor, constant: 50).isActive = true
         pickerTextFieldButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
-        pickerTextFieldButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 50).isActive = true
+        tableViewButton.translatesAutoresizingMaskIntoConstraints = false
+        tableViewButton.topAnchor.constraint(equalTo: pickerTextFieldButton.bottomAnchor, constant: 50).isActive = true
+        tableViewButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        
+        tableViewButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 50).isActive = true
     }
     
     
@@ -131,6 +146,10 @@ class RootView: UIView {
     
     @objc func pickerTextFieldButtonTapAction(_ sender: UIButton) {
         rootViewDelegate?.pickerTextFieldButtonTapAction()
+    }
+    
+    @objc func tableViewButtonTapAction(_ sender: UIButton) {
+        rootViewDelegate?.tableViewButtonTapAction()
     }
     
     

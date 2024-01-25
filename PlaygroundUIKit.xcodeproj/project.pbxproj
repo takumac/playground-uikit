@@ -39,6 +39,8 @@
 		BAD188C22A7D50DF0014FDD1 /* arrow-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD188BF2A7D50DF0014FDD1 /* arrow-icon.png */; };
 		BAD188C42A8071320014FDD1 /* PickerTextFieldTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188C32A8071320014FDD1 /* PickerTextFieldTestViewController.swift */; };
 		BAD188C62A80715B0014FDD1 /* PickerTextFieldTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */; };
+		E1124F362B608F8C007F8429 /* TableViewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1124F352B608F8C007F8429 /* TableViewTestView.swift */; };
+		E1124F382B608FB2007F8429 /* TableViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1124F372B608FB2007F8429 /* TableViewTestViewController.swift */; };
 		E158D5D92AEBBC3D009D6E49 /* GitTestFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +98,8 @@
 		BAD188BF2A7D50DF0014FDD1 /* arrow-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-icon.png"; sourceTree = "<group>"; };
 		BAD188C32A8071320014FDD1 /* PickerTextFieldTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTextFieldTestViewController.swift; sourceTree = "<group>"; };
 		BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTextFieldTestView.swift; sourceTree = "<group>"; };
+		E1124F352B608F8C007F8429 /* TableViewTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewTestView.swift; sourceTree = "<group>"; };
+		E1124F372B608FB2007F8429 /* TableViewTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewTestViewController.swift; sourceTree = "<group>"; };
 		E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTestFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,18 +151,18 @@
 		BAB4D0442A42A80300B340C5 /* PlaygroundUIKit */ = {
 			isa = PBXGroup;
 			children = (
-				BAD1888C2A7C04CE0014FDD1 /* Resources */,
-				BAD188892A7BC9600014FDD1 /* Extension */,
-				BAB4D0812A42E7A300B340C5 /* Constants */,
-				BAB4D0782A42DD7800B340C5 /* Controllers */,
-				BAB4D0772A42DD6C00B340C5 /* Views */,
+				BAB4D0532A42A80400B340C5 /* Info.plist */,
 				BAB4D0452A42A80300B340C5 /* AppDelegate.swift */,
+				E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */,
 				BAB4D0472A42A80300B340C5 /* SceneDelegate.swift */,
 				BAB4D0492A42A80300B340C5 /* ViewController.swift */,
 				BAB4D04E2A42A80400B340C5 /* Assets.xcassets */,
+				BAB4D0812A42E7A300B340C5 /* Constants */,
+				BAB4D0782A42DD7800B340C5 /* Controllers */,
+				BAD188892A7BC9600014FDD1 /* Extension */,
 				BAB4D0502A42A80400B340C5 /* LaunchScreen.storyboard */,
-				BAB4D0532A42A80400B340C5 /* Info.plist */,
-				E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */,
+				BAD1888C2A7C04CE0014FDD1 /* Resources */,
+				BAB4D0772A42DD6C00B340C5 /* Views */,
 			);
 			path = PlaygroundUIKit;
 			sourceTree = "<group>";
@@ -183,11 +187,12 @@
 		BAB4D0772A42DD6C00B340C5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				BAB4D0792A42DDB100B340C5 /* RootView.swift */,
-				BAB4D0862A42F8A600B340C5 /* PhpickerTestView.swift */,
-				BAD188842A7BC6480014FDD1 /* ListButtonTestView.swift */,
 				BAD188952A7CD1C60014FDD1 /* AccordionButtonTestView.swift */,
+				BAD188842A7BC6480014FDD1 /* ListButtonTestView.swift */,
+				BAB4D0862A42F8A600B340C5 /* PhpickerTestView.swift */,
 				BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */,
+				BAB4D0792A42DDB100B340C5 /* RootView.swift */,
+				E1124F352B608F8C007F8429 /* TableViewTestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -195,11 +200,12 @@
 		BAB4D0782A42DD7800B340C5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BAB4D07B2A42DDC300B340C5 /* RootViewController.swift */,
-				BAB4D07D2A42E43600B340C5 /* PhpickerTestViewController.swift */,
-				BAD188862A7BC65A0014FDD1 /* ListButtonTestViewController.swift */,
 				BAD188932A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift */,
+				BAD188862A7BC65A0014FDD1 /* ListButtonTestViewController.swift */,
+				BAB4D07D2A42E43600B340C5 /* PhpickerTestViewController.swift */,
 				BAD188C32A8071320014FDD1 /* PickerTextFieldTestViewController.swift */,
+				BAB4D07B2A42DDC300B340C5 /* RootViewController.swift */,
+				E1124F372B608FB2007F8429 /* TableViewTestViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -383,6 +389,7 @@
 			files = (
 				E158D5D92AEBBC3D009D6E49 /* GitTestFile.swift in Sources */,
 				BAD188C62A80715B0014FDD1 /* PickerTextFieldTestView.swift in Sources */,
+				E1124F382B608FB2007F8429 /* TableViewTestViewController.swift in Sources */,
 				BAD188C42A8071320014FDD1 /* PickerTextFieldTestViewController.swift in Sources */,
 				BAB4D07C2A42DDC300B340C5 /* RootViewController.swift in Sources */,
 				BAB4D07A2A42DDB100B340C5 /* RootView.swift in Sources */,
@@ -393,6 +400,7 @@
 				BAD188872A7BC65A0014FDD1 /* ListButtonTestViewController.swift in Sources */,
 				BAD188962A7CD1C60014FDD1 /* AccordionButtonTestView.swift in Sources */,
 				BAB4D07E2A42E43600B340C5 /* PhpickerTestViewController.swift in Sources */,
+				E1124F362B608F8C007F8429 /* TableViewTestView.swift in Sources */,
 				BAB4D04A2A42A80300B340C5 /* ViewController.swift in Sources */,
 				BAD188852A7BC6480014FDD1 /* ListButtonTestView.swift in Sources */,
 				BAB4D0462A42A80300B340C5 /* AppDelegate.swift in Sources */,
