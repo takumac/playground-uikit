@@ -293,6 +293,7 @@ class AccordionButtonTestView: UIView, UIGestureRecognizerDelegate {
                                            bodyView: bodyView2,
                                            initShowBody: isAccordionOpen2,
                                            isShowSeparator: true,
+                                           isSeparatorFullWidth: true,
                                            isDefaultGesture: false)
         accordionButton2?.setCustomAutoLayout()
         accordionButton2?.setBorder(borderColor: .lightGray, borderWidth: 1.0, cornerRadius: 5.0)
@@ -387,6 +388,7 @@ class AccordionButton: UIView {
     
     var isShowBody: Bool?
     var isShowSeparator: Bool?
+    var isSeparatorFullWidth: Bool?
     var isDefaultGesture: Bool?
     
     // MARK: - Init
@@ -400,11 +402,13 @@ class AccordionButton: UIView {
     ///   - bodyView: ボディ用のView
     ///   - initShowBody: ボディ表示有無の初期値
     ///   - isShowSeparator: 区切り線の表示有無
+    ///   - isSeparatorFullWidth: 区切り線をボタン幅いっぱいに表示するかどうか（true: ボタン幅いっぱいに表示、false: ボタン幅より少し短め）
     ///   - isDefaultGesture: デフォルトジェスチャーを採用するかどうか（true: ヘッダーのViewタップでジェスチャー着火、false: 呼び出し側で動かす必要がある）
     convenience init(headerView: UIView,
                      bodyView: UIView,
                      initShowBody: Bool = true,
                      isShowSeparator: Bool = false,
+                     isSeparatorFullWidth: Bool = false,
                      isDefaultGesture: Bool = true) {
         self.init()
         
@@ -413,6 +417,7 @@ class AccordionButton: UIView {
         self.bodyView!.isHidden = !initShowBody
         self.isShowBody = initShowBody
         self.isShowSeparator = isShowSeparator
+        self.isSeparatorFullWidth = isSeparatorFullWidth
         
         if isDefaultGesture {
             // ヘッダーのジェスチャーを設定
@@ -460,7 +465,7 @@ class AccordionButton: UIView {
         if self.isShowSeparator! {
             separatorView?.translatesAutoresizingMaskIntoConstraints = false
             separatorView?.topAnchor.constraint(equalTo: headerView!.bottomAnchor, constant: -1.0).isActive = true
-            separatorView?.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.95).isActive = true
+            separatorView?.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: isSeparatorFullWidth! ? 1 : 0.95).isActive = true
             separatorView?.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
             separatorView?.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
             
@@ -491,7 +496,7 @@ class AccordionButton: UIView {
         if self.isShowSeparator! {
             separatorView?.translatesAutoresizingMaskIntoConstraints = false
             separatorView?.topAnchor.constraint(equalTo: headerView!.bottomAnchor, constant: -1.0).isActive = true
-            separatorView?.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.95).isActive = true
+            separatorView?.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: isSeparatorFullWidth! ? 1 : 0.95).isActive = true
             separatorView?.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
             separatorView?.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
             
