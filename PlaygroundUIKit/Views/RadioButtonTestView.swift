@@ -38,6 +38,27 @@ class RadioButtonTestView: UIView {
         return radioButton1
     }()
     
+    let textLabel1_1: UILabel = {
+        let label = UILabel()
+        label.text = "hogehogehogehogehogehoge"
+        
+        return label
+    }()
+    
+    let textLabel1_2: UILabel = {
+        let label = UILabel()
+        label.text = "fugafugafugafugafugafuga"
+        
+        return label
+    }()
+    
+    let textLabel1_3: UILabel = {
+        let label = UILabel()
+        label.text = "foofoofoofoofoofoo"
+        
+        return label
+    }()
+    
     let baseView2: UIView = {
         let uiView = UIView()
         uiView.backgroundColor = .white
@@ -54,6 +75,27 @@ class RadioButtonTestView: UIView {
         radioButton1.tag = 1
         
         return radioButton1
+    }()
+    
+    let textLabel2_1: UILabel = {
+        let label = UILabel()
+        label.text = "hogehogehoge2"
+        
+        return label
+    }()
+    
+    let textLabel2_2: UILabel = {
+        let label = UILabel()
+        label.text = "fugafugafuga2"
+        
+        return label
+    }()
+    
+    let textLabel2_3: UILabel = {
+        let label = UILabel()
+        label.text = "foofoofoo2"
+        
+        return label
     }()
     
     
@@ -82,8 +124,15 @@ class RadioButtonTestView: UIView {
         
         // AddSubView
         baseView1.addSubview(radioButton1_1)
+        baseView1.addSubview(textLabel1_1)
+        baseView1.addSubview(textLabel1_2)
+        baseView1.addSubview(textLabel1_3)
         contentView.addSubview(baseView1)
+        
         baseView2.addSubview(radioButton1_2)
+        baseView2.addSubview(textLabel2_1)
+        baseView2.addSubview(textLabel2_2)
+        baseView2.addSubview(textLabel2_3)
         contentView.addSubview(baseView2)
         
         scrollView.addSubview(contentView)
@@ -111,10 +160,22 @@ class RadioButtonTestView: UIView {
         
         radioButton1_1.translatesAutoresizingMaskIntoConstraints = false
         radioButton1_1.topAnchor.constraint(equalTo: baseView1.topAnchor, constant: 20).isActive = true
-        radioButton1_1.bottomAnchor.constraint(equalTo: baseView1.bottomAnchor, constant: -20).isActive = true
         radioButton1_1.leadingAnchor.constraint(equalTo: baseView1.leadingAnchor, constant: 15).isActive = true
         radioButton1_1.widthAnchor.constraint(equalToConstant: radioButton1_1.frame.width).isActive = true
         radioButton1_1.heightAnchor.constraint(equalToConstant: radioButton1_1.frame.height).isActive = true
+        
+        textLabel1_1.translatesAutoresizingMaskIntoConstraints = false
+        textLabel1_1.leadingAnchor.constraint(equalTo: radioButton1_1.trailingAnchor, constant: 30).isActive = true
+        textLabel1_1.centerYAnchor.constraint(equalTo: radioButton1_1.centerYAnchor).isActive = true
+        
+        textLabel1_2.translatesAutoresizingMaskIntoConstraints = false
+        textLabel1_2.topAnchor.constraint(equalTo: textLabel1_1.bottomAnchor, constant: 20).isActive = true
+        textLabel1_2.leadingAnchor.constraint(equalTo: textLabel1_1.leadingAnchor).isActive = true
+        
+        textLabel1_3.translatesAutoresizingMaskIntoConstraints = false
+        textLabel1_3.topAnchor.constraint(equalTo: textLabel1_2.bottomAnchor, constant: 20).isActive = true
+        textLabel1_3.bottomAnchor.constraint(equalTo: baseView1.bottomAnchor, constant: -20).isActive = true
+        textLabel1_3.leadingAnchor.constraint(equalTo: textLabel1_1.leadingAnchor).isActive = true
         
         baseView2.translatesAutoresizingMaskIntoConstraints = false
         baseView2.topAnchor.constraint(equalTo: baseView1.bottomAnchor, constant: 50).isActive = true
@@ -123,10 +184,22 @@ class RadioButtonTestView: UIView {
         
         radioButton1_2.translatesAutoresizingMaskIntoConstraints = false
         radioButton1_2.topAnchor.constraint(equalTo: baseView2.topAnchor, constant: 20).isActive = true
-        radioButton1_2.bottomAnchor.constraint(equalTo: baseView2.bottomAnchor, constant: -20).isActive = true
         radioButton1_2.leadingAnchor.constraint(equalTo: baseView2.leadingAnchor, constant: 15).isActive = true
         radioButton1_2.widthAnchor.constraint(equalToConstant: radioButton1_2.frame.width).isActive = true
         radioButton1_2.heightAnchor.constraint(equalToConstant: radioButton1_2.frame.height).isActive = true
+        
+        textLabel2_1.translatesAutoresizingMaskIntoConstraints = false
+        textLabel2_1.leadingAnchor.constraint(equalTo: radioButton1_2.trailingAnchor, constant: 30).isActive = true
+        textLabel2_1.centerYAnchor.constraint(equalTo: radioButton1_2.centerYAnchor).isActive = true
+        
+        textLabel2_2.translatesAutoresizingMaskIntoConstraints = false
+        textLabel2_2.topAnchor.constraint(equalTo: textLabel2_1.bottomAnchor, constant: 20).isActive = true
+        textLabel2_2.leadingAnchor.constraint(equalTo: textLabel2_1.leadingAnchor).isActive = true
+        
+        textLabel2_3.translatesAutoresizingMaskIntoConstraints = false
+        textLabel2_3.topAnchor.constraint(equalTo: textLabel2_2.bottomAnchor, constant: 20).isActive = true
+        textLabel2_3.bottomAnchor.constraint(equalTo: baseView2.bottomAnchor, constant: -20).isActive = true
+        textLabel2_3.leadingAnchor.constraint(equalTo: textLabel2_1.leadingAnchor).isActive = true
         
         
         baseView2.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -100).isActive = true
