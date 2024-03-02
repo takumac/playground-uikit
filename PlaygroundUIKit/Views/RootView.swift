@@ -14,6 +14,7 @@ protocol RootViewDelegate {
     func accordionButtonButtonTapAction()
     func pickerTextFieldButtonTapAction()
     func tableViewButtonTapAction()
+    func radioButtonTapAction()
 }
 
 class RootView: UIView {
@@ -39,6 +40,9 @@ class RootView: UIView {
     /// TableViewの実験画面に飛ぶためのボタン
     let tableViewButton: UIButton = UIButton()
     
+    /// RadioButtonの実験画面に飛ぶためのボタン
+    let radioButton: UIButton = UIButton()
+    
     // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,6 +58,7 @@ class RootView: UIView {
         contentView.axis = .vertical
         contentView.alignment = .fill
         contentView.distribution = .equalSpacing
+        contentView.spacing = 50
         
         phpickerButton.setTitle("PHPicker", for: .normal)
         phpickerButton.setTitleColor(.blue, for: .normal)
@@ -90,6 +95,13 @@ class RootView: UIView {
         tableViewButton.addTarget(self, action: #selector(tableViewButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(tableViewButton)
         
+        radioButton.setTitle("radioButtonButton", for: .normal)
+        radioButton.setTitleColor(.blue, for: .normal)
+        radioButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        radioButton.sizeToFit()
+        radioButton.addTarget(self, action: #selector(radioButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(radioButton)
+        
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
         
@@ -101,33 +113,31 @@ class RootView: UIView {
         scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1).isActive = true
         
         phpickerButton.translatesAutoresizingMaskIntoConstraints = false
-        phpickerButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 50).isActive = true
         phpickerButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
         listButtonButton.translatesAutoresizingMaskIntoConstraints = false
-        listButtonButton.topAnchor.constraint(equalTo: phpickerButton.bottomAnchor, constant: 50).isActive = true
         listButtonButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
         accordionButtonButton.translatesAutoresizingMaskIntoConstraints = false
-        accordionButtonButton.topAnchor.constraint(equalTo: listButtonButton.bottomAnchor, constant: 50).isActive = true
         accordionButtonButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
         pickerTextFieldButton.translatesAutoresizingMaskIntoConstraints = false
-        pickerTextFieldButton.topAnchor.constraint(equalTo: accordionButtonButton.bottomAnchor, constant: 50).isActive = true
         pickerTextFieldButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
         tableViewButton.translatesAutoresizingMaskIntoConstraints = false
-        tableViewButton.topAnchor.constraint(equalTo: pickerTextFieldButton.bottomAnchor, constant: 50).isActive = true
         tableViewButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
-        tableViewButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 50).isActive = true
+        radioButton.translatesAutoresizingMaskIntoConstraints = false
+        radioButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        
+        
     }
     
     
@@ -150,6 +160,10 @@ class RootView: UIView {
     
     @objc func tableViewButtonTapAction(_ sender: UIButton) {
         rootViewDelegate?.tableViewButtonTapAction()
+    }
+    
+    @objc func radioButtonTapAction(_ sender: UIButton) {
+        rootViewDelegate?.radioButtonTapAction()
     }
     
     

@@ -69,5 +69,8 @@ class RootViewController: UIViewController, RootViewDelegate {
         self.navigationController?.pushViewController(TableViewTestViewController(), animated: true)
     }
     
+    func radioButtonTapAction() {
+        self.navigationController?.pushViewController(RadioButtonTestViewController(), animated: true)
+    }
     
 }
