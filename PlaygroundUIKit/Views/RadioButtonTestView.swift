@@ -212,26 +212,26 @@ class RadioButtonTestView: UIView {
             switch tappedView.tag {
             case 1:
                 if radioButton1_1.isSelected {
-                    baseView1.layer.add(borderColorAnimationDeselect(), forKey: "borderColorAnimationDeselect")
+                    baseView1.layer.add(deselectAnimationGroup(), forKey: "deselectAnimationGroup")
                     radioButton1_1.deselect()
                 } else {
                     if radioButton1_2.isSelected {
-                        baseView2.layer.add(borderColorAnimationDeselect(), forKey: "borderColorAnimationDeselect")
+                        baseView2.layer.add(deselectAnimationGroup(), forKey: "deselectAnimationGroup")
                         radioButton1_2.deselect()
                     }
-                    baseView1.layer.add(borderColorAnimationSelect(), forKey: "borderColorAnimationSelect")
+                    baseView1.layer.add(selectAnimationGroup(), forKey: "selectAnimationGroup")
                     radioButton1_1.select()
                 }
             case 2:
                 if radioButton1_2.isSelected {
-                    baseView2.layer.add(borderColorAnimationDeselect(), forKey: "borderColorAnimationDeselect")
+                    baseView2.layer.add(deselectAnimationGroup(), forKey: "deselectAnimationGroup")
                     radioButton1_2.deselect()
                 } else {
                     if radioButton1_1.isSelected {
-                        baseView1.layer.add(borderColorAnimationDeselect(), forKey: "borderColorAnimationDeselect")
+                        baseView1.layer.add(deselectAnimationGroup(), forKey: "deselectAnimationGroup")
                         radioButton1_1.deselect()
                     }
-                    baseView2.layer.add(borderColorAnimationSelect(), forKey: "borderColorAnimationSelect")
+                    baseView2.layer.add(selectAnimationGroup(), forKey: "selectAnimationGroup")
                     radioButton1_2.select()
                 }
             default:
@@ -242,6 +242,48 @@ class RadioButtonTestView: UIView {
     
     
     // MARK: - Animation
+    /// RadioButton1を配置しているbaseViewを選択状態に変化させるアニメーショングループを返却する
+    /// - Returns: アニメーショングループ
+    func selectAnimationGroup() -> CAAnimationGroup {
+        let group = CAAnimationGroup()
+        
+        let borderColor = CABasicAnimation(keyPath: "borderColor")
+        borderColor.fromValue = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
+        borderColor.toValue = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 1).cgColor
+        
+        let backgroundColor = CABasicAnimation(keyPath: "backgroundColor")
+        backgroundColor.fromValue = UIColor.white.cgColor
+        backgroundColor.toValue = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 0.1).cgColor
+        
+        group.animations = [borderColor, backgroundColor]
+        group.duration = 0.3
+        group.isRemovedOnCompletion = false
+        group.fillMode = .forwards
+        
+        return group
+    }
+    
+    /// RadioButton1を配置しているbaseViewを選択状態に変化させるアニメーショングループを返却する
+    /// - Returns: アニメーショングループ
+    func deselectAnimationGroup() -> CAAnimationGroup {
+        let group = CAAnimationGroup()
+        
+        let borderColor = CABasicAnimation(keyPath: "borderColor")
+        borderColor.fromValue = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 1).cgColor
+        borderColor.toValue = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
+        
+        let backgroundColor = CABasicAnimation(keyPath: "backgroundColor")
+        backgroundColor.fromValue = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 0.1).cgColor
+        backgroundColor.toValue = UIColor.white.cgColor
+        
+        group.animations = [borderColor, backgroundColor]
+        group.duration = 0.3
+        group.isRemovedOnCompletion = false
+        group.fillMode = .forwards
+        
+        return group
+    }
+    
     /// RadioButton1を配置しているbaseViewの枠線の色を選択状態にするアニメーション
     /// - Returns: アニメーション
     func borderColorAnimationSelect() -> CABasicAnimation {
