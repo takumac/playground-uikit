@@ -25,7 +25,7 @@ class RadioButtonTestView: UIView {
         let uiView = UIView()
         uiView.backgroundColor = .white
         uiView.layer.cornerRadius = (SCREEN_WIDTH - 20) / 40
-        uiView.layer.borderColor = UIColor.rbg(r: 230, g: 230, b: 230, alpha: 1).cgColor
+        uiView.layer.borderColor = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
         uiView.layer.borderWidth = 2.0
         uiView.tag = 1
         
@@ -63,7 +63,7 @@ class RadioButtonTestView: UIView {
         let uiView = UIView()
         uiView.backgroundColor = .white
         uiView.layer.cornerRadius = (SCREEN_WIDTH - 20) / 40
-        uiView.layer.borderColor = UIColor.rbg(r: 230, g: 230, b: 230, alpha: 1).cgColor
+        uiView.layer.borderColor = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
         uiView.layer.borderWidth = 2.0
         uiView.tag = 2
         
@@ -246,8 +246,8 @@ class RadioButtonTestView: UIView {
     /// - Returns: アニメーション
     func borderColorAnimationSelect() -> CABasicAnimation {
         let animation = CABasicAnimation(keyPath: "borderColor")
-        animation.fromValue = UIColor.rbg(r: 230, g: 230, b: 230, alpha: 1).cgColor
-        animation.toValue = UIColor.rbg(r: 0, g: 159, b: 225, alpha: 1).cgColor
+        animation.fromValue = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
+        animation.toValue = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 1).cgColor
         animation.duration = 0.3
         
         animation.isRemovedOnCompletion = false
@@ -260,8 +260,8 @@ class RadioButtonTestView: UIView {
     /// - Returns: アニメーション
     func borderColorAnimationDeselect() -> CABasicAnimation {
         let animation = CABasicAnimation(keyPath: "borderColor")
-        animation.fromValue = UIColor.rbg(r: 0, g: 159, b: 225, alpha: 1).cgColor
-        animation.toValue = UIColor.rbg(r: 230, g: 230, b: 230, alpha: 1).cgColor
+        animation.fromValue = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 1).cgColor
+        animation.toValue = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
         animation.duration = 0.3
         
         animation.isRemovedOnCompletion = false
@@ -283,8 +283,8 @@ class RadioButton1: UIView {
     /// 枠線の太さ
     private var borderWidth: CGFloat?
     /// 選択時、非選択時の色
-    private var selectedColor: UIColor = UIColor.rbg(r: 0, g: 159, b: 225, alpha: 1)
-    private var deselectedColor: UIColor = UIColor.rbg(r: 230, g: 230, b: 230, alpha: 1)
+    private var selectedColor: UIColor = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 1)
+    private var deselectedColor: UIColor = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1)
     /// 現在選択されているかどうか
     public private(set) var isSelected = false
     
