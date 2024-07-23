@@ -8,13 +8,77 @@
 import Foundation
 import UIKit
 
-let SCREEN_SIZE: CGSize = UIScreen.main.bounds.size // 画面の大きさ
-let SCREEN_WIDTH: CGFloat = UIScreen.main.bounds.size.width // 画面の横幅
-let SCREEN_HEIGHT: CGFloat = UIScreen.main.bounds.size.height // 画面の高さ
-let windowScene: UIWindowScene = UIApplication.shared.connectedScenes.map({ $0 as? UIWindowScene }).compactMap({ $0 }).first!
-let STATUSBAR_HEIGHT: CGFloat = windowScene.statusBarManager?.statusBarFrame.height ?? 0 // ステータスバーの高さ
-
-let MODAL_VIEW_HEIGHT: CGFloat  = SCREEN_HEIGHT - STATUSBAR_HEIGHT // モーダルビューの高さ
-let MODELESS_VIEW_HEIGHT: CGFloat = MODAL_VIEW_HEIGHT // モーダレスビューの高さ
-let MODAL_VIEW_FRAME: CGRect = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: MODAL_VIEW_HEIGHT) // モーダルビューのCGRect
-let MODELESS_VIEW_FRAME: CGRect = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: MODELESS_VIEW_HEIGHT) // モーダレスビューのCGRect
+final class SizeConstant {
+    // MARK: - sharedインスタンス
+    static let shared = SizeConstant()
+    
+    
+    // MARK: - init
+    private init() { }
+    
+    
+    // MARK: - Constants
+    /// 画面の大きさ
+    private var _screenSize: CGSize = .zero
+    var SCREEN_SIZE: CGSize {
+        get { return _screenSize }
+        set { _screenSize = newValue }
+    }
+    
+    /// 画面の横幅
+    private var _screenWidth: CGFloat = 0.0
+    var SCREEN_WIDTH: CGFloat {
+        get { return _screenWidth }
+        set { _screenWidth = newValue }
+    }
+    
+    /// 画面の高さ
+    private var _screenHeight: CGFloat = 0.0
+    var SCREEN_HEIGHT: CGFloat {
+        get { return _screenHeight }
+        set { _screenHeight = newValue }
+    }
+    
+    /// ステータスバーの高さ
+    private var _statusBarHeight: CGFloat = 0.0
+    var STATUSBAR_HEIGHT: CGFloat {
+        get { return _statusBarHeight }
+        set { _statusBarHeight = newValue }
+    }
+    
+    /// ナビゲーションバーの高さ
+    private var _navigationBarHeight: CGFloat = 44.0
+    var NAVIGATIONBAR_HEIGHT: CGFloat {
+        get { return _navigationBarHeight }
+        set { _navigationBarHeight = newValue }
+    }
+    
+    /// モーダルビューの高さ
+    private var _modalViewHeight: CGFloat = 0.0
+    var MODAL_VIEW_HEIGHT: CGFloat {
+        get { return _modalViewHeight }
+        set { _modalViewHeight = newValue }
+    }
+    
+    /// モーダルビューの画面フレーム
+    private var _modalViewFrame: CGRect = .zero
+    var MODAL_VIEW_FRAME: CGRect {
+        get { return _modalViewFrame }
+        set { _modalViewFrame = newValue }
+    }
+    
+    /// モーダレスビューの高さ
+    private var _modelessViewHeight: CGFloat = 0.0
+    var MODELESS_VIEW_HEIGHT: CGFloat {
+        get { return _modelessViewHeight }
+        set { _modelessViewHeight = newValue }
+    }
+    
+    /// モーダレスビューの画面フレーム
+    private var _modelessViewFrame: CGRect = .zero
+    var MODELESS_VIEW_FRAME: CGRect {
+        get { return _modelessViewFrame }
+        set { _modelessViewFrame = newValue }
+    }
+    
+}

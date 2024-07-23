@@ -40,7 +40,7 @@ class ListButtonTestViewController: UIViewController, ListButtonTestViewDelegate
     
     // MARK: - Viewload
     func viewLoad() {
-        listButtonTestView = ListButtonTestView(frame: MODELESS_VIEW_FRAME)
+        listButtonTestView = ListButtonTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
         listButtonTestView?.listButtonTestViewDelegate = self
         self.view.addSubview(listButtonTestView!)
     }

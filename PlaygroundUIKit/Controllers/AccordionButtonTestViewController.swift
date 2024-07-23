@@ -40,7 +40,7 @@ class AccordionButtonTestViewController: UIViewController{
     
     // MARK: - Viewload
     func viewLoad() {
-        accordionButtonTestView = AccordionButtonTestView(frame: MODELESS_VIEW_FRAME)
+        accordionButtonTestView = AccordionButtonTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
         self.view.addSubview(accordionButtonTestView!)
     }
 }

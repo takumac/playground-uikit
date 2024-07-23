@@ -42,7 +42,7 @@ class RadioButtonTestViewController: UIViewController, RadioButtonTestViewDelega
     
     // MARK: - Viewload
     func viewLoad() {
-        radioButtonTestView = RadioButtonTestView(frame: MODELESS_VIEW_FRAME)
+        radioButtonTestView = RadioButtonTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
         radioButtonTestView?.radioButtonTestViewDelegate = self
         self.view.addSubview(radioButtonTestView!)
     }

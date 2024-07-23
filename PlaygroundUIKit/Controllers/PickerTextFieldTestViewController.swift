@@ -40,7 +40,7 @@ class PickerTextFieldTestViewController: UIViewController {
     
     // MARK: - Viewload
     func viewLoad() {
-        pickerTextFieldTestView = PickerTextFieldTestView(frame: MODELESS_VIEW_FRAME)
+        pickerTextFieldTestView = PickerTextFieldTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
         self.view.addSubview(pickerTextFieldTestView!)
     }
 }

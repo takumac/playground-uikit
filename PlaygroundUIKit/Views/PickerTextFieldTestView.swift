@@ -57,7 +57,7 @@ class PickerTextFieldTestView: UIView, UIPickerViewDelegate, UIPickerViewDataSou
         underArrowImageView.contentMode = .scaleAspectFit
 
         // お問い合わせの種類入力用のPicker
-        picker.frame.size.width = SCREEN_WIDTH
+        picker.frame.size.width = SizeConstant.shared.SCREEN_WIDTH
         picker.frame.size.height = 220
         picker.backgroundColor = .white
         picker.delegate = self

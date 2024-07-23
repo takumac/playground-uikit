@@ -41,7 +41,7 @@ class PhPickerTestViewController: UIViewController, PhpickerTestViewDelegate, PH
     
     // MARK: - Viewload
     func viewLoad() {
-        phpickerTestView = PhpickerTestView(frame: MODELESS_VIEW_FRAME)
+        phpickerTestView = PhpickerTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
         phpickerTestView?.phpickerTestViewDelegate = self
         self.view.addSubview(phpickerTestView!)
     }

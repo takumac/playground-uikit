@@ -42,7 +42,7 @@ class RootViewController: UIViewController, RootViewDelegate {
     
     // MARK: - Viewload
     func viewLoad() {
-        rootView = RootView(frame: MODELESS_VIEW_FRAME)
+        rootView = RootView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
         rootView?.rootViewDelegate = self
         self.view.addSubview(rootView!)
     }

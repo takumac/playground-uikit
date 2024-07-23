@@ -48,7 +48,7 @@ class TableViewTestViewController: UIViewController, TableViewTestViewDelegate {
     // MARK: - Viewload
     func viewLoad() {
         // Viewの生成
-        tableViewTestView = TableViewTestView(frame: MODELESS_VIEW_FRAME)
+        tableViewTestView = TableViewTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
         tableViewTestView?.delegate = self
         
         // テーブルビューの高さに対する制約を生成
