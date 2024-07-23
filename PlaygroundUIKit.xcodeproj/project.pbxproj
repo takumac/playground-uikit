@@ -46,6 +46,8 @@
 		E1124F382B608FB2007F8429 /* TableViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1124F372B608FB2007F8429 /* TableViewTestViewController.swift */; };
 		E158D5D92AEBBC3D009D6E49 /* GitTestFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */; };
 		E1C8CE882C4F3C45004CA0E4 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8CE872C4F3C45004CA0E4 /* UIApplication+Extension.swift */; };
+		E1C8CE8A2C4F3EAC004CA0E4 /* GlobalFrameTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8CE892C4F3EAC004CA0E4 /* GlobalFrameTestView.swift */; };
+		E1C8CE8C2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8CE8B2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +111,8 @@
 		E1124F372B608FB2007F8429 /* TableViewTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewTestViewController.swift; sourceTree = "<group>"; };
 		E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTestFile.swift; sourceTree = "<group>"; };
 		E1C8CE872C4F3C45004CA0E4 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		E1C8CE892C4F3EAC004CA0E4 /* GlobalFrameTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFrameTestView.swift; sourceTree = "<group>"; };
+		E1C8CE8B2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFrameTestViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				BAD188952A7CD1C60014FDD1 /* AccordionButtonTestView.swift */,
+				E1C8CE892C4F3EAC004CA0E4 /* GlobalFrameTestView.swift */,
 				BAD188842A7BC6480014FDD1 /* ListButtonTestView.swift */,
 				BAB4D0862A42F8A600B340C5 /* PhpickerTestView.swift */,
 				BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */,
@@ -210,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				BAD188932A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift */,
+				E1C8CE8B2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift */,
 				BAD188862A7BC65A0014FDD1 /* ListButtonTestViewController.swift */,
 				BAB4D07D2A42E43600B340C5 /* PhpickerTestViewController.swift */,
 				BAD188C32A8071320014FDD1 /* PickerTextFieldTestViewController.swift */,
@@ -400,6 +406,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1105A5E2B9373E2006F554F /* UIColor+Extension.swift in Sources */,
+				E1C8CE8C2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift in Sources */,
 				E158D5D92AEBBC3D009D6E49 /* GitTestFile.swift in Sources */,
 				BAD188C62A80715B0014FDD1 /* PickerTextFieldTestView.swift in Sources */,
 				E1124F382B608FB2007F8429 /* TableViewTestViewController.swift in Sources */,
@@ -415,6 +422,7 @@
 				BAD188872A7BC65A0014FDD1 /* ListButtonTestViewController.swift in Sources */,
 				E1105A5C2B921551006F554F /* RadioButtonTestViewController.swift in Sources */,
 				BAD188962A7CD1C60014FDD1 /* AccordionButtonTestView.swift in Sources */,
+				E1C8CE8A2C4F3EAC004CA0E4 /* GlobalFrameTestView.swift in Sources */,
 				BAB4D07E2A42E43600B340C5 /* PhpickerTestViewController.swift in Sources */,
 				E1124F362B608F8C007F8429 /* TableViewTestView.swift in Sources */,
 				BAB4D04A2A42A80300B340C5 /* ViewController.swift in Sources */,

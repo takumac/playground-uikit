@@ -15,6 +15,7 @@ protocol RootViewDelegate {
     func pickerTextFieldButtonTapAction()
     func tableViewButtonTapAction()
     func radioButtonTapAction()
+    func globalFrameButtonTapAction()
 }
 
 class RootView: UIView {
@@ -42,6 +43,9 @@ class RootView: UIView {
     
     /// RadioButtonの実験画面に飛ぶためのボタン
     let radioButton: UIButton = UIButton()
+    
+    /// 画面サイズをグローバル変数で定義した場合の実験画面に飛ぶためのボタン
+    let globalFrameButton: UIButton = UIButton()
     
     // MARK: Init
     override init(frame: CGRect) {
@@ -102,6 +106,13 @@ class RootView: UIView {
         radioButton.addTarget(self, action: #selector(radioButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(radioButton)
         
+        globalFrameButton.setTitle("globalFrameButton", for: .normal)
+        globalFrameButton.setTitleColor(.blue, for: .normal)
+        globalFrameButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        globalFrameButton.sizeToFit()
+        globalFrameButton.addTarget(self, action: #selector(globalFrameButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(globalFrameButton)
+        
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
         
@@ -137,6 +148,8 @@ class RootView: UIView {
         radioButton.translatesAutoresizingMaskIntoConstraints = false
         radioButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
+        globalFrameButton.translatesAutoresizingMaskIntoConstraints = false
+        globalFrameButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
     }
     
@@ -164,6 +177,10 @@ class RootView: UIView {
     
     @objc func radioButtonTapAction(_ sender: UIButton) {
         rootViewDelegate?.radioButtonTapAction()
+    }
+    
+    @objc func globalFrameButtonTapAction(_ sender: UIButton) {
+        rootViewDelegate?.globalFrameButtonTapAction()
     }
     
     

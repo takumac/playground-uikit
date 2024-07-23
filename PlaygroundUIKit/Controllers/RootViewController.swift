@@ -73,4 +73,8 @@ class RootViewController: UIViewController, RootViewDelegate {
         self.navigationController?.pushViewController(RadioButtonTestViewController(), animated: true)
     }
     
+    func globalFrameButtonTapAction() {
+        self.navigationController?.pushViewController(GlobalFrameTestViewController(), animated: true)
+    }
+    
 }

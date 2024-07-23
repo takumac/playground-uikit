@@ -81,4 +81,28 @@ final class SizeConstant {
         set { _modelessViewFrame = newValue }
     }
     
+    
+    // MARK: - GlobalFrameTest用
+    var TEST_FRAME_SIZE: CGRect {
+        get {
+            return CGRect(
+                x: 0,
+                y: 0,
+                width: SizeConstant.shared.SCREEN_WIDTH,
+                height: TEST_FRAME_SIZE_BOOL ? SizeConstant.shared.MODELESS_VIEW_HEIGHT : SizeConstant.shared.MODELESS_VIEW_HEIGHT - 100
+            )
+        }
+    }
+    
 }
+
+
+// MARK: - GlobalFrameTest用
+var TEST_FRAME_SIZE_BOOL: Bool = true
+let TEST_FRAME_SIZE: CGRect = CGRect(
+    x: 0,
+    y: 0,
+    width: SizeConstant.shared.SCREEN_WIDTH,
+    height: TEST_FRAME_SIZE_BOOL ? SizeConstant.shared.MODELESS_VIEW_HEIGHT : SizeConstant.shared.MODELESS_VIEW_HEIGHT - 100
+)
+
