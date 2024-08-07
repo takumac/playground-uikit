@@ -23,7 +23,7 @@ class RadioButtonTestView: UIView {
     
     let baseView1: UIView = {
         let uiView = UIView()
-        uiView.backgroundColor = .white
+        uiView.backgroundColor = C03_COLOR
         uiView.layer.cornerRadius = (SizeConstant.shared.SCREEN_WIDTH - 20) / 40
         uiView.layer.borderColor = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
         uiView.layer.borderWidth = 2.0
@@ -61,7 +61,7 @@ class RadioButtonTestView: UIView {
     
     let baseView2: UIView = {
         let uiView = UIView()
-        uiView.backgroundColor = .white
+        uiView.backgroundColor = C03_COLOR
         uiView.layer.cornerRadius = (SizeConstant.shared.SCREEN_WIDTH - 20) / 40
         uiView.layer.borderColor = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
         uiView.layer.borderWidth = 2.0
@@ -252,7 +252,7 @@ class RadioButtonTestView: UIView {
         borderColor.toValue = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 1).cgColor
         
         let backgroundColor = CABasicAnimation(keyPath: "backgroundColor")
-        backgroundColor.fromValue = UIColor.white.cgColor
+        backgroundColor.fromValue = C03_COLOR.cgColor
         backgroundColor.toValue = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 0.1).cgColor
         
         group.animations = [borderColor, backgroundColor]
@@ -274,7 +274,7 @@ class RadioButtonTestView: UIView {
         
         let backgroundColor = CABasicAnimation(keyPath: "backgroundColor")
         backgroundColor.fromValue = UIColor.rgb(r: 0, g: 159, b: 225, alpha: 0.1).cgColor
-        backgroundColor.toValue = UIColor.white.cgColor
+        backgroundColor.toValue = C03_COLOR.cgColor
         
         group.animations = [borderColor, backgroundColor]
         group.duration = 0.3

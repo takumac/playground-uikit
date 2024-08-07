@@ -42,7 +42,7 @@ class PhpickerTestView: UIView {
         self.addSubview(imageView)
         
         phpickerButton.setTitle("PHPicker Run", for: .normal)
-        phpickerButton.setTitleColor(.blue, for: .normal)
+        phpickerButton.setTitleColor(C02_COLOR, for: .normal)
         phpickerButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         phpickerButton.sizeToFit()
         phpickerButton.addTarget(self, action: #selector(phpickerButtonTapAction(_:)), for: .touchUpInside)

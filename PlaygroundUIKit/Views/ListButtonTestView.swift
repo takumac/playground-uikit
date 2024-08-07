@@ -32,7 +32,6 @@ class ListButtonTestView: UIView {
     func viewLoad() {
         let listButtonText: UILabel = UILabel()
         listButtonText.text = "あいうえお"
-        listButtonText.textColor = .black
         let listButtonView: UIView = UIView()
         listButtonView.addSubview(listButtonText)
         listButtonText.translatesAutoresizingMaskIntoConstraints = false

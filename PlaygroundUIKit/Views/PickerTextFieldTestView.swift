@@ -48,28 +48,24 @@ class PickerTextFieldTestView: UIView, UIPickerViewDelegate, UIPickerViewDataSou
         input.layer.borderWidth = 1.0
         input.layer.cornerRadius = 5
 
-        // お問い合わせの種類入力用TextField
+        // 入力用TextField
         inputTextField.font = UIFont(name: "HiraKakuProN-W6", size: 16)
         inputTextField.placeholder = "選択してください"
 
-        // お問い合わせの種類入力用TextFieldの横に配置する下矢印マーク
+        // 入力用TextFieldの横に配置する下矢印マーク
         underArrowImageView.image = UIImage(named: "arrow-down-gray")
         underArrowImageView.contentMode = .scaleAspectFit
 
-        // お問い合わせの種類入力用のPicker
+        // 入力用のPicker
         picker.frame.size.width = SizeConstant.shared.SCREEN_WIDTH
         picker.frame.size.height = 220
-        picker.backgroundColor = .white
         picker.delegate = self
         picker.dataSource = self
         inputTextField.inputView = picker
 
-        // お問い合わせの種類入力用のPickerに配置するToolBar
-        toolBar = UIToolbar(frame: CGRect(x:0, y:0,  width:self.frame.size.width, height: 50))
+        // 入力用のPickerに配置するToolBar
+        toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: 50))
         toolBar.sizeToFit()
-        toolBar.barTintColor = UIColor.white
-        toolBar.tintColor = UIColor(red: 23/255, green: 148/255, blue: 207/255, alpha: 1)
-        toolBar.backgroundColor = UIColor.white
         // ToolBarに完了ボタンを配置
         let doneButton = UIBarButtonItem(title: "完了", style: .done, target: self, action: #selector(self.tapPickerToolBarButton(sender:)))
         let flexibleItem1 = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
@@ -83,20 +79,20 @@ class PickerTextFieldTestView: UIView, UIPickerViewDelegate, UIPickerViewDataSou
         
         
         // AutoLayout
-        // お問い合わせの種類入力欄
+        // 入力欄
         input.translatesAutoresizingMaskIntoConstraints = false
         input.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9).isActive = true
         input.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         input.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -100).isActive = true
 
-        // お問い合わせの種類入力用TextField
+        // 入力用TextField
         inputTextField.translatesAutoresizingMaskIntoConstraints = false
         inputTextField.topAnchor.constraint(equalTo: input.topAnchor, constant: 12).isActive = true
         inputTextField.bottomAnchor.constraint(equalTo: input.bottomAnchor, constant: -12).isActive = true
         inputTextField.leadingAnchor.constraint(equalTo: input.leadingAnchor, constant: 12).isActive = true
         inputTextField.trailingAnchor.constraint(equalTo: input.trailingAnchor, constant: -12).isActive = true
 
-        // お問い合わせの種類入力用TextFieldの横に配置する下矢印マーク
+        // 入力用TextFieldの横に配置する下矢印マーク
         underArrowImageView.translatesAutoresizingMaskIntoConstraints = false
         underArrowImageView.topAnchor.constraint(equalTo: inputTextField.topAnchor).isActive = true
         underArrowImageView.bottomAnchor.constraint(equalTo: inputTextField.bottomAnchor).isActive = true

@@ -17,7 +17,7 @@ class AccordionButtonTestViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         // 背景色設定
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = C01_COLOR
         // Navigationbarのタイトル
         let navigationTitleLabel = UILabel()
         navigationTitleLabel.font = .boldSystemFont(ofSize: 25)

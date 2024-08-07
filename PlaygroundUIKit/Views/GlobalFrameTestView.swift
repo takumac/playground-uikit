@@ -47,7 +47,7 @@ class GlobalFrameTestView: UIView {
         frameView.frame = SizeConstant.shared.TEST_FRAME_SIZE
         
         nextButton.setTitle("next", for: .normal)
-        nextButton.setTitleColor(.blue, for: .normal)
+        nextButton.setTitleColor(C02_COLOR, for: .normal)
         nextButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         nextButton.sizeToFit()
         nextButton.addTarget(self, action: #selector(nextButtonTapAction(_:)), for: .touchUpInside)

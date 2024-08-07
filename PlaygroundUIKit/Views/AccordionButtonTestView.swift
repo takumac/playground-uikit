@@ -543,10 +543,10 @@ class AccordionButton: UIView {
     ///   - shadowRadius: 影のぼかし度
     ///   - backgroundColor: View自体の背景色
     func setShadow(shadowOffset: CGSize = CGSize(width: 0.0, height: 0.0),
-                   shadowColor: UIColor = .black,
+                   shadowColor: UIColor = C04_COLOR,
                    shadowOpacity: Float = 1.0,
                    shadowRadius: CGFloat = 0.0,
-                   backgroundColor: UIColor = .white) {
+                   backgroundColor: UIColor = C03_COLOR) {
         // 子部品に影がつかないようにView自体に背景色を設定
         self.backgroundColor = backgroundColor
         // 影を設定
