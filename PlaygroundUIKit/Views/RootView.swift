@@ -16,6 +16,7 @@ protocol RootViewDelegate {
     func tableViewButtonTapAction()
     func radioButtonTapAction()
     func globalFrameButtonTapAction()
+    func htmlToAttributedStringButtonTapAction()
 }
 
 class RootView: UIView {
@@ -47,6 +48,9 @@ class RootView: UIView {
     /// 画面サイズをグローバル変数で定義した場合の実験画面に飛ぶためのボタン
     let globalFrameButton: UIButton = UIButton()
     
+    /// 画面サイズをグローバル変数で定義した場合の実験画面に飛ぶためのボタン
+    let htmlToAttributedStringButton: UIButton = UIButton()
+    
     // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,47 +75,54 @@ class RootView: UIView {
         phpickerButton.addTarget(self, action: #selector(phpickerButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(phpickerButton)
         
-        listButtonButton.setTitle("listButton", for: .normal)
+        listButtonButton.setTitle("List Button", for: .normal)
         listButtonButton.setTitleColor(C02_COLOR, for: .normal)
         listButtonButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         listButtonButton.sizeToFit()
         listButtonButton.addTarget(self, action: #selector(listButtonButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(listButtonButton)
         
-        accordionButtonButton.setTitle("accordionButtonButton", for: .normal)
+        accordionButtonButton.setTitle("Accordion Button", for: .normal)
         accordionButtonButton.setTitleColor(C02_COLOR, for: .normal)
         accordionButtonButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         accordionButtonButton.sizeToFit()
         accordionButtonButton.addTarget(self, action: #selector(accordionButtonButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(accordionButtonButton)
         
-        pickerTextFieldButton.setTitle("pickerTextFieldButton", for: .normal)
+        pickerTextFieldButton.setTitle("Picker TextField", for: .normal)
         pickerTextFieldButton.setTitleColor(C02_COLOR, for: .normal)
         pickerTextFieldButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         pickerTextFieldButton.sizeToFit()
         pickerTextFieldButton.addTarget(self, action: #selector(pickerTextFieldButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(pickerTextFieldButton)
         
-        tableViewButton.setTitle("tableViewButton", for: .normal)
+        tableViewButton.setTitle("TableView", for: .normal)
         tableViewButton.setTitleColor(C02_COLOR, for: .normal)
         tableViewButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         tableViewButton.sizeToFit()
         tableViewButton.addTarget(self, action: #selector(tableViewButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(tableViewButton)
         
-        radioButton.setTitle("radioButtonButton", for: .normal)
+        radioButton.setTitle("Radio Button", for: .normal)
         radioButton.setTitleColor(C02_COLOR, for: .normal)
         radioButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         radioButton.sizeToFit()
         radioButton.addTarget(self, action: #selector(radioButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(radioButton)
         
-        globalFrameButton.setTitle("globalFrameButton", for: .normal)
+        globalFrameButton.setTitle("Global Frame", for: .normal)
         globalFrameButton.setTitleColor(C02_COLOR, for: .normal)
         globalFrameButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         globalFrameButton.sizeToFit()
         globalFrameButton.addTarget(self, action: #selector(globalFrameButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(globalFrameButton)
+        
+        htmlToAttributedStringButton.setTitle("HTML to AttributedString", for: .normal)
+        htmlToAttributedStringButton.setTitleColor(C02_COLOR, for: .normal)
+        htmlToAttributedStringButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        htmlToAttributedStringButton.sizeToFit()
+        htmlToAttributedStringButton.addTarget(self, action: #selector(htmlToAttributedStringButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(htmlToAttributedStringButton)
         
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
@@ -125,7 +136,7 @@ class RootView: UIView {
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -150).isActive = true
         contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1).isActive = true
@@ -183,5 +194,8 @@ class RootView: UIView {
         rootViewDelegate?.globalFrameButtonTapAction()
     }
     
+    @objc func htmlToAttributedStringButtonTapAction(_ sender: UIButton) {
+        rootViewDelegate?.htmlToAttributedStringButtonTapAction()
+    }
     
 }
