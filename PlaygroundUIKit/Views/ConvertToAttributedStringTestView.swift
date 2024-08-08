@@ -234,7 +234,7 @@ class ConvertToAttributedStringTestView: UIView {
                 lineHeightMultiple: 1.3
             )
         case 2:
-            label.attributedText = str.customTagtoAttributedString(
+            label.attributedText = str.customTagToAttributedString(
                 withFontSize: 12,
                 lineHeightMultiple: 1.3
             )

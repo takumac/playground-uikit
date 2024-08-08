@@ -120,7 +120,7 @@ extension String {
     ///   - withBoldFont: 指定したいフォント
     ///   - lineHeightMultiple: 指定したい行間
     /// - Returns: タグを解析した結果の修飾されたAttributedString
-    func customTagtoAttributedString(
+    func customTagToAttributedString(
         withFontSize: CGFloat,
         withBoldFont: UIFont? = nil,
         lineHeightMultiple: CGFloat = 1.0
