@@ -77,8 +77,8 @@ class RootViewController: UIViewController, RootViewDelegate {
         self.navigationController?.pushViewController(GlobalFrameTestViewController(), animated: true)
     }
     
-    func htmlToAttributedStringButtonTapAction() {
-        self.navigationController?.pushViewController(HTMLtoAttributedStringTestViewController(), animated: true)
+    func convertToAttributedStringButtonTapAction() {
+        self.navigationController?.pushViewController(ConvertToAttributedStringTestViewController(), animated: true)
     }
     
 }

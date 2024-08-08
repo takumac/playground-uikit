@@ -16,7 +16,7 @@ protocol RootViewDelegate {
     func tableViewButtonTapAction()
     func radioButtonTapAction()
     func globalFrameButtonTapAction()
-    func htmlToAttributedStringButtonTapAction()
+    func convertToAttributedStringButtonTapAction()
 }
 
 class RootView: UIView {
@@ -49,7 +49,7 @@ class RootView: UIView {
     let globalFrameButton: UIButton = UIButton()
     
     /// 画面サイズをグローバル変数で定義した場合の実験画面に飛ぶためのボタン
-    let htmlToAttributedStringButton: UIButton = UIButton()
+    let convertToAttributedStringButton: UIButton = UIButton()
     
     // MARK: Init
     override init(frame: CGRect) {
@@ -117,12 +117,12 @@ class RootView: UIView {
         globalFrameButton.addTarget(self, action: #selector(globalFrameButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(globalFrameButton)
         
-        htmlToAttributedStringButton.setTitle("HTML to AttributedString", for: .normal)
-        htmlToAttributedStringButton.setTitleColor(C02_COLOR, for: .normal)
-        htmlToAttributedStringButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        htmlToAttributedStringButton.sizeToFit()
-        htmlToAttributedStringButton.addTarget(self, action: #selector(htmlToAttributedStringButtonTapAction(_:)), for: .touchUpInside)
-        contentView.addArrangedSubview(htmlToAttributedStringButton)
+        convertToAttributedStringButton.setTitle("Convert To AttributedString", for: .normal)
+        convertToAttributedStringButton.setTitleColor(C02_COLOR, for: .normal)
+        convertToAttributedStringButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        convertToAttributedStringButton.sizeToFit()
+        convertToAttributedStringButton.addTarget(self, action: #selector(htmlToAttributedStringButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(convertToAttributedStringButton)
         
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
@@ -195,7 +195,7 @@ class RootView: UIView {
     }
     
     @objc func htmlToAttributedStringButtonTapAction(_ sender: UIButton) {
-        rootViewDelegate?.htmlToAttributedStringButtonTapAction()
+        rootViewDelegate?.convertToAttributedStringButtonTapAction()
     }
     
 }

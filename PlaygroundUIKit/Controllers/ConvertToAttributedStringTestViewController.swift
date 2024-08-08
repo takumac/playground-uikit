@@ -7,10 +7,10 @@
 
 import UIKit
 
-class HTMLtoAttributedStringTestViewController: UIViewController {
+class ConvertToAttributedStringTestViewController: UIViewController {
     
     // MARK: - Member
-    var htmlToAttributedStringTestView: HTMLtoAttributedStringTestView?
+    var convertToAttributedStringTestView: ConvertToAttributedStringTestView?
     
     
     // MARK: - Lifecycle
@@ -21,7 +21,7 @@ class HTMLtoAttributedStringTestViewController: UIViewController {
         // Navigationbarのタイトル
         let navigationTitleLabel = UILabel()
         navigationTitleLabel.font = .boldSystemFont(ofSize: 20)
-        navigationTitleLabel.text = "HTMLtoAttributedString"
+        navigationTitleLabel.text = "ConvertToAttributedString"
         navigationTitleLabel.adjustsFontSizeToFitWidth = true
         navigationTitleLabel.sizeToFit()
         navigationTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -41,8 +41,8 @@ class HTMLtoAttributedStringTestViewController: UIViewController {
     
     // MARK: - Viewload
     func viewLoad() {
-        htmlToAttributedStringTestView = HTMLtoAttributedStringTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
-        self.view.addSubview(htmlToAttributedStringTestView!)
+        convertToAttributedStringTestView = ConvertToAttributedStringTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
+        self.view.addSubview(convertToAttributedStringTestView!)
     }
     
 }
