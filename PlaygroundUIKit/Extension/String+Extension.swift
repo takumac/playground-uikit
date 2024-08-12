@@ -104,181 +104,162 @@ extension String {
     }
     
     
-    /// オリジナルのタグを管理するためのEnum
-    private enum CustomTagStyle {
-        /// 太字
-        case bold
-        /// 下線
-        case underline
-        /// 文字色（パラメタ：16進数表記のカラーコード）
-        case color(String)
-    }
-    
     /// オリジナルで定義したタグによって修飾されたAttributedStringを返却する
     /// - Parameters:
     ///   - withFontSize: 指定したいフォントサイズ
     ///   - withBoldFont: 指定したいフォント
     ///   - lineHeightMultiple: 指定したい行間
     /// - Returns: タグを解析した結果の修飾されたAttributedString
-    func customTagToAttributedString(
-        withFontSize: CGFloat,
-        withBoldFont: UIFont? = nil,
-        lineHeightMultiple: CGFloat = 1.0
-    ) -> NSAttributedString {
-        
-        let attributedString = NSMutableAttributedString(string: self)
-        
-        // 修飾対象の位置を取得するためのパターン文字列
-        let tagPatternAll =
+    func customTagToAttributedString(from input: String, actions: [() -> Void]) -> NSAttributedString {
+        // 検索対象の正規表現
+        let pattern =
+        // 太字（<bold>）
         "<bold>(.*?)</bold>" +
+        // 下線（<underline>）
         "|<underline>(.*?)</underline>" +
-        "|<color=\"#([0-9A-Fa-f]{6})\">(.*?)</color>"
+        // 文字色（<color>）
+        "|<color=\"#([0-9A-Fa-f]{6})\">(.*?)</color>" +
+        // リスト（<list>）
+        "|<list=\"(.*?)\">(.*?)</list>" +
+        // オーダーリスト（<orderlist>）
+        "|<orderlist>(.*?)</orderlist>" +
+        // タップアクション（<action>）
+        "|<action>(.*?)</action>"
         
-        // 各タグの正規表現
-        let tagPatterns: [String : CustomTagStyle] = [
-            "<bold>(.*?)</bold>" : .bold,
-            "<underline>(.*?)</underline>" : .underline,
-            "<color=\"#([0-9A-Fa-f]{6})\">(.*?)</color>" : .color("")
-        ]
+
+        let attributedString = NSMutableAttributedString(string: "")
+        var actionIndex = 0
         
-        // 正規表現用変数
-        guard let regexAll = try? NSRegularExpression(pattern: tagPatternAll, options: []) else {
-            return attributedString
-        }
-        
-        // 変換前の全てのテキスト
-        let textAll = attributedString.string
-        
-        // 変換前の全てのテキストの中で、指定したタグが設定されている場所の一覧
-        // ※タグがネストされている場合は一番外側のタグ基準
-        let matches = regexAll.matches(
-            in: textAll,
-            range: NSRange(
-                location: 0,
-                length: textAll.utf8.count
-            )
-        )
-        
-        // 最終的に返却する編集後のAttributedString
-        let editAllAttrStr = NSMutableAttributedString(string: self)
-        var editAllStr = attributedString.string
-        
-        // 編集結果として設定するスタイル、範囲を保持する変数
-        var applyStyles : [[CustomTagStyle]] = []
-        var applyRanges : [NSRange] = []
-        
-        // 各修飾箇所を1箇所ずつ前から順に編集していく
-        for _ in 0..<matches.count {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: .dotMatchesLineSeparators)
+            var currentLocation = input.startIndex
             
-            guard let firstMatch = regexAll.firstMatch(
-                in: editAllStr,
-                range: NSRange(
-                    location: 0,
-                    length: editAllStr.utf8.count
-                )
-            ) else {
-                continue
-            }
+            let matches = regex.matches(in: input, options: [], range: NSRange(input.startIndex..., in: input))
             
-            // 現在編集している修飾箇所を保持する変数
-            var editPartialStr = (editAllStr as NSString).substring(with: firstMatch.range)
-            let editPartialAttrStr = NSMutableAttributedString(string: editPartialStr)
-            var applyStyle: [CustomTagStyle] = []
-            
-            // どのスタイルにマッチしているか走査する
-            for (pattern, style) in tagPatterns {
-                guard let regexPartial = try? NSRegularExpression(pattern: pattern, options: [])  else {
-                    continue
-                }
-                guard let match = regexPartial.firstMatch(
-                    in: editPartialStr,
-                    range: NSRange(
-                        location: 0,
-                        length: editPartialStr.utf8.count
-                    )
-                ) else {
-                    continue
+            for match in matches {
+                // マッチの前の部分を追加
+                let preMatchRange = currentLocation..<input.index(input.startIndex, offsetBy: match.range.location)
+                let preMatchText = String(input[preMatchRange])
+                attributedString.append(NSAttributedString(string: preMatchText))
+                
+                if match.range(at: 1).location != NSNotFound {
+                    // <bold> の処理
+                    let boldRange = match.range(at: 1)
+                    if let range = Range(boldRange, in: input) {
+                        let boldText = String(input[range])
+                        let innerAttributedString = customTagToAttributedString(from: boldText, actions: actions)
+                        let boldedText = NSMutableAttributedString(attributedString: innerAttributedString)
+                        boldedText.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize), range: NSRange(location: 0, length: boldedText.length))
+                        attributedString.append(boldedText)
+                    }
+                } else if match.range(at: 2).location != NSNotFound {
+                    // <underline> の処理
+                    let underlineRange = match.range(at: 2)
+                    if let range = Range(underlineRange, in: input) {
+                        let underlineText = String(input[range])
+                        let innerAttributedString = customTagToAttributedString(from: underlineText, actions: actions)
+                        let underlinedText = NSMutableAttributedString(attributedString: innerAttributedString)
+                        underlinedText.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: underlinedText.length))
+                        attributedString.append(underlinedText)
+                    }
+                } else if match.range(at: 4).location != NSNotFound && match.range(at: 3).location != NSNotFound {
+                    // <color> の処理
+                    let colorCodeRange = match.range(at: 3)
+                    let colorTextRange = match.range(at: 4)
+                    if let colorRange = Range(colorCodeRange, in: input), let textRange = Range(colorTextRange, in: input) {
+                        let colorCode = String(input[colorRange])
+                        let colorText = String(input[textRange])
+                        
+                        if let color = UIColor(hex: colorCode) {
+                            let innerAttributedString = customTagToAttributedString(from: colorText, actions: actions)
+                            let coloredText = NSMutableAttributedString(attributedString: innerAttributedString)
+                            coloredText.addAttribute(.foregroundColor, value: color, range: NSRange(location: 0, length: coloredText.length))
+                            attributedString.append(coloredText)
+                        }
+                    }
+                } else if match.range(at: 6).location != NSNotFound && match.range(at: 5).location != NSNotFound {
+                    // <list> の処理
+                    let listPrefixRange = match.range(at: 5)
+                    let listItemsRange = match.range(at: 6)
+                    if let prefixRange = Range(listPrefixRange, in: input), let itemsRange = Range(listItemsRange, in: input) {
+                        let prefix = String(input[prefixRange])
+                        let itemsText = String(input[itemsRange])
+                        
+                        // <line>タグの中身を抽出し、リスト形式に変換
+                        let linePattern = "<line>(.*?)</line>"
+                        let lineRegex = try NSRegularExpression(pattern: linePattern)
+                        let lineMatches = lineRegex.matches(in: itemsText, range: NSRange(itemsText.startIndex..., in: itemsText))
+                        
+                        for (index, lineMatch) in lineMatches.enumerated() {
+                            if lineMatch.range(at: 1).location != NSNotFound {
+                                if let lineRange = Range(lineMatch.range(at: 1), in: itemsText) {
+                                    let lineText = String(itemsText[lineRange])
+                                    let lineAttributedString = customTagToAttributedString(from: lineText, actions: actions)
+                                    
+                                    if index > 0 {
+                                        attributedString.append(NSAttributedString(string: "\n"))
+                                    }
+                                    let listItemText = NSMutableAttributedString(string: "\(prefix) ")
+                                    listItemText.append(lineAttributedString)
+                                    attributedString.append(listItemText)
+                                }
+                            }
+                        }
+                    }
+                } else if match.range(at: 7).location != NSNotFound {
+                    // <orderlist> の処理
+                    let orderListRange = match.range(at: 7)
+                    if let range = Range(orderListRange, in: input) {
+                        let orderListText = String(input[range])
+                        
+                        // <orderline>タグの中身を抽出し、番号付きリスト形式に変換
+                        let orderLinePattern = "<orderline>(.*?)</orderline>"
+                        let orderLineRegex = try NSRegularExpression(pattern: orderLinePattern)
+                        let orderLineMatches = orderLineRegex.matches(in: orderListText, range: NSRange(orderListText.startIndex..., in: orderListText))
+                        
+                        for (index, orderLineMatch) in orderLineMatches.enumerated() {
+                            if orderLineMatch.range(at: 1).location != NSNotFound {
+                                if let orderLineRange = Range(orderLineMatch.range(at: 1), in: orderListText) {
+                                    let orderLineText = String(orderListText[orderLineRange])
+                                    let orderLineAttributedString = customTagToAttributedString(from: orderLineText, actions: actions)
+                                    
+                                    if index > 0 {
+                                        attributedString.append(NSAttributedString(string: "\n"))
+                                    }
+                                    let orderListItemText = NSMutableAttributedString(string: "\(index + 1). ")
+                                    orderListItemText.append(orderLineAttributedString)
+                                    attributedString.append(orderListItemText)
+                                }
+                            }
+                        }
+                    }
+                } else if match.range(at: 8).location != NSNotFound {
+                    // <action> の処理
+                    let actionRange = match.range(at: 8)
+                    if let range = Range(actionRange, in: input), actionIndex < actions.count {
+                        let actionText = String(input[range])
+                        let innerAttributedString = customTagToAttributedString(from: actionText, actions: actions)
+                        let actionAttributedString = NSMutableAttributedString(attributedString: innerAttributedString)
+                        actionAttributedString.addAttribute(.customAction, value: actionIndex, range: NSRange(location: 0, length: actionAttributedString.length))
+                        attributedString.append(actionAttributedString)
+                        actionIndex += 1
+                    }
                 }
                 
-                // マッチしたスタイルによって分岐させる
-                switch style {
-                case .color:
-                    // スタイルがカラーの場合
-                    // ※カラーの場合は2つの正規表現パターンがある
-                    // ※1番目：カラーコードの正規表現パターン
-                    // ※2番目：タグに囲まれた中身の正規表現パターン
-                    
-                    // マッチした範囲を取得
-                    let matchRange = match.range
-                    // カラーコードの範囲を取得
-                    let colorRange = match.range(at: 1)
-                    // カラーコードを文字列として取得
-                    let colorCodeStr = (editPartialStr as NSString).substring(with: colorRange)
-                    // マッチしたタグに囲まれた中身を取得
-                    let contentRange = match.range(at: 2)
-                    // マッチしたタグの中身を文字列として取得
-                    let contentStr = (editPartialStr as NSString).substring(with: contentRange)
-                    
-                    editPartialAttrStr.replaceCharacters(in: matchRange, with: contentStr)
-                    editPartialStr = editPartialAttrStr.string
-                    
-                    applyStyle.append(.color(colorCodeStr))
-                    
-                default:
-                    // デフォルト挙動
-                    
-                    // マッチした範囲を取得
-                    let matchRange = match.range
-                    // マッチしたタグに囲まれた中身を取得
-                    let contentRange = match.range(at: 1)
-                    // マッチしたタグの中身を文字列として取得
-                    let contentStr = (editPartialStr as NSString).substring(with: contentRange)
-                    
-                    editPartialAttrStr.replaceCharacters(in: matchRange, with: contentStr)
-                    editPartialStr = editPartialAttrStr.string
-                    
-                    applyStyle.append(style)
-                }
+                // 現在の位置を更新
+                currentLocation = input.index(input.startIndex, offsetBy: match.range.location + match.range.length)
             }
             
-            // 各変数を更新する
-            editAllAttrStr.replaceCharacters(in: firstMatch.range, with: editPartialStr)
-            editAllStr = editAllAttrStr.string
-            applyStyles.append(applyStyle)
-            applyRanges.append(NSRange(location: firstMatch.range.location, length: editPartialStr.count))
-        }
-        
-        // スタイルの適用
-        for i in 0..<matches.count {
-            let styles = applyStyles[i]
-            let range = applyRanges[i]
+            // 最後のマッチ後の部分を追加
+            let postMatchText = String(input[currentLocation...])
+            attributedString.append(NSAttributedString(string: postMatchText))
             
-            for style in styles {
-                switch style {
-                case .bold:
-                    let boldFont = withBoldFont ?? UIFont.boldSystemFont(ofSize: withFontSize)
-                    editAllAttrStr.addAttribute(.font, value: boldFont, range: range)
-                case .underline:
-                    editAllAttrStr.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-                case .color(let hex):
-                    editAllAttrStr.addAttribute(.foregroundColor, value: UIColor(hex: hex), range: range)
-                }
-            }
+        } catch {
+            print("Invalid regular expression: \(error.localizedDescription)")
+            return NSAttributedString(string: input)  // エラーの場合は元の文字列を返す
         }
         
-        // 行間の設定
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = lineHeightMultiple
-        editAllAttrStr.addAttribute(
-            .paragraphStyle,
-            value: paragraphStyle,
-            range: NSRange(
-                location: 0,
-                length: editAllAttrStr.length
-            )
-        )
-        
-        return editAllAttrStr
+        return attributedString
     }
     
 }

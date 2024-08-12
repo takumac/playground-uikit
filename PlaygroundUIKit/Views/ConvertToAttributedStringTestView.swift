@@ -13,7 +13,7 @@ class ConvertToAttributedStringTestView: UIView {
     let scrollView: UIScrollView = UIScrollView()
     let textView: UITextView = UITextView()
     let labelBaseView: UIView = UIView()
-    let label: UILabel = UILabel()
+    let label: CustomTagLabel = CustomTagLabel()
     let titleLabel1: UILabel = UILabel()
     let titleLabel2: UILabel = UILabel()
     let titleLabel3: UILabel = UILabel()
@@ -22,6 +22,7 @@ class ConvertToAttributedStringTestView: UIView {
     let sampleButton1: UIButton = UIButton()
     let sampleButton2: UIButton = UIButton()
     let sampleButton3: UIButton = UIButton()
+    let sampleButton4: UIButton = UIButton()
     let convertButtonSV: UIStackView = UIStackView()
     let convertButton1: UIButton = UIButton()
     let convertButton2: UIButton = UIButton()
@@ -91,6 +92,14 @@ class ConvertToAttributedStringTestView: UIView {
         sampleButton3.addTarget(self, action: #selector(sampleButtonTapAction(_:)), for: .touchUpInside)
         sampleButtonSV.addArrangedSubview(sampleButton3)
         
+        sampleButton4.setTitle("Text4", for: .normal)
+        sampleButton4.setTitleColor(C02_COLOR, for: .normal)
+        sampleButton4.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        sampleButton4.tag = 4
+        sampleButton4.sizeToFit()
+        sampleButton4.addTarget(self, action: #selector(sampleButtonTapAction(_:)), for: .touchUpInside)
+        sampleButtonSV.addArrangedSubview(sampleButton4)
+        
         scrollView.addSubview(sampleButtonSV)
         
         titleLabel4.text = "Convert Button"
@@ -136,6 +145,10 @@ class ConvertToAttributedStringTestView: UIView {
         label.numberOfLines = 0
         label.lineBreakMode = .byCharWrapping
         label.sizeToFit()
+        label.actionHandlers = [
+            { print("1つ目タップ") },
+            { print("2つ目タップ") }
+        ]
         labelBaseView.addSubview(label)
         
         scrollView.addSubview(labelBaseView)
@@ -215,7 +228,15 @@ class ConvertToAttributedStringTestView: UIView {
         case 2:
             textView.text = "<strong><u>取引利用料改定後に同意した取引</u></strong>は、4.4%(税込)の利用料率が適用されます。詳しくはコチラ"
         case 3:
-            textView.text = "This is <bold><underline>bold</underline></bold> and this is <color=\"#FF0000\">italic</color> text. Another <bold>bold</bold> example with <bold><underline>nested</underline></bold> tags."
+            textView.text = "タップアクション<color=\"#0000FF\"><action>ここをタップ1</action></color>aaa<bold><action><color=\"#FF0000\">ここをタップ2</color></action></bold>タップアクション"
+        case 4:
+            textView.text =
+            "<bold><underline><color=\"#FF0000\">あ</color>い<color=\"#00FF00\">う</color>え<color=\"#0000FF\">お</color></underline></bold>\n" +
+            "ほげ１<underline><color=\"#FF0000\">abcdefg</color>ほげ２<color=\"#00FF00\">カキクケコ</color><color=\"#0000FF\">xyz</color><bold>ほげ３</bold></underline>ほげ4\n" +
+            "リスト\n<list=\"＊\"><line><bold><color=\"#FF0000\">hoge</color></bold></line><line>fuga</line><line>foo</line></list>\n" +
+            "オーダーリスト\n<orderlist><orderline><color=\"#FF0000\">hoge</color></orderline><orderline><color=\"#00FF00\"><bold>fuga</bold></color></orderline><orderline><color=\"#0000FF\">foo</color></orderline><orderline>foo</orderline><orderline>foo</orderline></orderlist>\n" +
+            "\nタップアクション\n\n\n<color=\"#0000FF\"><action>ここをタップ1</action></color>\n\n\n<bold><action><color=\"#FF0000\">ここをタップ2</color></action></bold>\n" +
+            "終わり"
         default:
             return
         }
@@ -235,8 +256,11 @@ class ConvertToAttributedStringTestView: UIView {
             )
         case 2:
             label.attributedText = str.customTagToAttributedString(
-                withFontSize: 12,
-                lineHeightMultiple: 1.3
+                from: str,
+                actions: [
+                    { print("1つ目タップ") },
+                    { print("2つ目タップ") }
+                ]
             )
         default:
             return
@@ -248,5 +272,64 @@ class ConvertToAttributedStringTestView: UIView {
     /// 画面をタップ時に,キーボードを閉じる
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.endEditing(true)
+    }
+}
+
+
+// タップアクション用のカスタム UILabel
+class CustomTagLabel: UILabel {
+    var actionHandlers: [() -> Void] = []
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.isUserInteractionEnabled = true
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.isUserInteractionEnabled = true
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        guard let attributedText = self.attributedText else { return }
+        
+        let location = touch.location(in: self)
+        let layoutManager = NSLayoutManager()
+        let textContainer = NSTextContainer(size: CGSize.zero)
+        let textStorage = NSTextStorage(attributedString: attributedText)
+        let labelSize = self.bounds.size
+        
+        layoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(layoutManager)
+        
+        textContainer.lineFragmentPadding = 0.0
+        textContainer.lineBreakMode = self.lineBreakMode
+        textContainer.maximumNumberOfLines = self.numberOfLines
+        textContainer.size = labelSize
+
+        // タップ位置の補正
+        let textBoundingBox = layoutManager.usedRect(for: textContainer)
+        let textContainerOffset = CGPoint(
+            x: (labelSize.width - textBoundingBox.size.width) * 0.5,
+            y: (labelSize.height - textBoundingBox.size.height) * 0.5
+        )
+        let locationOfTouchInTextContainer = CGPoint(
+            x: location.x - textContainerOffset.x,
+            y: location.y - textContainerOffset.y
+        )
+        let indexOfCharacter = layoutManager.characterIndex(
+            for: locationOfTouchInTextContainer,
+            in: textContainer,
+            fractionOfDistanceBetweenInsertionPoints: nil
+        )
+        
+        // タップされた位置がカスタムアクションの範囲内かを確認
+        for (i, range) in attributedText.getCustomActionRanges().enumerated() {
+            if NSLocationInRange(indexOfCharacter, range) {
+                actionHandlers[i]()
+                break
+            }
+        }
     }
 }
