@@ -213,13 +213,13 @@ class ConvertToAttributedStringTestView: UIView {
         case 2:
             textView.text = "<strong><u>取引利用料改定後に同意した取引</u></strong>は、4.4%(税込)の利用料率が適用されます。詳しくはコチラ"
         case 3:
-            textView.text = "タップアクション<color=\"#0000FF\"><action>ここをタップ1</action></color>aaa<bold><action><color=\"#FF0000\">ここをタップ2</color></action></bold>タップアクション"
+            textView.text = "リスト表示1<list=\"・\"><line>1行目</line><line>2行目</line><line>3行目</line></list>リスト表示2<list=\"＊\"><line>hoge</line><line>fuga</line><line>foo</line></list>オーダーリスト表示<orderlist><orderline>あいうえお</orderline><orderline>かきくけこ</orderline><orderline>さしすせそ</orderline></orderlist>"
         case 4:
             textView.text =
             "<bold><underline><color=\"#FF0000\">あ</color>い<color=\"#00FF00\">う</color>え<color=\"#0000FF\">お</color></underline></bold>\n\n" +
             "ほげ１<underline><color=\"#FF0000\">abcdefg</color>ほげ２<color=\"#00FF00\">カキクケコ</color><color=\"#0000FF\">xyz</color><bold>ほげ３</bold></underline>ほげ4\n\n" +
-            "リスト\n<list=\"＊\"><line><bold><color=\"#FF0000\">hoge</color></bold></line><line>fuga</line><line>foo</line></list>\n\n" +
-            "オーダーリスト\n<orderlist><orderline><color=\"#FF0000\">hoge</color></orderline><orderline><color=\"#00FF00\"><bold>fuga</bold></color></orderline><orderline><color=\"#0000FF\">foo</color></orderline><orderline>foo</orderline><orderline>foo</orderline></orderlist>\n\n" +
+            "リスト<list=\"＊\"><line><bold><color=\"#FF0000\">hoge</color></bold></line><line>fuga</line><line>foo</line></list>\n" +
+            "オーダーリスト<orderlist><orderline><color=\"#FF0000\">hoge</color></orderline><orderline><color=\"#00FF00\"><bold>fuga</bold></color></orderline><orderline><color=\"#0000FF\">foo</color></orderline><orderline>foo</orderline><orderline>foo</orderline></orderlist>\n" +
             "\nタップアクション\n\n\n<color=\"#0000FF\"><action>ここをタップ1</action></color>\n\n\n<bold><action><color=\"#FF0000\"><underline>ここをタップ2</underline></color></action></bold>\n\n" +
             "\nフォントサイズ\n\n<bold><fontsize=\"10\">フォントサイズ10</fontsize></bold>\n\n<color=\"#FF0000\"><fontsize=\"20\">フォントサイズ20</fontsize></color>\n\n<bold><fontsize=\"30\">フォント<color=\"#0000FF\">サイズ</color>30</fontsize></bold>\n\n" +
             "終わり"

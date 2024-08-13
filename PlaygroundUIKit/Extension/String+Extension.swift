@@ -264,6 +264,8 @@ extension String {
                         let lineRegex = try NSRegularExpression(pattern: linePattern)
                         let lineMatches = lineRegex.matches(in: itemsText, range: NSRange(itemsText.startIndex..., in: itemsText))
                         
+                        attributedString.append(NSAttributedString(string: "\n"))
+                        
                         for (index, lineMatch) in lineMatches.enumerated() {
                             if lineMatch.range(at: 1).location != NSNotFound {
                                 if let lineRange = Range(lineMatch.range(at: 1), in: itemsText) {
@@ -282,6 +284,8 @@ extension String {
                                 }
                             }
                         }
+                        
+                        attributedString.append(NSAttributedString(string: "\n"))
                     }
                     
                 } else if match.range(at: 9).location != NSNotFound {
@@ -293,6 +297,8 @@ extension String {
                         let orderLinePattern = "<orderline>(.*?)</orderline>"
                         let orderLineRegex = try NSRegularExpression(pattern: orderLinePattern)
                         let orderLineMatches = orderLineRegex.matches(in: orderListText, range: NSRange(orderListText.startIndex..., in: orderListText))
+                        
+                        attributedString.append(NSAttributedString(string: "\n"))
                         
                         for (index, orderLineMatch) in orderLineMatches.enumerated() {
                             if orderLineMatch.range(at: 1).location != NSNotFound {
@@ -312,6 +318,8 @@ extension String {
                                 }
                             }
                         }
+                        
+                        attributedString.append(NSAttributedString(string: "\n"))
                     }
                     
                 } else if match.range(at: 10).location != NSNotFound {
