@@ -12,8 +12,7 @@ class ConvertToAttributedStringTestView: UIView {
     // MARK: - Member
     let scrollView: UIScrollView = UIScrollView()
     let textView: UITextView = UITextView()
-    let labelBaseView: UIView = UIView()
-    let label: CustomTagLabel = CustomTagLabel()
+    let customTagTV: CustomTagTextView = CustomTagTextView()
     let titleLabel1: UILabel = UILabel()
     let titleLabel2: UILabel = UILabel()
     let titleLabel3: UILabel = UILabel()
@@ -46,7 +45,7 @@ class ConvertToAttributedStringTestView: UIView {
         scrollViewTapGesture.cancelsTouchesInView = false
         scrollView.addGestureRecognizer(scrollViewTapGesture)
         
-        titleLabel1.text = "UITextView"
+        titleLabel1.text = "Before Convert Text"
         titleLabel1.font = UIFont(name: "HiraKakuProN-W6", size: 24)
         titleLabel1.sizeToFit()
         scrollView.addSubview(titleLabel1)
@@ -131,27 +130,19 @@ class ConvertToAttributedStringTestView: UIView {
         
         scrollView.addSubview(convertButtonSV)
         
-        titleLabel2.text = "UILabel"
+        titleLabel2.text = "After Convert Text"
         titleLabel2.font = UIFont(name: "HiraKakuProN-W6", size: 24)
         titleLabel2.sizeToFit()
         scrollView.addSubview(titleLabel2)
         
-        labelBaseView.backgroundColor = C03_COLOR
-        labelBaseView.layer.borderColor = UIColor.lightGray.cgColor
-        labelBaseView.layer.borderWidth = 1
-        
-        label.font = UIFont(name: "HiraKakuProN-W3", size: 12)
-        label.backgroundColor = C03_COLOR
-        label.numberOfLines = 0
-        label.lineBreakMode = .byCharWrapping
-        label.sizeToFit()
-        label.actionHandlers = [
+        customTagTV.backgroundColor = C03_COLOR
+        customTagTV.sizeToFit()
+        customTagTV.actionHandlers = [
             { print("1つ目タップ") },
-            { print("2つ目タップ") }
+            { print("2つ目タップ") },
+            { print("3つ目タップ") }
         ]
-        labelBaseView.addSubview(label)
-        
-        scrollView.addSubview(labelBaseView)
+        scrollView.addSubview(customTagTV)
         
         self.addSubview(scrollView)
         
@@ -202,17 +193,11 @@ class ConvertToAttributedStringTestView: UIView {
         titleLabel2.heightAnchor.constraint(equalToConstant: titleLabel2.frame.height).isActive = true
         titleLabel2.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
-        labelBaseView.translatesAutoresizingMaskIntoConstraints = false
-        labelBaseView.topAnchor.constraint(equalTo: titleLabel2.bottomAnchor, constant: 25).isActive = true
-        labelBaseView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100).isActive = true
-        labelBaseView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
-        labelBaseView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.topAnchor.constraint(equalTo: labelBaseView.topAnchor, constant: 10).isActive = true
-        label.bottomAnchor.constraint(equalTo: labelBaseView.bottomAnchor, constant: -10).isActive = true
-        label.leadingAnchor.constraint(equalTo: labelBaseView.leadingAnchor, constant: 5).isActive = true
-        label.trailingAnchor.constraint(equalTo: labelBaseView.trailingAnchor, constant: -5).isActive = true
+        customTagTV.translatesAutoresizingMaskIntoConstraints = false
+        customTagTV.topAnchor.constraint(equalTo: titleLabel2.bottomAnchor, constant: 25).isActive = true
+        customTagTV.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100).isActive = true
+        customTagTV.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
+        customTagTV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
     }
     
     
@@ -231,11 +216,12 @@ class ConvertToAttributedStringTestView: UIView {
             textView.text = "タップアクション<color=\"#0000FF\"><action>ここをタップ1</action></color>aaa<bold><action><color=\"#FF0000\">ここをタップ2</color></action></bold>タップアクション"
         case 4:
             textView.text =
-            "<bold><underline><color=\"#FF0000\">あ</color>い<color=\"#00FF00\">う</color>え<color=\"#0000FF\">お</color></underline></bold>\n" +
-            "ほげ１<underline><color=\"#FF0000\">abcdefg</color>ほげ２<color=\"#00FF00\">カキクケコ</color><color=\"#0000FF\">xyz</color><bold>ほげ３</bold></underline>ほげ4\n" +
-            "リスト\n<list=\"＊\"><line><bold><color=\"#FF0000\">hoge</color></bold></line><line>fuga</line><line>foo</line></list>\n" +
-            "オーダーリスト\n<orderlist><orderline><color=\"#FF0000\">hoge</color></orderline><orderline><color=\"#00FF00\"><bold>fuga</bold></color></orderline><orderline><color=\"#0000FF\">foo</color></orderline><orderline>foo</orderline><orderline>foo</orderline></orderlist>\n" +
-            "\nタップアクション\n\n\n<color=\"#0000FF\"><action>ここをタップ1</action></color>\n\n\n<bold><action><color=\"#FF0000\">ここをタップ2</color></action></bold>\n" +
+            "<bold><underline><color=\"#FF0000\">あ</color>い<color=\"#00FF00\">う</color>え<color=\"#0000FF\">お</color></underline></bold>\n\n" +
+            "ほげ１<underline><color=\"#FF0000\">abcdefg</color>ほげ２<color=\"#00FF00\">カキクケコ</color><color=\"#0000FF\">xyz</color><bold>ほげ３</bold></underline>ほげ4\n\n" +
+            "リスト\n<list=\"＊\"><line><bold><color=\"#FF0000\">hoge</color></bold></line><line>fuga</line><line>foo</line></list>\n\n" +
+            "オーダーリスト\n<orderlist><orderline><color=\"#FF0000\">hoge</color></orderline><orderline><color=\"#00FF00\"><bold>fuga</bold></color></orderline><orderline><color=\"#0000FF\">foo</color></orderline><orderline>foo</orderline><orderline>foo</orderline></orderlist>\n\n" +
+            "\nタップアクション\n\n\n<color=\"#0000FF\"><action>ここをタップ1</action></color>\n\n\n<bold><action><color=\"#FF0000\"><underline>ここをタップ2</underline></color></action></bold>\n\n" +
+            "\nフォントサイズ\n\n<bold><fontsize=\"10\">フォントサイズ10</fontsize></bold>\n\n<color=\"#FF0000\"><fontsize=\"20\">フォントサイズ20</fontsize></color>\n\n<bold><fontsize=\"30\">フォント<color=\"#0000FF\">サイズ</color>30</fontsize></bold>\n\n" +
             "終わり"
         default:
             return
@@ -249,18 +235,16 @@ class ConvertToAttributedStringTestView: UIView {
         
         switch sender.tag {
         case 1:
-            label.attributedText = str.htmlToAttributedString(
-                withFont: label.font,
-                withColor: label.textColor,
+            customTagTV.attributedText = str.htmlToAttributedString(
+                withFont: customTagTV.font,
+                withColor: customTagTV.textColor,
                 lineHeightMultiple: 1.3
             )
         case 2:
-            label.attributedText = str.customTagToAttributedString(
-                from: str,
-                actions: [
-                    { print("1つ目タップ") },
-                    { print("2つ目タップ") }
-                ]
+            var actionCount = 0
+            customTagTV.attributedText = str.customTagToAttributedString(
+                withFont: UIFont(name: "HiraKakuProN-W3", size: 14),
+                actionCount: &actionCount
             )
         default:
             return
@@ -276,60 +260,122 @@ class ConvertToAttributedStringTestView: UIView {
 }
 
 
-// タップアクション用のカスタム UILabel
-class CustomTagLabel: UILabel {
+// カスタムタグによる修飾を行ったテキストを表示するためのUITextView
+class CustomTagTextView: UITextView, UITextViewDelegate, UITextDragDelegate {
+    // MARK: - Member
+    /// <action>タグで囲まれたリンクをタップした時のアクションを保持する配列
     var actionHandlers: [() -> Void] = []
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.isUserInteractionEnabled = true
+    
+    
+    // MARK: - Init
+    override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        setup()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.isUserInteractionEnabled = true
+        setup()
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        guard let attributedText = self.attributedText else { return }
-        
-        let location = touch.location(in: self)
-        let layoutManager = NSLayoutManager()
-        let textContainer = NSTextContainer(size: CGSize.zero)
-        let textStorage = NSTextStorage(attributedString: attributedText)
-        let labelSize = self.bounds.size
-        
-        layoutManager.addTextContainer(textContainer)
-        textStorage.addLayoutManager(layoutManager)
-        
-        textContainer.lineFragmentPadding = 0.0
-        textContainer.lineBreakMode = self.lineBreakMode
-        textContainer.maximumNumberOfLines = self.numberOfLines
-        textContainer.size = labelSize
-
-        // タップ位置の補正
-        let textBoundingBox = layoutManager.usedRect(for: textContainer)
-        let textContainerOffset = CGPoint(
-            x: (labelSize.width - textBoundingBox.size.width) * 0.5,
-            y: (labelSize.height - textBoundingBox.size.height) * 0.5
-        )
-        let locationOfTouchInTextContainer = CGPoint(
-            x: location.x - textContainerOffset.x,
-            y: location.y - textContainerOffset.y
-        )
-        let indexOfCharacter = layoutManager.characterIndex(
-            for: locationOfTouchInTextContainer,
-            in: textContainer,
-            fractionOfDistanceBetweenInsertionPoints: nil
-        )
-        
-        // タップされた位置がカスタムアクションの範囲内かを確認
-        for (i, range) in attributedText.getCustomActionRanges().enumerated() {
-            if NSLocationInRange(indexOfCharacter, range) {
-                actionHandlers[i]()
-                break
+    
+    // MARK: - Override
+    // <action>タグのタップは有効化するけど、UITextView本来の選択等を無効化するための諸々の設定
+    override var isFocused: Bool {
+        false
+    }
+    override var canBecomeFirstResponder: Bool {
+        false
+    }
+    override var canBecomeFocused: Bool {
+        false
+    }
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        false
+    }
+    
+    
+    // MARK: - SetUp
+    private func setup() {
+        // デリゲートを自分自身に設定
+        self.delegate = self
+        // 編集は不可（表示用とするため）
+        self.isEditable = false
+        // スクロールは不可（高さを内部のテキストによって可変とするため）
+        self.isScrollEnabled = false
+        // 選択は可能（<action>タグのタップイベントを検知するため）
+        self.isSelectable = true
+        // .linkが設定された文字列（AttributedString）はタップ可能とする設定
+        self.dataDetectorTypes = [.link]
+        // .linkが設定された文字列のデフォルト修飾（青文字＆下線）を無効にする
+        self.linkTextAttributes = [:]
+        // テキスト表示領域の設定
+        self.textContainer.lineFragmentPadding = 0
+        self.textContainerInset = .zero
+        // iOS17以降はリンクタップ時のアクションでUIActionを用いる。
+        // 長押し＆ドラッグによりリンクの表示を防ぐためUITextViewの文字のドラッグを防ぐ
+        self.textDragDelegate = self
+    }
+    
+    
+    // MARK: - Delegate(UITextView)
+    // iOS17以降のリンクタップ時の処理
+    @available(iOS 17.0, *)
+    func textView(
+        _ textView: UITextView,
+        primaryActionFor textItem: UITextItem,
+        defaultAction: UIAction
+    ) -> UIAction? {
+        if case .link(let url) = textItem.content {
+            if url.absoluteString.starts(with: "action") {
+                return UIAction(title: "Custom Action", handler: { _ in
+                    if let actionIndex = Int(url.absoluteString.replacingOccurrences(of: "action", with: "")) {
+                        if actionIndex > 0 && actionIndex <= self.actionHandlers.count {
+                            self.actionHandlers[actionIndex - 1]()
+                        }
+                    }
+                })
+            } else {
+                return defaultAction
             }
         }
+        
+        return defaultAction
+    }
+    
+    // iOS17未満のリンクタップ時の処理
+    func textView(
+        _ textView: UITextView,
+        shouldInteractWith URL: URL,
+        in characterRange: NSRange,
+        interaction: UITextItemInteraction
+    ) -> Bool {
+        if #available(iOS 17.0, *) {
+            // iOS17以降の端末であれば何もしない
+            return false
+            
+        } else {
+            if URL.absoluteString.starts(with: "action") {
+                if let actionIndex = Int(URL.absoluteString.replacingOccurrences(of: "action", with: "")) {
+                    if actionIndex > 0 && actionIndex <= actionHandlers.count {
+                        actionHandlers[actionIndex - 1]()
+                    }
+                }
+                return false
+            } else {
+                return true
+            }
+        }
+    }
+    
+    
+    // MARK: - Delegate(UITextDrag)
+    func textDraggableView(
+        _ textDraggableView: UIView & UITextDraggable,
+        itemsForDrag dragRequest: UITextDragRequest
+    ) -> [UIDragItem] {
+        // iOS17以降はリンクタップ時のアクションでUIActionを用いる。
+        // 長押し＆ドラッグによりリンクの表示を防ぐためUITextViewの文字のドラッグを防ぐ
+        return []
     }
 }

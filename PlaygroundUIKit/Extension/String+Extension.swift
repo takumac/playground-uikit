@@ -106,15 +106,19 @@ extension String {
     
     /// オリジナルで定義したタグによって修飾されたAttributedStringを返却する
     /// - Parameters:
-    ///   - withFontSize: 指定したいフォントサイズ
-    ///   - withBoldFont: 指定したいフォント
-    ///   - lineHeightMultiple: 指定したい行間
+    ///   - withFont: 指定したいフォント
+    ///   - actionCount: <action>タグの解析のために内部的に必要な変数（！！！必ず0を指定！！！）
     /// - Returns: タグを解析した結果の修飾されたAttributedString
-    func customTagToAttributedString(from input: String, actions: [() -> Void]) -> NSAttributedString {
+    func customTagToAttributedString(
+        withFont: UIFont? = nil,
+        actionCount: inout Int
+    ) -> NSAttributedString {
         // 検索対象の正規表現
         let pattern =
+        // フォントサイズ（<fontsize>）
+        "<fontsize=\"(\\d+)\">(.*?)</fontsize>" +
         // 太字（<bold>）
-        "<bold>(.*?)</bold>" +
+        "|<bold>(.*?)</bold>" +
         // 下線（<underline>）
         "|<underline>(.*?)</underline>" +
         // 文字色（<color>）
@@ -126,66 +130,136 @@ extension String {
         // タップアクション（<action>）
         "|<action>(.*?)</action>"
         
-
+        
         let attributedString = NSMutableAttributedString(string: "")
-        var actionIndex = 0
         
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: .dotMatchesLineSeparators)
-            var currentLocation = input.startIndex
+            var currentLocation = self.startIndex
             
-            let matches = regex.matches(in: input, options: [], range: NSRange(input.startIndex..., in: input))
+            let matches = regex.matches(in: self, options: [], range: NSRange(self.startIndex..., in: self))
             
             for match in matches {
-                // マッチの前の部分を追加
-                let preMatchRange = currentLocation..<input.index(input.startIndex, offsetBy: match.range.location)
-                let preMatchText = String(input[preMatchRange])
+                let preMatchRange = currentLocation..<self.index(self.startIndex, offsetBy: match.range.location)
+                let preMatchText = String(self[preMatchRange])
                 attributedString.append(NSAttributedString(string: preMatchText))
                 
-                if match.range(at: 1).location != NSNotFound {
-                    // <bold> の処理
-                    let boldRange = match.range(at: 1)
-                    if let range = Range(boldRange, in: input) {
-                        let boldText = String(input[range])
-                        let innerAttributedString = customTagToAttributedString(from: boldText, actions: actions)
+                if match.range(at: 2).location != NSNotFound && match.range(at: 1).location != NSNotFound {
+                    // <fontsize>タグの処理
+                    let fontSizeRange = match.range(at: 1)
+                    let fontSizeTextRange = match.range(at: 2)
+                    if let sizeRange = Range(fontSizeRange, in: self), let textRange = Range(fontSizeTextRange, in: self) {
+                        let fontSize = CGFloat(Double(self[sizeRange]) ?? UIFont.systemFontSize)
+                        let fontSizeText = String(self[textRange])
+                        
+                        let innerAttributedString = fontSizeText.customTagToAttributedString(
+                            withFont: withFont,
+                            actionCount: &actionCount
+                        )
+                        let resizedText = NSMutableAttributedString(attributedString: innerAttributedString)
+                        
+                        resizedText.enumerateAttribute(
+                            .font,
+                            in: NSRange(location: 0, length: resizedText.length)
+                        ) { value, range, _ in
+                            if let font = value as? UIFont {
+                                // 変換範囲にフォントが設定されている場合
+                                let baseFont = font
+                                let newFont = baseFont.withSize(fontSize)
+                                resizedText.addAttribute(.font, value: newFont, range: range)
+                            } else if let withFont = withFont {
+                                // デフォルトのフォントが渡されている場合
+                                let baseFont = withFont
+                                let newFont = baseFont.withSize(fontSize)
+                                resizedText.addAttribute(.font, value: newFont, range: range)
+                            } else {
+                                // システム標準のフォントを使用
+                                let baseFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                                let newFont = baseFont.withSize(fontSize)
+                                resizedText.addAttribute(.font, value: newFont, range: range)
+                            }
+                        }
+                        
+                        attributedString.append(resizedText)
+                    }
+                    
+                } else if match.range(at: 3).location != NSNotFound {
+                    // <bold>タグの処理
+                    let boldRange = match.range(at: 3)
+                    if let range = Range(boldRange, in: self) {
+                        let boldText = String(self[range])
+                        let innerAttributedString = boldText.customTagToAttributedString(
+                            withFont: withFont,
+                            actionCount: &actionCount
+                        )
                         let boldedText = NSMutableAttributedString(attributedString: innerAttributedString)
-                        boldedText.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize), range: NSRange(location: 0, length: boldedText.length))
+                        
+                        boldedText.enumerateAttribute(
+                            .font,
+                            in: NSRange(location: 0, length: boldedText.length)
+                        ) { value, range, _ in
+                            if let font = value as? UIFont {
+                                // 変換範囲にフォントが設定されている場合
+                                if let boldFontDescriptor = font.fontDescriptor.withSymbolicTraits(.traitBold) {
+                                    let boldFont = UIFont(descriptor: boldFontDescriptor, size: font.pointSize)
+                                    boldedText.addAttribute(.font, value: boldFont, range: range)
+                                }
+                            } else if let withFont = withFont {
+                                // デフォルトのフォントが渡されている場合
+                                if let boldFontDescriptor = withFont.fontDescriptor.withSymbolicTraits(.traitBold) {
+                                    let boldFont = UIFont(descriptor: boldFontDescriptor, size: withFont.pointSize)
+                                    boldedText.addAttribute(.font, value: boldFont, range: range)
+                                }
+                            } else {
+                                // システム標準のフォントを使用
+                                boldedText.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: UIFont.systemFontSize), range: range)
+                            }
+                        }
+                        
                         attributedString.append(boldedText)
                     }
-                } else if match.range(at: 2).location != NSNotFound {
-                    // <underline> の処理
-                    let underlineRange = match.range(at: 2)
-                    if let range = Range(underlineRange, in: input) {
-                        let underlineText = String(input[range])
-                        let innerAttributedString = customTagToAttributedString(from: underlineText, actions: actions)
+                    
+                } else if match.range(at: 4).location != NSNotFound {
+                    // <underline>タグの処理
+                    let underlineRange = match.range(at: 4)
+                    if let range = Range(underlineRange, in: self) {
+                        let underlineText = String(self[range])
+                        let innerAttributedString = underlineText.customTagToAttributedString(
+                            withFont: withFont,
+                            actionCount: &actionCount
+                        )
                         let underlinedText = NSMutableAttributedString(attributedString: innerAttributedString)
                         underlinedText.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: underlinedText.length))
                         attributedString.append(underlinedText)
                     }
-                } else if match.range(at: 4).location != NSNotFound && match.range(at: 3).location != NSNotFound {
-                    // <color> の処理
-                    let colorCodeRange = match.range(at: 3)
-                    let colorTextRange = match.range(at: 4)
-                    if let colorRange = Range(colorCodeRange, in: input), let textRange = Range(colorTextRange, in: input) {
-                        let colorCode = String(input[colorRange])
-                        let colorText = String(input[textRange])
+                    
+                } else if match.range(at: 6).location != NSNotFound && match.range(at: 6).location != NSNotFound {
+                    // <color>タグの処理
+                    let colorCodeRange = match.range(at: 5)
+                    let colorTextRange = match.range(at: 6)
+                    if let colorRange = Range(colorCodeRange, in: self), let textRange = Range(colorTextRange, in: self) {
+                        let colorCode = String(self[colorRange])
+                        let colorText = String(self[textRange])
                         
                         if let color = UIColor(hex: colorCode) {
-                            let innerAttributedString = customTagToAttributedString(from: colorText, actions: actions)
+                            let innerAttributedString = colorText.customTagToAttributedString(
+                                withFont: withFont,
+                                actionCount: &actionCount
+                            )
                             let coloredText = NSMutableAttributedString(attributedString: innerAttributedString)
                             coloredText.addAttribute(.foregroundColor, value: color, range: NSRange(location: 0, length: coloredText.length))
                             attributedString.append(coloredText)
                         }
                     }
-                } else if match.range(at: 6).location != NSNotFound && match.range(at: 5).location != NSNotFound {
-                    // <list> の処理
-                    let listPrefixRange = match.range(at: 5)
-                    let listItemsRange = match.range(at: 6)
-                    if let prefixRange = Range(listPrefixRange, in: input), let itemsRange = Range(listItemsRange, in: input) {
-                        let prefix = String(input[prefixRange])
-                        let itemsText = String(input[itemsRange])
+                    
+                } else if match.range(at: 8).location != NSNotFound && match.range(at: 7).location != NSNotFound {
+                    // <list>タグの処理
+                    let listPrefixRange = match.range(at: 7)
+                    let listItemsRange = match.range(at: 8)
+                    if let prefixRange = Range(listPrefixRange, in: self), let itemsRange = Range(listItemsRange, in: self) {
+                        let prefix = String(self[prefixRange])
+                        let itemsText = String(self[itemsRange])
                         
-                        // <line>タグの中身を抽出し、リスト形式に変換
                         let linePattern = "<line>(.*?)</line>"
                         let lineRegex = try NSRegularExpression(pattern: linePattern)
                         let lineMatches = lineRegex.matches(in: itemsText, range: NSRange(itemsText.startIndex..., in: itemsText))
@@ -194,7 +268,10 @@ extension String {
                             if lineMatch.range(at: 1).location != NSNotFound {
                                 if let lineRange = Range(lineMatch.range(at: 1), in: itemsText) {
                                     let lineText = String(itemsText[lineRange])
-                                    let lineAttributedString = customTagToAttributedString(from: lineText, actions: actions)
+                                    let lineAttributedString = lineText.customTagToAttributedString(
+                                        withFont: withFont,
+                                        actionCount: &actionCount
+                                    )
                                     
                                     if index > 0 {
                                         attributedString.append(NSAttributedString(string: "\n"))
@@ -206,13 +283,13 @@ extension String {
                             }
                         }
                     }
-                } else if match.range(at: 7).location != NSNotFound {
-                    // <orderlist> の処理
-                    let orderListRange = match.range(at: 7)
-                    if let range = Range(orderListRange, in: input) {
-                        let orderListText = String(input[range])
+                    
+                } else if match.range(at: 9).location != NSNotFound {
+                    // <orderlist>タグの処理
+                    let orderListRange = match.range(at: 9)
+                    if let range = Range(orderListRange, in: self) {
+                        let orderListText = String(self[range])
                         
-                        // <orderline>タグの中身を抽出し、番号付きリスト形式に変換
                         let orderLinePattern = "<orderline>(.*?)</orderline>"
                         let orderLineRegex = try NSRegularExpression(pattern: orderLinePattern)
                         let orderLineMatches = orderLineRegex.matches(in: orderListText, range: NSRange(orderListText.startIndex..., in: orderListText))
@@ -221,7 +298,10 @@ extension String {
                             if orderLineMatch.range(at: 1).location != NSNotFound {
                                 if let orderLineRange = Range(orderLineMatch.range(at: 1), in: orderListText) {
                                     let orderLineText = String(orderListText[orderLineRange])
-                                    let orderLineAttributedString = customTagToAttributedString(from: orderLineText, actions: actions)
+                                    let orderLineAttributedString = orderLineText.customTagToAttributedString(
+                                        withFont: withFont,
+                                        actionCount: &actionCount
+                                    )
                                     
                                     if index > 0 {
                                         attributedString.append(NSAttributedString(string: "\n"))
@@ -233,30 +313,54 @@ extension String {
                             }
                         }
                     }
-                } else if match.range(at: 8).location != NSNotFound {
-                    // <action> の処理
-                    let actionRange = match.range(at: 8)
-                    if let range = Range(actionRange, in: input), actionIndex < actions.count {
-                        let actionText = String(input[range])
-                        let innerAttributedString = customTagToAttributedString(from: actionText, actions: actions)
+                    
+                } else if match.range(at: 10).location != NSNotFound {
+                    // <action>タグの処理
+                    let actionRange = match.range(at: 10)
+                    if let range = Range(actionRange, in: self) {
+                        let actionText = String(self[range])
+                        let innerAttributedString = actionText.customTagToAttributedString(
+                            withFont: withFont,
+                            actionCount: &actionCount
+                        )
                         let actionAttributedString = NSMutableAttributedString(attributedString: innerAttributedString)
-                        actionAttributedString.addAttribute(.customAction, value: actionIndex, range: NSRange(location: 0, length: actionAttributedString.length))
+                        
+                        actionCount += 1
+                        let urlString = "action\(actionCount)"
+                        if let url = URL(string: urlString) {
+                            actionAttributedString.addAttribute(.link, value: url, range: NSRange(location: 0, length: actionAttributedString.length))
+                        }
+                        
                         attributedString.append(actionAttributedString)
-                        actionIndex += 1
                     }
                 }
                 
-                // 現在の位置を更新
-                currentLocation = input.index(input.startIndex, offsetBy: match.range.location + match.range.length)
+                currentLocation = self.index(self.startIndex, offsetBy: match.range.location + match.range.length)
             }
             
-            // 最後のマッチ後の部分を追加
-            let postMatchText = String(input[currentLocation...])
+            let postMatchText = String(self[currentLocation...])
             attributedString.append(NSAttributedString(string: postMatchText))
             
+            // フォントが設定されていない部分にデフォルトのフォントを適用
+            attributedString.enumerateAttributes(
+                in: NSRange(
+                    location: 0,
+                    length: attributedString.length
+                ),
+                options: []
+            ) { attributes, range, _ in
+                if attributes[.font] == nil {
+                    attributedString.addAttribute(
+                        .font,
+                        value: withFont ?? UIFont.systemFont(ofSize: UIFont.systemFontSize),
+                        range: range
+                    )
+                }
+            }
+            
         } catch {
-            print("Invalid regular expression: \(error.localizedDescription)")
-            return NSAttributedString(string: input)  // エラーの場合は元の文字列を返す
+            print("Regular expression Error: \(error.localizedDescription)")
+            return NSAttributedString(string: self)
         }
         
         return attributedString
