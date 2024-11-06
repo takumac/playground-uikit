@@ -17,6 +17,7 @@ protocol RootViewDelegate {
     func radioButtonTapAction()
     func globalFrameButtonTapAction()
     func convertToAttributedStringButtonTapAction()
+    func actionSheetButtonTapAction()
 }
 
 class RootView: UIView {
@@ -50,6 +51,9 @@ class RootView: UIView {
     
     /// 画面サイズをグローバル変数で定義した場合の実験画面に飛ぶためのボタン
     let convertToAttributedStringButton: UIButton = UIButton()
+    
+    /// アクションシートの実験画面に飛ぶためのボタン
+    let actionSheetButton: UIButton = UIButton()
     
     // MARK: Init
     override init(frame: CGRect) {
@@ -124,6 +128,13 @@ class RootView: UIView {
         convertToAttributedStringButton.addTarget(self, action: #selector(htmlToAttributedStringButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(convertToAttributedStringButton)
         
+        actionSheetButton.setTitle("Action Sheet", for: .normal)
+        actionSheetButton.setTitleColor(C02_COLOR, for: .normal)
+        actionSheetButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        actionSheetButton.sizeToFit()
+        actionSheetButton.addTarget(self, action: #selector(actionSheetButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(actionSheetButton)
+        
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
         
@@ -162,6 +173,12 @@ class RootView: UIView {
         globalFrameButton.translatesAutoresizingMaskIntoConstraints = false
         globalFrameButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
+        convertToAttributedStringButton.translatesAutoresizingMaskIntoConstraints = false
+        convertToAttributedStringButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        
+        actionSheetButton.translatesAutoresizingMaskIntoConstraints = false
+        actionSheetButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        
     }
     
     
@@ -196,6 +213,10 @@ class RootView: UIView {
     
     @objc func htmlToAttributedStringButtonTapAction(_ sender: UIButton) {
         rootViewDelegate?.convertToAttributedStringButtonTapAction()
+    }
+    
+    @objc func actionSheetButtonTapAction(_ sender: UIButton) {
+        rootViewDelegate?.actionSheetButtonTapAction()
     }
     
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA4E0E102CDB4BC400B6ADA3 /* ActionSheetTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E0E0F2CDB4BC400B6ADA3 /* ActionSheetTestViewController.swift */; };
+		BA4E0E122CDB4BE100B6ADA3 /* ActionSheetTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E0E112CDB4BE100B6ADA3 /* ActionSheetTestView.swift */; };
 		BAB4D0462A42A80300B340C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0452A42A80300B340C5 /* AppDelegate.swift */; };
 		BAB4D0482A42A80300B340C5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0472A42A80300B340C5 /* SceneDelegate.swift */; };
 		BAB4D04A2A42A80300B340C5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB4D0492A42A80300B340C5 /* ViewController.swift */; };
@@ -73,6 +75,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA4E0E0F2CDB4BC400B6ADA3 /* ActionSheetTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetTestViewController.swift; sourceTree = "<group>"; };
+		BA4E0E112CDB4BE100B6ADA3 /* ActionSheetTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetTestView.swift; sourceTree = "<group>"; };
 		BAB4D0422A42A80300B340C5 /* PlaygroundUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlaygroundUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAB4D0452A42A80300B340C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BAB4D0472A42A80300B340C5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -211,8 +215,9 @@
 			isa = PBXGroup;
 			children = (
 				BAD188952A7CD1C60014FDD1 /* AccordionButtonTestView.swift */,
-				E1C8CE892C4F3EAC004CA0E4 /* GlobalFrameTestView.swift */,
+				BA4E0E112CDB4BE100B6ADA3 /* ActionSheetTestView.swift */,
 				E197AA1A2C63264B0010C1D3 /* ConvertToAttributedStringTestView.swift */,
+				E1C8CE892C4F3EAC004CA0E4 /* GlobalFrameTestView.swift */,
 				BAD188842A7BC6480014FDD1 /* ListButtonTestView.swift */,
 				BAB4D0862A42F8A600B340C5 /* PhpickerTestView.swift */,
 				BAD188C52A80715B0014FDD1 /* PickerTextFieldTestView.swift */,
@@ -227,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				BAD188932A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift */,
+				BA4E0E0F2CDB4BC400B6ADA3 /* ActionSheetTestViewController.swift */,
 				E197AA1C2C63265F0010C1D3 /* ConvertToAttributedStringTestViewController.swift */,
 				E1C8CE8B2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift */,
 				BAD188862A7BC65A0014FDD1 /* ListButtonTestViewController.swift */,
@@ -429,6 +435,7 @@
 				BAD188C62A80715B0014FDD1 /* PickerTextFieldTestView.swift in Sources */,
 				E1124F382B608FB2007F8429 /* TableViewTestViewController.swift in Sources */,
 				BAD188C42A8071320014FDD1 /* PickerTextFieldTestViewController.swift in Sources */,
+				BA4E0E122CDB4BE100B6ADA3 /* ActionSheetTestView.swift in Sources */,
 				E197AA1F2C634E870010C1D3 /* String+Extension.swift in Sources */,
 				BAB4D07C2A42DDC300B340C5 /* RootViewController.swift in Sources */,
 				BAB4D07A2A42DDB100B340C5 /* RootView.swift in Sources */,
@@ -449,6 +456,7 @@
 				BAB4D0462A42A80300B340C5 /* AppDelegate.swift in Sources */,
 				BAB4D0482A42A80300B340C5 /* SceneDelegate.swift in Sources */,
 				E197AA192C6316620010C1D3 /* ColorConstant.swift in Sources */,
+				BA4E0E102CDB4BC400B6ADA3 /* ActionSheetTestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
