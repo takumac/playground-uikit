@@ -265,6 +265,10 @@ class CustomTagTextView: UITextView, UITextViewDelegate, UITextDragDelegate {
     // MARK: - Member
     /// <action>タグで囲まれたリンクをタップした時のアクションを保持する配列
     var actionHandlers: [() -> Void] = []
+    /// TextView自体のタップアクションの有効、無効フラグ
+    var isViewTapEnable: Bool = false
+    /// TextView自体のタップアクション
+    var viewTapAction: (() -> Void)? = nil
     
     
     // MARK: - Init
@@ -294,6 +298,15 @@ class CustomTagTextView: UITextView, UITextViewDelegate, UITextDragDelegate {
         false
     }
     
+    // UITextView自体のタップが有効の場合に、設定されているアクションを実行する
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if isViewTapEnable {
+            if let action = viewTapAction {
+                action()
+            }
+        }
+    }
+    
     
     // MARK: - SetUp
     private func setup() {
@@ -309,9 +322,6 @@ class CustomTagTextView: UITextView, UITextViewDelegate, UITextDragDelegate {
         self.dataDetectorTypes = [.link]
         // .linkが設定された文字列のデフォルト修飾（青文字＆下線）を無効にする
         self.linkTextAttributes = [:]
-        // テキスト表示領域の設定
-        self.textContainer.lineFragmentPadding = 0
-        self.textContainerInset = .zero
         // iOS17以降はリンクタップ時のアクションでUIActionを用いる。
         // 長押し＆ドラッグによりリンクの表示を防ぐためUITextViewの文字のドラッグを防ぐ
         self.textDragDelegate = self
