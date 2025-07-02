@@ -1,17 +1,16 @@
 //
-//  AccordionButtonTestViewController.swift
+//  AttributedStringTestViewController.swift
 //  PlaygroundUIKit
 //
-//  Created by sakai on 2023/08/04.
+//  Created by Takumi Sakai on 2025/07/03.
 //
 
-import Foundation
 import UIKit
 
-class AccordionButtonTestViewController: UIViewController {
+class AttributedStringTestViewController: UIViewController {
     
     // MARK: - Member
-    var accordionButtonTestView: AccordionButtonTestView?
+    var attributedStringTestView: AttributedStringTestView?
     
     
     // MARK: - Lifecycle
@@ -22,7 +21,7 @@ class AccordionButtonTestViewController: UIViewController {
         // Navigationbarのタイトル
         let navigationTitleLabel = UILabel()
         navigationTitleLabel.font = .boldSystemFont(ofSize: 25)
-        navigationTitleLabel.text = "AccordionButtonTest"
+        navigationTitleLabel.text = "attributedStringTest"
         navigationTitleLabel.adjustsFontSizeToFitWidth = true
         navigationTitleLabel.sizeToFit()
         navigationTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +41,7 @@ class AccordionButtonTestViewController: UIViewController {
     
     // MARK: - Viewload
     func viewLoad() {
-        accordionButtonTestView = AccordionButtonTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
-        self.view.addSubview(accordionButtonTestView!)
+        attributedStringTestView = AttributedStringTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
+        self.view.addSubview(attributedStringTestView!)
     }
 }

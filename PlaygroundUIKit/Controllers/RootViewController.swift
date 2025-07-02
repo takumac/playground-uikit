@@ -85,4 +85,8 @@ class RootViewController: UIViewController, RootViewDelegate {
         self.navigationController?.pushViewController(ActionSheetTestViewController(), animated: true)
     }
     
+    func attributedStringButtonTapAction() {
+        self.navigationController?.pushViewController(AttributedStringTestViewController(), animated: true)
+    }
+    
 }

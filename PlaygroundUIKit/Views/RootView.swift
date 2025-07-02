@@ -18,6 +18,7 @@ protocol RootViewDelegate {
     func globalFrameButtonTapAction()
     func convertToAttributedStringButtonTapAction()
     func actionSheetButtonTapAction()
+    func attributedStringButtonTapAction()
 }
 
 class RootView: UIView {
@@ -55,7 +56,11 @@ class RootView: UIView {
     /// アクションシートの実験画面に飛ぶためのボタン
     let actionSheetButton: UIButton = UIButton()
     
-    // MARK: Init
+    /// AttributedStringの実験画面に飛ぶためのボタン
+    let attributedStringButton: UIButton = UIButton()
+    
+    
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         viewLoad()
@@ -64,6 +69,7 @@ class RootView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     // MARK: - ViewLoad
     func viewLoad() {
@@ -134,6 +140,13 @@ class RootView: UIView {
         actionSheetButton.sizeToFit()
         actionSheetButton.addTarget(self, action: #selector(actionSheetButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(actionSheetButton)
+        
+        attributedStringButton.setTitle("Attributed String", for: .normal)
+        attributedStringButton.setTitleColor(C02_COLOR, for: .normal)
+        attributedStringButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        attributedStringButton.sizeToFit()
+        attributedStringButton.addTarget(self, action: #selector(attributedStringButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(attributedStringButton)
         
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
@@ -217,6 +230,10 @@ class RootView: UIView {
     
     @objc func actionSheetButtonTapAction(_ sender: UIButton) {
         rootViewDelegate?.actionSheetButtonTapAction()
+    }
+    
+    @objc func attributedStringButtonTapAction(_ sender: UIButton) {
+        rootViewDelegate?.attributedStringButtonTapAction()
     }
     
 }
