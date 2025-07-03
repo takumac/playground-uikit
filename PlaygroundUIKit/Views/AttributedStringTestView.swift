@@ -49,7 +49,7 @@ class AttributedStringTestView: UIView {
         let label1Str = "2次元コードを表示しますか？\n（2次元コードはボタンの下に表示されます）\n\n表示から30日以内に発送手続の完了が必要です。"
         let label1AttrStr: NSMutableAttributedString = NSMutableAttributedString(string: label1Str)
         
-        label1.font = UIFont.systemFont(ofSize: 16)
+        label1.font = UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 16)
         label1.text = label1Str
         label1.numberOfLines = 0
         label1.lineBreakMode = .byCharWrapping
@@ -81,51 +81,51 @@ class AttributedStringTestView: UIView {
         // 文字設定1
         label1AttrStr.addAttribute(
             .font,
-            value: UIFont.boldSystemFont(ofSize: 20),
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             range: NSMakeRange(0, 14)
         )
         // 文字設定2
         label1AttrStr.addAttribute(
             .font,
-            value: UIFont.systemFont(ofSize: 16),
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W3, size: 16) as Any,
             range: NSMakeRange(15, 21)
         )
         // 文字設定3
         label1AttrStr.addAttributes([
-            .font: UIFont.boldSystemFont(ofSize: 20),
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             .foregroundColor: UIColor.black,
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.black
         ], range: NSMakeRange(38, 4))
         // 文字設定4
+        // OKパターン
 //        if #available(iOS 16, *) {
 //            // iOS16以降の場合の場合
 //            label1AttrStr.addAttributes([
-//                .font: UIFont.boldSystemFont(ofSize: 20),
+//                .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
 //                .foregroundColor: UIColor.red,
 //                .underlineStyle: NSUnderlineStyle.single.rawValue,
 //                .underlineColor: UIColor.red,
-//                .baselineOffset: 1.0
 //            ], range: NSMakeRange(42, 5))
 //        } else {
 //            // iOS16未満の場合
 //            label1AttrStr.addAttributes([
-//                .font: UIFont.boldSystemFont(ofSize: 20),
+//                .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
 //                .foregroundColor: UIColor.red,
 //                .underlineStyle: NSUnderlineStyle.single.rawValue,
 //                .underlineColor: UIColor.black
 //            ], range: NSMakeRange(42, 5))
 //        }
+        // NGパターン
         label1AttrStr.addAttributes([
-            .font: UIFont.boldSystemFont(ofSize: 20),
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             .foregroundColor: UIColor.red,
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.red,
-            .baselineOffset: 1.0
-        ], range: NSMakeRange(42, 6))
+        ], range: NSMakeRange(42, 5))
         // 文字設定5
         label1AttrStr.addAttributes([
-            .font: UIFont.boldSystemFont(ofSize: 20),
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             .foregroundColor: UIColor.black,
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.black
@@ -133,7 +133,7 @@ class AttributedStringTestView: UIView {
         // 文字設定6
         label1AttrStr.addAttribute(
             .font,
-            value: UIFont.systemFont(ofSize: 20),
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             range: NSMakeRange(55, 6)
         )
         label1.attributedText = label1AttrStr
@@ -147,7 +147,7 @@ class AttributedStringTestView: UIView {
         let label2Str = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let label2AttrStr: NSMutableAttributedString = NSMutableAttributedString(string: label2Str)
         
-        label2.font = UIFont.systemFont(ofSize: 16)
+        label2.font = UIFont(name: HIRAGINO_KAKU_GOTHIC_W3, size: 16)
         label2.text = label1Str
         label2.numberOfLines = 0
         label2.lineBreakMode = .byCharWrapping
@@ -170,14 +170,14 @@ class AttributedStringTestView: UIView {
         
         let label3_1_AttrStr: NSMutableAttributedString = NSMutableAttributedString(string: label3_1_Str)
         label3_1_AttrStr.addAttributes([
-            .font: UIFont.boldSystemFont(ofSize: 20),
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.black
         ], range: NSMakeRange(0, label3_1_AttrStr.length))
         
         let label3_2_AttrStr: NSMutableAttributedString = NSMutableAttributedString(string: label3_2_Str)
         label3_2_AttrStr.addAttributes([
-            .font: UIFont.boldSystemFont(ofSize: 20),
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             .foregroundColor: UIColor.red,
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.red
@@ -186,7 +186,7 @@ class AttributedStringTestView: UIView {
         let label3_3_AttrStr: NSMutableAttributedString = NSMutableAttributedString(string: label3_3_Str)
         label3_3_AttrStr.addAttribute(
             .font,
-            value: UIFont.boldSystemFont(ofSize: 20),
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             range: NSMakeRange(0, label3_3_AttrStr.length)
         )
         label3_3_AttrStr.addAttributes([
@@ -194,19 +194,19 @@ class AttributedStringTestView: UIView {
             .underlineColor: UIColor.black
         ], range: NSMakeRange(0, 8))
         
-        label3_1.font = UIFont.systemFont(ofSize: 16)
+        label3_1.font = UIFont(name: HIRAGINO_KAKU_GOTHIC_W3, size: 16)
         label3_1.text = label3_1_Str
         label3_1.numberOfLines = 0
         label3_1.lineBreakMode = .byCharWrapping
         label3_1.attributedText = label3_1_AttrStr
         
-        label3_2.font = UIFont.systemFont(ofSize: 16)
+        label3_2.font = UIFont(name: HIRAGINO_KAKU_GOTHIC_W3, size: 16)
         label3_2.text = label3_2_Str
         label3_2.numberOfLines = 0
         label3_2.lineBreakMode = .byCharWrapping
         label3_2.attributedText = label3_2_AttrStr
         
-        label3_3.font = UIFont.systemFont(ofSize: 16)
+        label3_3.font = UIFont(name: HIRAGINO_KAKU_GOTHIC_W3, size: 16)
         label3_3.text = label3_3_Str
         label3_3.numberOfLines = 0
         label3_3.lineBreakMode = .byCharWrapping
@@ -261,33 +261,32 @@ class AttributedStringTestView: UIView {
         // 文字設定1
         label4AttrStr.addAttribute(
             .font,
-            value: UIFont.boldSystemFont(ofSize: 20),
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             range: NSMakeRange(0, 14)
         )
         // 文字設定2
         label4AttrStr.addAttribute(
             .font,
-            value: UIFont.systemFont(ofSize: 16),
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W3, size: 16) as Any,
             range: NSMakeRange(15, 21)
         )
         // 文字設定3
         label4AttrStr.addAttributes([
-            .font: UIFont.boldSystemFont(ofSize: 20),
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             .foregroundColor: UIColor.black,
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.black
         ], range: NSMakeRange(38, 4))
         // 文字設定4
         label4AttrStr.addAttributes([
-            .font: UIFont.boldSystemFont(ofSize: 20),
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             .foregroundColor: UIColor.red,
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.red,
-            .baselineOffset: 1.0
-        ], range: NSMakeRange(42, 6))
+        ], range: NSMakeRange(42, 5))
         // 文字設定5
         label4AttrStr.addAttributes([
-            .font: UIFont.boldSystemFont(ofSize: 20),
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             .foregroundColor: UIColor.black,
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.black
@@ -295,7 +294,7 @@ class AttributedStringTestView: UIView {
         // 文字設定6
         label4AttrStr.addAttribute(
             .font,
-            value: UIFont.systemFont(ofSize: 20),
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
             range: NSMakeRange(55, 6)
         )
         textView4.attributedText = label4AttrStr

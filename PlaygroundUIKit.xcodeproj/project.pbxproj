@@ -48,6 +48,7 @@
 		E1124F382B608FB2007F8429 /* TableViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1124F372B608FB2007F8429 /* TableViewTestViewController.swift */; };
 		E13D79AA2E1585950000247D /* AttributedStringTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13D79A92E1585950000247D /* AttributedStringTestViewController.swift */; };
 		E13D79AC2E1585BF0000247D /* AttributedStringTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13D79AB2E1585BF0000247D /* AttributedStringTestView.swift */; };
+		E13D79AE2E1602640000247D /* TextConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13D79AD2E1602640000247D /* TextConstant.swift */; };
 		E158D5D92AEBBC3D009D6E49 /* GitTestFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */; };
 		E197AA172C6316360010C1D3 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E197AA162C6316360010C1D3 /* Color.xcassets */; };
 		E197AA192C6316620010C1D3 /* ColorConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E197AA182C6316620010C1D3 /* ColorConstant.swift */; };
@@ -122,6 +123,7 @@
 		E1124F372B608FB2007F8429 /* TableViewTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewTestViewController.swift; sourceTree = "<group>"; };
 		E13D79A92E1585950000247D /* AttributedStringTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringTestViewController.swift; sourceTree = "<group>"; };
 		E13D79AB2E1585BF0000247D /* AttributedStringTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringTestView.swift; sourceTree = "<group>"; };
+		E13D79AD2E1602640000247D /* TextConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextConstant.swift; sourceTree = "<group>"; };
 		E158D5D82AEBBC3D009D6E49 /* GitTestFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTestFile.swift; sourceTree = "<group>"; };
 		E197AA162C6316360010C1D3 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		E197AA182C6316620010C1D3 /* ColorConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstant.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			children = (
 				E197AA182C6316620010C1D3 /* ColorConstant.swift */,
 				BAB4D0822A42E7BE00B340C5 /* SizeConstant.swift */,
+				E13D79AD2E1602640000247D /* TextConstant.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				E1C8CE882C4F3C45004CA0E4 /* UIApplication+Extension.swift in Sources */,
 				BAD188942A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift in Sources */,
 				E1105A5A2B921541006F554F /* RadioButtonTestView.swift in Sources */,
+				E13D79AE2E1602640000247D /* TextConstant.swift in Sources */,
 				BAB4D0872A42F8A600B340C5 /* PhpickerTestView.swift in Sources */,
 				BAB4D0832A42E7BE00B340C5 /* SizeConstant.swift in Sources */,
 				BAD188872A7BC65A0014FDD1 /* ListButtonTestViewController.swift in Sources */,
