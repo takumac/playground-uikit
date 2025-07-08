@@ -10,7 +10,7 @@ import UIKit
 
 class RootViewController: UIViewController, RootViewDelegate {
     
-    // MARK: Member
+    // MARK: - Member
     var rootView: RootView?
     
     
@@ -87,6 +87,10 @@ class RootViewController: UIViewController, RootViewDelegate {
     
     func attributedStringButtonTapAction() {
         self.navigationController?.pushViewController(AttributedStringTestViewController(), animated: true)
+    }
+    
+    func compositionalLayoutButtonTapAction() {
+        self.navigationController?.pushViewController(CompositionalLayoutTestViewController(), animated: true)
     }
     
 }

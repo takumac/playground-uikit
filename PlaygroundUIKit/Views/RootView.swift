@@ -19,6 +19,7 @@ protocol RootViewDelegate {
     func convertToAttributedStringButtonTapAction()
     func actionSheetButtonTapAction()
     func attributedStringButtonTapAction()
+    func compositionalLayoutButtonTapAction()
 }
 
 class RootView: UIView {
@@ -59,6 +60,9 @@ class RootView: UIView {
     /// AttributedStringの実験画面に飛ぶためのボタン
     let attributedStringButton: UIButton = UIButton()
     
+    /// CompositionalLayoutの実験画面に飛ぶためのボタン
+    let compositionalLayoutButton: UIButton = UIButton()
+    
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -74,7 +78,7 @@ class RootView: UIView {
     // MARK: - ViewLoad
     func viewLoad() {
         contentView.axis = .vertical
-        contentView.alignment = .fill
+        contentView.alignment = .center
         contentView.distribution = .equalSpacing
         contentView.spacing = 50
         
@@ -148,6 +152,13 @@ class RootView: UIView {
         attributedStringButton.addTarget(self, action: #selector(attributedStringButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(attributedStringButton)
         
+        compositionalLayoutButton.setTitle("Compositional Layout", for: .normal)
+        compositionalLayoutButton.setTitleColor(C02_COLOR, for: .normal)
+        compositionalLayoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        compositionalLayoutButton.sizeToFit()
+        compositionalLayoutButton.addTarget(self, action: #selector(compositionalLayoutButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(compositionalLayoutButton)
+        
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
         
@@ -164,34 +175,6 @@ class RootView: UIView {
         contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1).isActive = true
-        
-        phpickerButton.translatesAutoresizingMaskIntoConstraints = false
-        phpickerButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
-        listButtonButton.translatesAutoresizingMaskIntoConstraints = false
-        listButtonButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
-        accordionButtonButton.translatesAutoresizingMaskIntoConstraints = false
-        accordionButtonButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
-        pickerTextFieldButton.translatesAutoresizingMaskIntoConstraints = false
-        pickerTextFieldButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
-        tableViewButton.translatesAutoresizingMaskIntoConstraints = false
-        tableViewButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
-        radioButton.translatesAutoresizingMaskIntoConstraints = false
-        radioButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
-        globalFrameButton.translatesAutoresizingMaskIntoConstraints = false
-        globalFrameButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
-        convertToAttributedStringButton.translatesAutoresizingMaskIntoConstraints = false
-        convertToAttributedStringButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
-        actionSheetButton.translatesAutoresizingMaskIntoConstraints = false
-        actionSheetButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
     }
     
     
@@ -234,6 +217,10 @@ class RootView: UIView {
     
     @objc func attributedStringButtonTapAction(_ sender: UIButton) {
         rootViewDelegate?.attributedStringButtonTapAction()
+    }
+    
+    @objc func compositionalLayoutButtonTapAction(_ sender: UIButton) {
+        rootViewDelegate?.compositionalLayoutButtonTapAction()
     }
     
 }

@@ -55,6 +55,8 @@
 		E197AA1B2C63264B0010C1D3 /* ConvertToAttributedStringTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E197AA1A2C63264B0010C1D3 /* ConvertToAttributedStringTestView.swift */; };
 		E197AA1D2C63265F0010C1D3 /* ConvertToAttributedStringTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E197AA1C2C63265F0010C1D3 /* ConvertToAttributedStringTestViewController.swift */; };
 		E197AA1F2C634E870010C1D3 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E197AA1E2C634E870010C1D3 /* String+Extension.swift */; };
+		E1C6B6D72E1CDE25005ACE81 /* CompositionalLayoutTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C6B6D62E1CDE25005ACE81 /* CompositionalLayoutTestViewController.swift */; };
+		E1C6B6D92E1CDE3E005ACE81 /* CompositionalLayoutTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C6B6D82E1CDE3E005ACE81 /* CompositionalLayoutTestView.swift */; };
 		E1C8CE882C4F3C45004CA0E4 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8CE872C4F3C45004CA0E4 /* UIApplication+Extension.swift */; };
 		E1C8CE8A2C4F3EAC004CA0E4 /* GlobalFrameTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8CE892C4F3EAC004CA0E4 /* GlobalFrameTestView.swift */; };
 		E1C8CE8C2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8CE8B2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift */; };
@@ -130,6 +132,8 @@
 		E197AA1A2C63264B0010C1D3 /* ConvertToAttributedStringTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertToAttributedStringTestView.swift; sourceTree = "<group>"; };
 		E197AA1C2C63265F0010C1D3 /* ConvertToAttributedStringTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertToAttributedStringTestViewController.swift; sourceTree = "<group>"; };
 		E197AA1E2C634E870010C1D3 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		E1C6B6D62E1CDE25005ACE81 /* CompositionalLayoutTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayoutTestViewController.swift; sourceTree = "<group>"; };
+		E1C6B6D82E1CDE3E005ACE81 /* CompositionalLayoutTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayoutTestView.swift; sourceTree = "<group>"; };
 		E1C8CE872C4F3C45004CA0E4 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		E1C8CE892C4F3EAC004CA0E4 /* GlobalFrameTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFrameTestView.swift; sourceTree = "<group>"; };
 		E1C8CE8B2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFrameTestViewController.swift; sourceTree = "<group>"; };
@@ -223,6 +227,7 @@
 				BAD188952A7CD1C60014FDD1 /* AccordionButtonTestView.swift */,
 				BA4E0E112CDB4BE100B6ADA3 /* ActionSheetTestView.swift */,
 				E13D79AB2E1585BF0000247D /* AttributedStringTestView.swift */,
+				E1C6B6D82E1CDE3E005ACE81 /* CompositionalLayoutTestView.swift */,
 				E197AA1A2C63264B0010C1D3 /* ConvertToAttributedStringTestView.swift */,
 				E1C8CE892C4F3EAC004CA0E4 /* GlobalFrameTestView.swift */,
 				BAD188842A7BC6480014FDD1 /* ListButtonTestView.swift */,
@@ -241,6 +246,7 @@
 				BAD188932A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift */,
 				BA4E0E0F2CDB4BC400B6ADA3 /* ActionSheetTestViewController.swift */,
 				E13D79A92E1585950000247D /* AttributedStringTestViewController.swift */,
+				E1C6B6D62E1CDE25005ACE81 /* CompositionalLayoutTestViewController.swift */,
 				E197AA1C2C63265F0010C1D3 /* ConvertToAttributedStringTestViewController.swift */,
 				E1C8CE8B2C4F3F2B004CA0E4 /* GlobalFrameTestViewController.swift */,
 				BAD188862A7BC65A0014FDD1 /* ListButtonTestViewController.swift */,
@@ -452,6 +458,7 @@
 				BAB4D07A2A42DDB100B340C5 /* RootView.swift in Sources */,
 				BAD1888B2A7BC9790014FDD1 /* UIView+Extension.swift in Sources */,
 				E1C8CE882C4F3C45004CA0E4 /* UIApplication+Extension.swift in Sources */,
+				E1C6B6D72E1CDE25005ACE81 /* CompositionalLayoutTestViewController.swift in Sources */,
 				BAD188942A7CD1B00014FDD1 /* AccordionButtonTestViewController.swift in Sources */,
 				E1105A5A2B921541006F554F /* RadioButtonTestView.swift in Sources */,
 				E13D79AE2E1602640000247D /* TextConstant.swift in Sources */,
@@ -469,6 +476,7 @@
 				BAB4D0482A42A80300B340C5 /* SceneDelegate.swift in Sources */,
 				E197AA192C6316620010C1D3 /* ColorConstant.swift in Sources */,
 				BA4E0E102CDB4BC400B6ADA3 /* ActionSheetTestViewController.swift in Sources */,
+				E1C6B6D92E1CDE3E005ACE81 /* CompositionalLayoutTestView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
