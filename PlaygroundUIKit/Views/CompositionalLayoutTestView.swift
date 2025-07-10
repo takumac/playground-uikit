@@ -8,11 +8,11 @@
 import UIKit
 
 class CompositionalLayoutTestView: UIView {
-
+    
     // MARK: - Enum
     private enum LayoutType: Int, CaseIterable {
         case grid = 0, instagram, netflix
-
+        
         var backgroundColor: UIColor {
             switch self {
             case .grid: return .white
@@ -20,7 +20,7 @@ class CompositionalLayoutTestView: UIView {
             case .netflix: return .black
             }
         }
-
+        
         func items() -> [String] {
             switch self {
             case .grid: return (0..<8).map { "Grid \($0)" }
@@ -29,74 +29,73 @@ class CompositionalLayoutTestView: UIView {
             }
         }
     }
-
-    // MARK: - Properties
+    
+    // MARK: - Member
     private var layoutType: LayoutType = .grid {
         didSet {
             applyLayout()
         }
     }
-
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
-
     private let segmentControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Grid", "Instagram", "Netflix"])
         control.selectedSegmentIndex = 0
-        control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
-
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        viewLoad()
         layoutType = .grid
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
-
-    private func setupUI() {
+    
+    private func viewLoad() {
         backgroundColor = .white
-
+        
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
+        collectionView.register(InstagramCell.self, forCellWithReuseIdentifier: "InstagramCell")
+        collectionView.register(NetflixCell.self, forCellWithReuseIdentifier: "NetflixCell")
+        setupDataSource()
+        
         addSubview(segmentControl)
+        addSubview(collectionView)
+        
+        // AutoLayout
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
         segmentControl.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
         segmentControl.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         segmentControl.addTarget(self, action: #selector(didChangeSegment(_:)), for: .valueChanged)
-
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(collectionView)
         collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 8).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-
-        collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
-        collectionView.register(InstagramCell.self, forCellWithReuseIdentifier: "InstagramCell")
-        collectionView.register(NetflixCell.self, forCellWithReuseIdentifier: "NetflixCell")
-
-        setupDataSource()
     }
-
+    
     @objc private func didChangeSegment(_ sender: UISegmentedControl) {
         guard let type = LayoutType(rawValue: sender.selectedSegmentIndex) else { return }
         layoutType = type
     }
-
+    
     private func applyLayout() {
         let layout = createLayout(for: layoutType)
         collectionView.setCollectionViewLayout(layout, animated: false)
         collectionView.backgroundColor = layoutType.backgroundColor
-
+        
         var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
         snapshot.appendSections([0])
         snapshot.appendItems(layoutType.items())
         dataSource.apply(snapshot, animatingDifferences: false)
     }
-
+    
     private func setupDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Int, String>(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
             guard let self = self else { return nil }
@@ -116,7 +115,7 @@ class CompositionalLayoutTestView: UIView {
             }
         }
     }
-
+    
     private func createLayout(for type: LayoutType) -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { _, _ in
             switch type {
@@ -150,73 +149,112 @@ class CompositionalLayoutTestView: UIView {
 
 // MARK: - Cells (same as your previous definition)
 class GridCell: UICollectionViewCell {
+    
+    // MARK: - Member
     private let label = UILabel()
+    
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14)
-        contentView.backgroundColor = .systemGray5
-        contentView.addSubview(label)
+        
+        self.contentView.backgroundColor = .systemGray5
+        self.contentView.addSubview(label)
+        
         label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
+        label.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
     }
-    required init?(coder: NSCoder) { fatalError() }
-    func configure(text: String) { label.text = text }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    // MARK: - configure
+    func configure(text: String) {
+        label.text = text
+    }
 }
 
 class InstagramCell: UICollectionViewCell {
+    
+    // MARK: - Member
     private let imageView = UIView()
     private let label = UILabel()
+    
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         imageView.backgroundColor = .systemPink
         label.font = .systemFont(ofSize: 12)
         label.textAlignment = .center
-        contentView.addSubview(imageView)
-        contentView.addSubview(label)
+        
+        self.contentView.addSubview(imageView)
+        self.contentView.addSubview(label)
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: label.topAnchor, constant: -4).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
         label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: label.topAnchor, constant: -4),
-            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            label.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
-        ])
+        label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        label.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor).isActive = true
     }
-    required init?(coder: NSCoder) { fatalError() }
-    func configure(text: String) { label.text = text }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    // MARK: - configure
+    func configure(text: String) {
+        label.text = text
+    }
 }
 
 class NetflixCell: UICollectionViewCell {
+    
+    // MARK: - Member
     private let poster = UIView()
     private let label = UILabel()
+    
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         poster.backgroundColor = .black
+        
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .center
-        contentView.addSubview(poster)
+        
         poster.addSubview(label)
+        self.contentView.addSubview(poster)
+        
         poster.translatesAutoresizingMaskIntoConstraints = false
+        poster.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        poster.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        poster.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
+        poster.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
+        
         label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            poster.topAnchor.constraint(equalTo: contentView.topAnchor),
-            poster.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            poster.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            poster.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            label.centerXAnchor.constraint(equalTo: poster.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: poster.centerYAnchor)
-        ])
+        label.centerXAnchor.constraint(equalTo: poster.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: poster.centerYAnchor).isActive = true
     }
-    required init?(coder: NSCoder) { fatalError() }
-    func configure(text: String) { label.text = text }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    // MARK: - configure
+    func configure(text: String) {
+        label.text = text
+    }
 }
 
 
