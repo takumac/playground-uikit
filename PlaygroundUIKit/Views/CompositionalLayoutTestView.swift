@@ -192,26 +192,28 @@ class CompositionalLayoutTestView: UIView {
     }
     
     private func setupDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>(collectionView: collectionView) {
-            collectionView, indexPath, item in
-            switch item {
-            case .seg1(let subItem):
-                switch subItem {
-                case .grid(let text):
-                    return collectionView.dequeueConfigured(GridCell.self, item: text, indexPath: indexPath)
-                case .instagram(let text):
-                    return collectionView.dequeueConfigured(InstagramCell.self, item: text, indexPath: indexPath)
-                case .netflix(let text):
-                    return collectionView.dequeueConfigured(NetflixCell.self, item: text, indexPath: indexPath)
-                }
-                
-            case .seg2(let subItem):
-                switch subItem {
-                case .grid(let text):
-                    return collectionView.dequeueConfigured(GridCell.self, item: text, indexPath: indexPath)
+        dataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>(
+            collectionView: collectionView,
+            cellProvider: { collectionView, indexPath, item in
+                switch item {
+                case .seg1(let subItem):
+                    switch subItem {
+                    case .grid(let text):
+                        return collectionView.dequeueConfigured(GridCell.self, item: text, indexPath: indexPath)
+                    case .instagram(let text):
+                        return collectionView.dequeueConfigured(InstagramCell.self, item: text, indexPath: indexPath)
+                    case .netflix(let text):
+                        return collectionView.dequeueConfigured(NetflixCell.self, item: text, indexPath: indexPath)
+                    }
+                    
+                case .seg2(let subItem):
+                    switch subItem {
+                    case .grid(let text):
+                        return collectionView.dequeueConfigured(GridCell.self, item: text, indexPath: indexPath)
+                    }
                 }
             }
-        }
+        )
     }
     
     
@@ -241,14 +243,18 @@ class CompositionalLayoutTestView: UIView {
     
     /// セグメント1のレイアウト設定
     private func createLayoutSeg1() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { sectionIndex, _ in
+        return UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ in
             guard let sectionType = SectionTypeSeg1(rawValue: sectionIndex) else {
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50)))
-                let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50)), subitems: [item])
-                return NSCollectionLayoutSection(group: group)
+                // デフォルトレイアウト（データが存在しないため非表示）
+                let item = NSCollectionLayoutItem(layoutSize:
+                        .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(10)))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize:
+                        .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(10)), subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                return section
             }
             return sectionType.layoutSection()
-        }
+        })
     }
     
     /// セグメント1のデータ設定
@@ -261,16 +267,20 @@ class CompositionalLayoutTestView: UIView {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    // セグメント2のレイアウト設定
+    /// セグメント2のレイアウト設定
     private func createLayoutSeg2() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { sectionIndex, _ in
+        return UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ in
             guard let sectionType = SectionTypeSeg2(rawValue: sectionIndex) else {
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50)))
-                let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50)), subitems: [item])
-                return NSCollectionLayoutSection(group: group)
+                // デフォルトレイアウト（データが存在しないため非表示）
+                let item = NSCollectionLayoutItem(layoutSize:
+                        .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(10)))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize:
+                        .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(10)), subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                return section
             }
             return sectionType.layoutSection()
-        }
+        })
     }
     
     /// セグメント2のデータ設定
