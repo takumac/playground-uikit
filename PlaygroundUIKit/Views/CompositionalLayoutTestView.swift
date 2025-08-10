@@ -41,58 +41,255 @@ class CompositionalLayoutTestView: UIView {
             switch self {
             case .grid:
                 // item
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .absolute(60))
+                let itemHeight: NSCollectionLayoutDimension = {
+                    if #available(iOS 17.0, *) {
+                        return .uniformAcrossSiblings(estimate: 100)
+                    } else {
+                        return .estimated(100)
+                    }
+                }()
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1/3),
+                    heightDimension: itemHeight
+                )
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = .init(top: 6, leading: 6, bottom: 6, trailing: 6)
+                
                 // group
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(72))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                let groupSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: itemHeight
+                )
+                let group: NSCollectionLayoutGroup = {
+                    if #available(iOS 16.0, *) {
+                        let group = NSCollectionLayoutGroup.horizontal(
+                            layoutSize: groupSize,
+                            repeatingSubitem: item,
+                            count: 3
+                        )
+                        group.interItemSpacing = .fixed(8)
+                        return group
+                    } else {
+                        let group = NSCollectionLayoutGroup.horizontal(
+                            layoutSize: groupSize,
+                            subitem: item,
+                            count: 3
+                        )
+                        group.interItemSpacing = .fixed(8)
+                        return group
+                    }
+                }()
+                
                 // section
-                return NSCollectionLayoutSection(group: group)
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = .init(
+                    top: 4,
+                    leading: 12,
+                    bottom: 4,
+                    trailing: 12
+                )
+                section.interGroupSpacing = 8
+                return section
                 
             case .instagram:
-                // item
-                let big = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.66), heightDimension: .fractionalHeight(1)))
-                big.contentInsets = .init(top: 4, leading: 4, bottom: 4, trailing: 4)
-                let small = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5)))
-                small.contentInsets = .init(top: 4, leading: 4, bottom: 4, trailing: 4)
-                // group
-                let vertical = NSCollectionLayoutGroup.vertical(
-                    layoutSize: .init(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalHeight(1)),
-                    subitem: small,
-                    count: 2
-                )
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [big, vertical])
-                // section
-                return NSCollectionLayoutSection(group: group)
+                let rowEstimate: CGFloat = 240
+                let rowHeight: NSCollectionLayoutDimension = {
+                    if #available(iOS 17.0, *) {
+                        return .uniformAcrossSiblings(estimate: rowEstimate)
+                    } else {
+                        return .estimated(rowEstimate)
+                    }
+                }()
                 
-            case .netflix:
                 // item
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .absolute(120), heightDimension: .absolute(180)))
-                item.contentInsets = .init(top: 6, leading: 6, bottom: 6, trailing: 6)
+                let tallItemSize: NSCollectionLayoutSize = .init(
+                    widthDimension: .fractionalWidth(1/3),
+                    heightDimension: .fractionalHeight(1)
+                )
+                let smallStackSize: NSCollectionLayoutSize = .init(
+                    widthDimension: .fractionalWidth(1/3),
+                    heightDimension: .fractionalHeight(1)
+                )
+                let smallItemSize: NSCollectionLayoutSize = .init(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalHeight(1/2)
+                )
+                
                 // group
-                let group = NSCollectionLayoutGroup.horizontal(
-                    layoutSize: .init(widthDimension: .estimated(500), heightDimension: .absolute(192)),
-                    subitems: [item]
+                let row1 = NSCollectionLayoutGroup.horizontal(
+                    layoutSize: .init(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: rowHeight
+                    ),
+                    subitems: [
+                        makeItemInstagram(layoutSize: tallItemSize),
+                        makeSmallStackInstagram(
+                            layoutSize: smallStackSize,
+                            subitems: [
+                                makeItemInstagram(layoutSize: smallItemSize),
+                                makeItemInstagram(layoutSize: smallItemSize)
+                            ]
+                        ),
+                        makeSmallStackInstagram(
+                            layoutSize: smallStackSize,
+                            subitems: [
+                                makeItemInstagram(layoutSize: smallItemSize),
+                                makeItemInstagram(layoutSize: smallItemSize)
+                            ]
+                        )
+                    ]
+                )
+                let row2 = NSCollectionLayoutGroup.horizontal(
+                    layoutSize: .init(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: rowHeight
+                    ),
+                    subitems: [
+                        makeSmallStackInstagram(
+                            layoutSize: smallStackSize,
+                            subitems: [
+                                makeItemInstagram(layoutSize: smallItemSize),
+                                makeItemInstagram(layoutSize: smallItemSize)
+                            ]
+                        ),
+                        makeSmallStackInstagram(
+                            layoutSize: smallStackSize,
+                            subitems: [
+                                makeItemInstagram(layoutSize: smallItemSize),
+                                makeItemInstagram(layoutSize: smallItemSize)
+                            ]
+                        ),
+                        makeItemInstagram(layoutSize: tallItemSize)
+                    ]
+                )
+                let groupHeight: NSCollectionLayoutDimension = {
+                    if #available(iOS 17.0, *) {
+                        return .uniformAcrossSiblings(estimate: rowEstimate * 2)
+                    } else {
+                        return .estimated(rowEstimate * 2)
+                    }
+                }()
+                let group = NSCollectionLayoutGroup.vertical(
+                    layoutSize: .init(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: groupHeight
+                    ),
+                    subitems: [row1, row2]
                 )
                 // section
                 let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .groupPaging
+                section.contentInsets = .init(
+                    top: 4,
+                    leading: 12,
+                    bottom: 4,
+                    trailing: 12
+                )
+                return section
+                
+            case .netflix:
+                // item
+                let itemHeight: NSCollectionLayoutDimension = {
+                    if #available(iOS 17.0, *) {
+                        return .uniformAcrossSiblings(estimate: 200)
+                    } else {
+                        return .estimated(200)
+                    }
+                }()
+                let itemSize: NSCollectionLayoutSize = .init(
+                    widthDimension: .fractionalWidth(1/3),
+                    heightDimension: itemHeight
+                )
+                
+                // group
+                let groupSize: NSCollectionLayoutSize = .init(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: itemHeight
+                )
+                let group: NSCollectionLayoutGroup = .horizontal(
+                    layoutSize: groupSize,
+                    subitems: [
+                        makeItemNetflix(layoutSize: itemSize),
+                        makeItemNetflix(layoutSize: itemSize),
+                        makeItemNetflix(layoutSize: itemSize)
+                    ]
+                )
+                group.interItemSpacing = .fixed(8)
+                
+                // section
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = .init(
+                    top: 4,
+                    leading: 12,
+                    bottom: 4,
+                    trailing: 12
+                )
+                section.interGroupSpacing = 8
+                section.orthogonalScrollingBehavior = .continuous
                 return section
             }
         }
+        
+        func makeItemInstagram(layoutSize: NSCollectionLayoutSize) -> NSCollectionLayoutItem {
+            return NSCollectionLayoutItem(layoutSize: layoutSize)
+        }
+        
+        func makeSmallStackInstagram(layoutSize: NSCollectionLayoutSize, subitems: [NSCollectionLayoutItem]) -> NSCollectionLayoutGroup {
+            return NSCollectionLayoutGroup.vertical(layoutSize: layoutSize, subitems: subitems)
+        }
+        
+        func makeItemNetflix(layoutSize: NSCollectionLayoutSize) -> NSCollectionLayoutItem {
+            return NSCollectionLayoutItem(layoutSize: layoutSize)
+        }
+        
     }
     /// セグメント1のアイテムタイプ
     private enum ItemTypeSeg1: Hashable {
-        case grid(text: String)
-        case instagram(text: String)
-        case netflix(text: String)
+        case grid(id: UUID, imageName: String, text: String)
+        case instagram(id: UUID, imageName: String)
+        case netflix(id: UUID, imageName: String, text: String)
     }
     
-    private var gridItemDatasSeg1: [String] = ["Grid 1", "Grid 2", "Grid 3", "Grid 4", "Grid 5", "Grid 6", "Grid 7", "Grid 8", "Grid 9", "Grid 10"]
-    private var instagramItemDatasSeg1: [String] = ["Instagram 1", "Instagram 2", "Instagram 3", "Instagram 4", "Instagram 5", "Instagram 6", "Instagram 7", "Instagram 8", "Instagram 9", "Instagram 10"]
-    private var netflixItemDatasSeg1: [String] = ["Netflix 1", "Netflix 2", "Netflix 3", "Netflix 4", "Netflix 5", "Netflix 6", "Netflix 7", "Netflix 8", "Netflix 9", "Netflix 10"]
+    private var gridItemDatasSeg1: [GridCellData] = [
+        GridCellData(id: UUID(), imageName: "seg1-grid-1", text: "grid 1"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-2", text: "grid 2"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-3", text: "grid 3"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-4", text: "grid 4"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-5", text: "grid 5"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-6", text: "grid 6"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-7", text: "grid 7"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-8", text: "grid 8"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-9", text: "grid 9"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-10", text: "grid 10"),
+    ]
+    private var instagramItemDatasSeg1: [InstagramCellData] = [
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-1"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-2"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-3"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-4"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-5"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-6"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-7"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-8"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-9"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-10"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-11"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-12"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-13"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-14"),
+        InstagramCellData(id: UUID(), imageName: "seg1-instagram-15")
+    ]
+    private var netflixItemDatasSeg1: [NetflixCellData] = [
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-1", text: "MI"),
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-2", text: "ワイスピ"),
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-3", text: "ハリポタ"),
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-4", text: "サマーウォーズ"),
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-5", text: "火垂るの墓"),
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-6", text: "TP"),
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-7", text: "少林サッカー"),
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-8", text: "SW"),
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-9", text: "クローズ"),
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-10", text: "バイオ"),
+        
+    ]
     
     /// セグメント2のセクションタイプ
     private enum SectionTypeSeg2: Int, CaseIterable, Hashable {
@@ -102,29 +299,68 @@ class CompositionalLayoutTestView: UIView {
             switch self {
             case .grid:
                 // item
+                let itemHeight: NSCollectionLayoutDimension = {
+                    if #available(iOS 17.0, *) {
+                        return .uniformAcrossSiblings(estimate: 100)
+                    } else {
+                        return .estimated(100)
+                    }
+                }()
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1/2),
-                    heightDimension: .absolute(80)
+                    heightDimension: itemHeight
                 )
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = .init(top: 4, leading: 4, bottom: 4, trailing: 4)
                 // group
                 let groupSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
-                    heightDimension: .absolute(88)
+                    heightDimension: itemHeight
                 )
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                let group: NSCollectionLayoutGroup = {
+                    if #available(iOS 16.0, *) {
+                        let group = NSCollectionLayoutGroup.horizontal(
+                            layoutSize: groupSize,
+                            repeatingSubitem: item,
+                            count: 2
+                        )
+                        group.interItemSpacing = .fixed(8)
+                        return group
+                    } else {
+                        let group = NSCollectionLayoutGroup.horizontal(
+                            layoutSize: groupSize,
+                            subitem: item,
+                            count: 2
+                        )
+                        group.interItemSpacing = .fixed(8)
+                        return group
+                    }
+                }()
                 // section
-                return NSCollectionLayoutSection(group: group)
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = .init(
+                    top: 4,
+                    leading: 12,
+                    bottom: 4,
+                    trailing: 12
+                )
+                section.interGroupSpacing = 8
+                return section
             }
         }
     }
     /// セグメント2のアイテムタイプ
     private enum ItemTypeSeg2: Hashable {
-        case grid(text: String)
+        case grid(id: UUID, imageName: String, text: String)
     }
     
-    private var gridItemDatasSeg2: [String] = ["Grid 1", "Grid 2", "Grid 3", "Grid 4", "Grid 5", "Grid 6"]
+    private var gridItemDatasSeg2: [GridCellData] = [
+        GridCellData(id: UUID(), imageName: "seg2-grid-1", text: "grid 1"),
+        GridCellData(id: UUID(), imageName: "seg2-grid-2", text: "grid 2"),
+        GridCellData(id: UUID(), imageName: "seg2-grid-3", text: "grid 3"),
+        GridCellData(id: UUID(), imageName: "seg2-grid-4", text: "grid 4"),
+        GridCellData(id: UUID(), imageName: "seg2-grid-5", text: "grid 5"),
+        GridCellData(id: UUID(), imageName: "seg2-grid-6", text: "grid 6")
+    ]
     
     /// セグメント3のセクションタイプ
     private enum SectionTypeSeg3: Int, CaseIterable, Hashable {
@@ -198,18 +434,26 @@ class CompositionalLayoutTestView: UIView {
                 switch item {
                 case .seg1(let subItem):
                     switch subItem {
-                    case .grid(let text):
-                        return collectionView.dequeueConfigured(GridCell.self, item: text, indexPath: indexPath)
-                    case .instagram(let text):
-                        return collectionView.dequeueConfigured(InstagramCell.self, item: text, indexPath: indexPath)
-                    case .netflix(let text):
-                        return collectionView.dequeueConfigured(NetflixCell.self, item: text, indexPath: indexPath)
+                    case .grid(_ ,let imageName, let text):
+                        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as! GridCell
+                        cell.configure(imageName: imageName, text: text)
+                        return cell
+                    case .instagram(_ , let imageName):
+                        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InstagramCell.identifier, for: indexPath) as! InstagramCell
+                        cell.configure(imageName: imageName)
+                        return cell
+                    case .netflix(_, let imageName, let text):
+                        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NetflixCell.identifier, for: indexPath) as! NetflixCell
+                        cell.configure(imageName: imageName, text: text)
+                        return cell
                     }
                     
                 case .seg2(let subItem):
                     switch subItem {
-                    case .grid(let text):
-                        return collectionView.dequeueConfigured(GridCell.self, item: text, indexPath: indexPath)
+                    case .grid(_, let imageName, let text):
+                        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as! GridCell
+                        cell.configure(imageName: imageName, text: text)
+                        return cell
                     }
                 }
             }
@@ -261,9 +505,24 @@ class CompositionalLayoutTestView: UIView {
     private func applyDataSeg1() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         snapshot.appendSections([.seg1(.grid), .seg1(.instagram), .seg1(.netflix)])
-        snapshot.appendItems(gridItemDatasSeg1.map { .seg1(.grid(text: $0)) }, toSection: .seg1(.grid))
-        snapshot.appendItems(instagramItemDatasSeg1.map { .seg1(.instagram(text: $0)) }, toSection: .seg1(.instagram))
-        snapshot.appendItems(netflixItemDatasSeg1.map { .seg1(.netflix(text: $0)) }, toSection: .seg1(.netflix))
+        snapshot.appendItems(
+            gridItemDatasSeg1.map {
+                .seg1(.grid(id: $0.id, imageName: $0.imageName, text: $0.text))
+            },
+            toSection: .seg1(.grid)
+        )
+        snapshot.appendItems(
+            instagramItemDatasSeg1.map {
+                .seg1(.instagram(id: $0.id, imageName: $0.imageName))
+            },
+            toSection: .seg1(.instagram)
+        )
+        snapshot.appendItems(
+            netflixItemDatasSeg1.map {
+                .seg1(.netflix(id: $0.id, imageName: $0.imageName, text: $0.text))
+            },
+            toSection: .seg1(.netflix)
+        )
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
@@ -287,100 +546,152 @@ class CompositionalLayoutTestView: UIView {
     private func applyDataSeg2() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         snapshot.appendSections([.seg2(.grid)])
-        snapshot.appendItems(gridItemDatasSeg2.map { .seg2(.grid(text: $0)) }, toSection: .seg2(.grid))
+        snapshot.appendItems(
+            gridItemDatasSeg2.map {
+                .seg2(.grid(id: $0.id, imageName: $0.imageName, text: $0.text))
+            },
+            toSection: .seg2(.grid)
+        )
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
 
-// MARK: - Cell helpers
-protocol ConfigurableCell {
-    static var identifier: String { get }
-    func configure(text: String)
-}
-
-
 // MARK: - Cells
-final class GridCell: UICollectionViewCell, ConfigurableCell {
+final class GridCell: UICollectionViewCell {
+    // MARK: - Member
     static var identifier: String { "GridCell" }
+    private let imageView = UIImageView()
     private let label = UILabel()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        imageView.contentMode = .scaleAspectFit
+        contentView.addSubview(imageView)
+        
         label.textAlignment = .center
         contentView.backgroundColor = .systemGray5
         contentView.addSubview(label)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        
         label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
+        label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4).isActive = true
+        label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8).isActive = true
+        label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
-    required init?(coder: NSCoder) { fatalError() }
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
-    func configure(text: String) {
+    // MARK: - configure
+    func configure(imageName: String, text: String) {
+        imageView.image = UIImage(named: imageName)
         label.text = text
     }
 }
 
-final class InstagramCell: UICollectionViewCell, ConfigurableCell {
+final class InstagramCell: UICollectionViewCell {
+    // MARK: - Member
     static var identifier: String { "InstagramCell" }
-    private let label = UILabel()
+    private let imageView = UIImageView()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 12)
-        contentView.backgroundColor = .systemPink
-        contentView.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        contentView.addSubview(imageView)
+        contentView.layer.borderColor = UIColor.black.cgColor
+        contentView.layer.borderWidth = 1
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
-    required init?(coder: NSCoder) { fatalError() }
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
-    func configure(text: String) {
-        label.text = text
+    // MARK: - configure
+    func configure(imageName: String) {
+        imageView.image = UIImage(named: imageName)
     }
 }
 
-final class NetflixCell: UICollectionViewCell, ConfigurableCell {
+final class NetflixCell: UICollectionViewCell {
+    // MARK: - Member
     static var identifier: String { "NetflixCell" }
+    private let imageView = UIImageView()
     private let label = UILabel()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        contentView.addSubview(imageView)
+        
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: 12)
         label.textColor = .white
-        contentView.backgroundColor = .darkGray
         contentView.addSubview(label)
+        
+        contentView.backgroundColor = .darkGray
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        
         label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
+        label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4).isActive = true
+        label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8).isActive = true
+        label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
-    required init?(coder: NSCoder) { fatalError() }
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
-    func configure(text: String) {
+    // MARK: - configure
+    func configure(imageName: String, text: String) {
+        imageView.image = UIImage(named: imageName)
         label.text = text
     }
 }
 
 
-// MARK: - Extension
-private extension UICollectionView {
-    func dequeueConfigured<T: UICollectionViewCell>(_ cellType: T.Type, item: String, indexPath: IndexPath) -> UICollectionViewCell? where T: ConfigurableCell {
-        let cell = dequeueReusableCell(withReuseIdentifier: T.identifier, for: indexPath) as? T
-        cell?.configure(text: item)
-        return cell
-    }
+// MARK: - Data Model Definition
+struct GridCellData {
+    let id: UUID
+    let imageName: String
+    let text: String
 }
 
+struct InstagramCellData {
+    let id: UUID
+    let imageName: String
+}
 
+struct NetflixCellData {
+    let id: UUID
+    let imageName: String
+    let text: String
+}
