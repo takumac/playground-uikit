@@ -209,7 +209,7 @@ class ConvertToAttributedStringTestView: UIView {
     @objc func sampleButtonTapAction(_ sender: UIButton) {
         switch sender.tag {
         case 1:
-            textView.text = "<bold>確認事項に同意して登録しますか？\n\n＜確認事項＞\n<underline>約束メモと実際の取引が異なる</underline></bold>と当社が判断した場合、<bold><color=\"#FF0000\">取引キャンセル</color>になることがあります。</bold>"
+            textView.text = "<center><bold>「取引内容」と「確認事項」に同意の上、お支払い手続きへ進みますか？\n\n＜確認事項＞\n<underline>約束メモと実際の取引が異なる</underline></bold>と当社が判断した場合、<bold><color=\"#FF0000\">取引キャンセル</color>になることがあります。</bold></center>"
         case 2:
             textView.text = "<strong><u>取引利用料改定後に同意した取引</u></strong>は、4.4%(税込)の利用料率が適用されます。詳しくはコチラ"
         case 3:
@@ -219,9 +219,9 @@ class ConvertToAttributedStringTestView: UIView {
             "<bold><underline><color=\"#FF0000\">あ</color>い<color=\"#00FF00\">う</color>え<color=\"#0000FF\">お</color></underline></bold>\n\n" +
             "ほげ１<underline><color=\"#FF0000\">abcdefg</color>ほげ２<color=\"#00FF00\">カキクケコ</color><color=\"#0000FF\">xyz</color><bold>ほげ３</bold></underline>ほげ4\n\n" +
             "リスト<list=\"＊\"><line><bold><color=\"#FF0000\">hoge</color></bold></line><line>fuga</line><line>foo</line></list>\n" +
-            "オーダーリスト<orderlist><orderline><color=\"#FF0000\">hoge</color></orderline><orderline><color=\"#00FF00\"><bold>fuga</bold></color></orderline><orderline><color=\"#0000FF\">foo</color></orderline><orderline>foo</orderline><orderline>foo</orderline></orderlist>\n" +
-            "\nタップアクション\n\n\n<color=\"#0000FF\"><action>ここをタップ1</action></color>\n\n\n<bold><action><color=\"#FF0000\"><underline>ここをタップ2</underline></color></action></bold>\n\n" +
-            "\nフォントサイズ\n\n<bold><fontsize=\"10\">フォントサイズ10</fontsize></bold>\n\n<color=\"#FF0000\"><fontsize=\"20\">フォントサイズ20</fontsize></color>\n\n<bold><fontsize=\"30\">フォント<color=\"#0000FF\">サイズ</color>30</fontsize></bold>\n\n" +
+            "<center>オーダーリスト<orderlist><orderline><color=\"#FF0000\">hoge</color></orderline><orderline><color=\"#00FF00\"><bold>fuga</bold></color></orderline><orderline><color=\"#0000FF\">foo</color></orderline><orderline>foo</orderline><orderline>foo</orderline></orderlist>\n</center>" +
+            "タップアクション\n<linespace=\"30\"><color=\"#0000FF\"><action>ここをタップ1</action></color>\n<bold><action><color=\"#FF0000\"><underline>ここをタップ2</underline></color></action></bold>\n</linespace>" +
+            "<linespace=\"60\">フォントサイズ\n</linespace>\n<bold><fontsize=\"10\">フォントサイズ10</fontsize></bold>\n\n<color=\"#FF0000\"><fontsize=\"20\">フォントサイズ20</fontsize></color>\n\n<bold><fontsize=\"30\">フォント<color=\"#0000FF\">サイズ</color>30</fontsize></bold>\n\n" +
             "終わり"
         default:
             return
