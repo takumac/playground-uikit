@@ -140,8 +140,10 @@ extension String {
             let matches = regex.matches(in: self, options: [], range: NSRange(self.startIndex..., in: self))
             
             for match in matches {
-                let preMatchRange = currentLocation..<self.index(self.startIndex, offsetBy: match.range.location)
-                let preMatchText = String(self[preMatchRange])
+                let matchRange = match.range
+                guard let preMatchRange = Range(matchRange, in: self) else { continue }
+                
+                let preMatchText = String(self[currentLocation..<preMatchRange.lowerBound])
                 attributedString.append(NSAttributedString(string: preMatchText))
                 
                 if match.range(at: 2).location != NSNotFound && match.range(at: 1).location != NSNotFound {
@@ -233,7 +235,7 @@ extension String {
                         attributedString.append(underlinedText)
                     }
                     
-                } else if match.range(at: 6).location != NSNotFound && match.range(at: 6).location != NSNotFound {
+                } else if match.range(at: 5).location != NSNotFound && match.range(at: 6).location != NSNotFound {
                     // <color>タグの処理
                     let colorCodeRange = match.range(at: 5)
                     let colorTextRange = match.range(at: 6)
@@ -252,7 +254,7 @@ extension String {
                         }
                     }
                     
-                } else if match.range(at: 8).location != NSNotFound && match.range(at: 7).location != NSNotFound {
+                } else if match.range(at: 7).location != NSNotFound && match.range(at: 8).location != NSNotFound {
                     // <list>タグの処理
                     let listPrefixRange = match.range(at: 7)
                     let listItemsRange = match.range(at: 8)
@@ -261,7 +263,7 @@ extension String {
                         let itemsText = String(self[itemsRange])
                         
                         let linePattern = "<line>(.*?)</line>"
-                        let lineRegex = try NSRegularExpression(pattern: linePattern)
+                        let lineRegex = try NSRegularExpression(pattern: linePattern, options: .dotMatchesLineSeparators)
                         let lineMatches = lineRegex.matches(in: itemsText, range: NSRange(itemsText.startIndex..., in: itemsText))
                         
                         attributedString.append(NSAttributedString(string: "\n"))
@@ -295,7 +297,7 @@ extension String {
                         let orderListText = String(self[range])
                         
                         let orderLinePattern = "<orderline>(.*?)</orderline>"
-                        let orderLineRegex = try NSRegularExpression(pattern: orderLinePattern)
+                        let orderLineRegex = try NSRegularExpression(pattern: orderLinePattern, options: .dotMatchesLineSeparators)
                         let orderLineMatches = orderLineRegex.matches(in: orderListText, range: NSRange(orderListText.startIndex..., in: orderListText))
                         
                         attributedString.append(NSAttributedString(string: "\n"))
@@ -343,7 +345,7 @@ extension String {
                     }
                 }
                 
-                currentLocation = self.index(self.startIndex, offsetBy: match.range.location + match.range.length)
+                currentLocation = preMatchRange.upperBound
             }
             
             let postMatchText = String(self[currentLocation...])
