@@ -128,8 +128,11 @@ extension String {
         // オーダーリスト（<orderlist>）
         "|<orderlist>(.*?)</orderlist>" +
         // タップアクション（<action>）
-        "|<action>(.*?)</action>"
-        
+        "|<action>(.*?)</action>" +
+        // センタリング（<center>）
+        "|<center>(.*?)</center>" +
+        // 行間（<linespace>）
+        "|<linespace=\"([0-9]+(?:\\.[0-9]+)?)\">(.*?)</linespace>"
         
         let attributedString = NSMutableAttributedString(string: "")
         
@@ -146,7 +149,7 @@ extension String {
                 let preMatchText = String(self[currentLocation..<preMatchRange.lowerBound])
                 attributedString.append(NSAttributedString(string: preMatchText))
                 
-                if match.range(at: 2).location != NSNotFound && match.range(at: 1).location != NSNotFound {
+                if match.range(at: 1).location != NSNotFound && match.range(at: 2).location != NSNotFound {
                     // <fontsize>タグの処理
                     let fontSizeRange = match.range(at: 1)
                     let fontSizeTextRange = match.range(at: 2)
@@ -190,6 +193,7 @@ extension String {
                     let boldRange = match.range(at: 3)
                     if let range = Range(boldRange, in: self) {
                         let boldText = String(self[range])
+                        
                         let innerAttributedString = boldText.customTagToAttributedString(
                             withFont: withFont,
                             actionCount: &actionCount
@@ -226,12 +230,14 @@ extension String {
                     let underlineRange = match.range(at: 4)
                     if let range = Range(underlineRange, in: self) {
                         let underlineText = String(self[range])
+                        
                         let innerAttributedString = underlineText.customTagToAttributedString(
                             withFont: withFont,
                             actionCount: &actionCount
                         )
                         let underlinedText = NSMutableAttributedString(attributedString: innerAttributedString)
                         underlinedText.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: underlinedText.length))
+                        
                         attributedString.append(underlinedText)
                     }
                     
@@ -250,6 +256,7 @@ extension String {
                             )
                             let coloredText = NSMutableAttributedString(attributedString: innerAttributedString)
                             coloredText.addAttribute(.foregroundColor, value: color, range: NSRange(location: 0, length: coloredText.length))
+                            
                             attributedString.append(coloredText)
                         }
                     }
@@ -329,18 +336,67 @@ extension String {
                     let actionRange = match.range(at: 10)
                     if let range = Range(actionRange, in: self) {
                         let actionText = String(self[range])
+                        
                         let innerAttributedString = actionText.customTagToAttributedString(
                             withFont: withFont,
                             actionCount: &actionCount
                         )
-                        let actionAttributedString = NSMutableAttributedString(attributedString: innerAttributedString)
+                        let actionSettingText = NSMutableAttributedString(attributedString: innerAttributedString)
                         
                         actionCount += 1
                         if let url = URL(string: "action://\(actionCount)") {
-                            actionAttributedString.addAttribute(.link, value: url, range: NSRange(location: 0, length: actionAttributedString.length))
+                            actionSettingText.addAttribute(.link, value: url, range: NSRange(location: 0, length: actionSettingText.length))
                         }
                         
-                        attributedString.append(actionAttributedString)
+                        attributedString.append(actionSettingText)
+                    }
+                    
+                } else if match.range(at: 11).location != NSNotFound {
+                    // <center>タグの処理
+                    let centerRange = match.range(at: 11)
+                    if let range = Range(centerRange, in: self) {
+                        let centerText = String(self[range])
+                        
+                        let innerAttributedString = centerText.customTagToAttributedString(
+                            withFont: withFont,
+                            actionCount: &actionCount
+                        )
+                        let centeredText = NSMutableAttributedString(attributedString: innerAttributedString)
+                        
+                        mergeParagraphStyle(
+                            attr: centeredText,
+                            range: NSRange(location: 0, length: centeredText.length),
+                            merge: { style in
+                                style.alignment = .center
+                            }
+                        )
+                        
+                        attributedString.append(centeredText)
+                    }
+                    
+                } else if match.range(at: 12).location != NSNotFound && match.range(at: 13).location != NSNotFound {
+                    // <linespace>タグの処理
+                    let lineSpaceRange = match.range(at: 12)
+                    let lineSpaceTextRange  = match.range(at: 13)
+                    if let spaceRange = Range(lineSpaceRange, in: self), let textRange = Range(lineSpaceTextRange, in: self) {
+                        let space = CGFloat(Double(self[spaceRange]) ?? 0)
+                        let spaceText = String(self[textRange])
+                        
+                        let innerAttributedString = spaceText.customTagToAttributedString(
+                            withFont: withFont,
+                            actionCount: &actionCount
+                        )
+                        let lineSpaceText = NSMutableAttributedString(attributedString: innerAttributedString)
+                        
+                        mergeParagraphStyle(
+                            attr: lineSpaceText,
+                            range: NSRange(location: 0, length: lineSpaceText.length),
+                            merge: { style in
+                                style.lineSpacing = space
+                            }
+                        )
+                        
+                        attributedString.append(lineSpaceText)
                     }
                 }
                 
@@ -373,6 +429,43 @@ extension String {
         }
         
         return attributedString
+    }
+    
+    /// 段落単位で設定するParagraphStyleのマージを行う
+    /// - Parameters:
+    ///   - attr: 修飾対象の文字列
+    ///   - range: ParagraphStyle適用範囲
+    ///   - merge: マージ処理
+    private func mergeParagraphStyle(
+        attr: NSMutableAttributedString,
+        range: NSRange,
+        merge: (NSMutableParagraphStyle) -> Void
+    ) {
+        // 文字列をNSStringとして保持
+        let str = attr.string as NSString
+        // 適用範囲の現在地
+        var currentLocation = range.location
+        // 適用範囲の最後に到達するまでループ
+        while currentLocation < NSMaxRange(range) {
+            // 現在地が属する段落（改行含む）の範囲を取得
+            var paragraphRange = NSRange(location: 0, length: 0)
+            str.getParagraphStart(nil, end: nil, contentsEnd: nil, for: NSRange(location: currentLocation, length: 0))
+            str.getParagraphStart(&paragraphRange.location, end: &paragraphRange.length, contentsEnd: nil, for: NSRange(location: currentLocation, length: 0))
+            paragraphRange.length = str.paragraphRange(for: NSRange(location: currentLocation, length: 0)).length
+            
+            // 現在地が属する段落に設定されているParagraphStyleを取得（設定されていない場合は新規で生成）
+            let setParagraphStyle = (attr.attribute(.paragraphStyle, at: paragraphRange.location, effectiveRange: nil) as? NSParagraphStyle)
+            let style = (setParagraphStyle?.mutableCopy() as? NSMutableParagraphStyle) ?? NSMutableParagraphStyle()
+            
+            // スタイルのマージ処理
+            merge(style)
+            
+            // マージ後のスタイルを反映
+            attr.addAttribute(.paragraphStyle, value: style, range: paragraphRange)
+            
+            // 現在地の移動
+            currentLocation = NSMaxRange(paragraphRange)
+        }
     }
     
 }
