@@ -336,8 +336,7 @@ extension String {
                         let actionAttributedString = NSMutableAttributedString(attributedString: innerAttributedString)
                         
                         actionCount += 1
-                        let urlString = "action\(actionCount)"
-                        if let url = URL(string: urlString) {
+                        if let url = URL(string: "action://\(actionCount)") {
                             actionAttributedString.addAttribute(.link, value: url, range: NSRange(location: 0, length: actionAttributedString.length))
                         }
                         

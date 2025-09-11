@@ -209,7 +209,7 @@ class ConvertToAttributedStringTestView: UIView {
     @objc func sampleButtonTapAction(_ sender: UIButton) {
         switch sender.tag {
         case 1:
-            textView.text = "こんにちは、今日は<b>天気</b>がいい。"
+            textView.text = "<bold>確認事項に同意して登録しますか？\n\n＜確認事項＞\n<underline>約束メモと実際の取引が異なる</underline></bold>と当社が判断した場合、<bold><color=\"#FF0000\">取引キャンセル</color>になることがあります。</bold>"
         case 2:
             textView.text = "<strong><u>取引利用料改定後に同意した取引</u></strong>は、4.4%(税込)の利用料率が適用されます。詳しくはコチラ"
         case 3:
@@ -336,21 +336,20 @@ class CustomTagTextView: UITextView, UITextViewDelegate, UITextDragDelegate {
         primaryActionFor textItem: UITextItem,
         defaultAction: UIAction
     ) -> UIAction? {
-        if case .link(let url) = textItem.content {
-            if url.absoluteString.starts(with: "action") {
-                return UIAction(title: "Custom Action", handler: { _ in
-                    if let actionIndex = Int(url.absoluteString.replacingOccurrences(of: "action", with: "")) {
-                        if actionIndex > 0 && actionIndex <= self.actionHandlers.count {
-                            self.actionHandlers[actionIndex - 1]()
-                        }
-                    }
-                })
-            } else {
-                return defaultAction
-            }
+        guard
+            case .link(let url) = textItem.content,
+            url.scheme == "action",
+            let host = url.host,
+            let actionIndex = Int(host),
+            (1...self.actionHandlers.count).contains(actionIndex)
+        else {
+            // 想定していない内容の場合はデフォルトアクション
+            return defaultAction
         }
         
-        return defaultAction
+        return UIAction(title: "Custom Action") { _ in
+            self.actionHandlers[actionIndex - 1]()
+        }
     }
     
     // iOS17未満のリンクタップ時の処理
@@ -363,19 +362,19 @@ class CustomTagTextView: UITextView, UITextViewDelegate, UITextDragDelegate {
         if #available(iOS 17.0, *) {
             // iOS17以降の端末であれば何もしない
             return false
-            
-        } else {
-            if URL.absoluteString.starts(with: "action") {
-                if let actionIndex = Int(URL.absoluteString.replacingOccurrences(of: "action", with: "")) {
-                    if actionIndex > 0 && actionIndex <= actionHandlers.count {
-                        actionHandlers[actionIndex - 1]()
-                    }
-                }
-                return false
-            } else {
-                return true
-            }
         }
+        
+        if URL.scheme == "action",
+           let host = URL.host,
+           let actionIndex = Int(host),
+           (1...actionHandlers.count).contains(actionIndex)
+        {
+            // 想定している内容の場合はアクション実行
+            actionHandlers[actionIndex - 1]()
+            return false
+        }
+        
+        return true
     }
     
     
