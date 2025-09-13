@@ -209,11 +209,11 @@ class ConvertToAttributedStringTestView: UIView {
     @objc func sampleButtonTapAction(_ sender: UIButton) {
         switch sender.tag {
         case 1:
-            textView.text = "<center><bold>「取引内容」と「確認事項」に同意の上、お支払い手続きへ進みますか？\n\n＜確認事項＞\n<underline>約束メモと実際の取引が異なる</underline></bold>と当社が判断した場合、<bold><color=\"#FF0000\">取引キャンセル</color>になることがあります。</bold></center>"
+            textView.text = "<center><bold>「取引内容」と「確認事項」に同意の上、\nお取引の手続きを進めますか？\n\n＜確認事項＞\n<underline>約束メモと実際の取引が異なる</underline></bold>と当社が判断した場合、<bold><color=\"#FF0000\">取引キャンセル</color>になることがあります。</bold></center>"
         case 2:
             textView.text = "<strong><u>取引利用料改定後に同意した取引</u></strong>は、4.4%(税込)の利用料率が適用されます。詳しくはコチラ"
         case 3:
-            textView.text = "リスト表示1<list=\"・\"><line>1行目</line><line>2行目</line><line>3行目</line></list>リスト表示2<list=\"＊\"><line>hoge</line><line>fuga</line><line>foo</line></list>オーダーリスト表示<orderlist><orderline>あいうえお</orderline><orderline>かきくけこ</orderline><orderline>さしすせそ</orderline></orderlist>"
+            textView.text = "<lineheightmultiple=\"1.5\">行の高さ\n行の高さ\n行の高さ<fontsize=\"28\">行の高さ</fontsize>\n行の高さ\n行の高さ\nABCDefgh\nabcd</lineheightmultiple>"
         case 4:
             textView.text =
             "<bold><underline><color=\"#FF0000\">あ</color>い<color=\"#00FF00\">う</color>え<color=\"#0000FF\">お</color></underline></bold>\n\n" +
