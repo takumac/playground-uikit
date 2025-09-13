@@ -132,7 +132,9 @@ extension String {
         // センタリング（<center>）
         "|<center>(.*?)</center>" +
         // 行間（<linespace>）
-        "|<linespace=\"([0-9]+(?:\\.[0-9]+)?)\">(.*?)</linespace>"
+        "|<linespace=\"([0-9]+(?:\\.[0-9]+)?)\">(.*?)</linespace>" +
+        // 行の高さ※倍率指定（<lineheightmultiple>）
+        "|<lineheightmultiple=\"([0-9]+(?:\\.[0-9]+)?)\">(.*?)</lineheightmultiple>"
         
         let attributedString = NSMutableAttributedString(string: "")
         
@@ -397,6 +399,31 @@ extension String {
                         )
                         
                         attributedString.append(lineSpaceText)
+                    }
+                    
+                } else if match.range(at: 14).location != NSNotFound && match.range(at: 15).location != NSNotFound {
+                    // <lineheightmultiple>タグの処理
+                    let multipleRange = match.range(at: 14)
+                    let textRange = match.range(at: 15)
+                    if let multipleRange = Range(multipleRange, in: self), let textRange = Range(textRange, in: self) {
+                        let multiple = CGFloat(Double(self[multipleRange]) ?? 1.0)
+                        let multipleText = String(self[textRange])
+                        
+                        let innerAttributedString = multipleText.customTagToAttributedString(
+                            withFont: withFont,
+                            actionCount: &actionCount
+                        )
+                        let lineHeightMultipleText = NSMutableAttributedString(attributedString: innerAttributedString)
+
+                        mergeParagraphStyle(
+                            attr: lineHeightMultipleText,
+                            range: NSRange(location: 0, length: lineHeightMultipleText.length),
+                            merge: { style in
+                                style.lineHeightMultiple = multiple
+                            }
+                        )
+
+                        attributedString.append(lineHeightMultipleText)
                     }
                 }
                 
