@@ -460,7 +460,7 @@ extension String {
                             isUILabelMode: isUILabelMode
                         )
                         let lineHeightMultipleText = NSMutableAttributedString(attributedString: innerAttributedString)
-
+                        
                         mergeParagraphStyle(
                             attr: lineHeightMultipleText,
                             range: NSRange(location: 0, length: lineHeightMultipleText.length),
@@ -468,7 +468,7 @@ extension String {
                                 style.lineHeightMultiple = multiple
                             }
                         )
-
+                        
                         attributedString.append(lineHeightMultipleText)
                     }
                 }
