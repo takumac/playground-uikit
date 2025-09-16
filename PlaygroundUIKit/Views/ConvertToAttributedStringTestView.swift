@@ -12,11 +12,12 @@ class ConvertToAttributedStringTestView: UIView {
     // MARK: - Member
     let scrollView: UIScrollView = UIScrollView()
     let textView: UITextView = UITextView()
-    let customTagTV: CustomTagTextView = CustomTagTextView()
     let titleLabel1: UILabel = UILabel()
     let titleLabel2: UILabel = UILabel()
     let titleLabel3: UILabel = UILabel()
     let titleLabel4: UILabel = UILabel()
+    let titleLabel5: UILabel = UILabel()
+    let titleLabel6: UILabel = UILabel()
     let sampleButtonSV: UIStackView = UIStackView()
     let sampleButton1: UIButton = UIButton()
     let sampleButton2: UIButton = UIButton()
@@ -25,6 +26,9 @@ class ConvertToAttributedStringTestView: UIView {
     let convertButtonSV: UIStackView = UIStackView()
     let convertButton1: UIButton = UIButton()
     let convertButton2: UIButton = UIButton()
+    
+    let customTagTV: CustomTagTextView = CustomTagTextView()
+    let customTagLabel: UILabel = UILabel()
     
     
     // MARK: - Init
@@ -47,7 +51,6 @@ class ConvertToAttributedStringTestView: UIView {
         
         titleLabel1.text = "Before Convert Text"
         titleLabel1.font = UIFont(name: "HiraKakuProN-W6", size: 24)
-        titleLabel1.sizeToFit()
         scrollView.addSubview(titleLabel1)
         
         textView.font = UIFont(name: "HiraKakuProN-W3", size: 12)
@@ -58,7 +61,6 @@ class ConvertToAttributedStringTestView: UIView {
         
         titleLabel3.text = "Sample Text"
         titleLabel3.font = UIFont(name: "HiraKakuProN-W6", size: 24)
-        titleLabel3.sizeToFit()
         scrollView.addSubview(titleLabel3)
         
         sampleButtonSV.axis = .horizontal
@@ -71,7 +73,6 @@ class ConvertToAttributedStringTestView: UIView {
         sampleButton1.setTitleColor(C02_COLOR, for: .normal)
         sampleButton1.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         sampleButton1.tag = 1
-        sampleButton1.sizeToFit()
         sampleButton1.addTarget(self, action: #selector(sampleButtonTapAction(_:)), for: .touchUpInside)
         sampleButtonSV.addArrangedSubview(sampleButton1)
         
@@ -79,7 +80,6 @@ class ConvertToAttributedStringTestView: UIView {
         sampleButton2.setTitleColor(C02_COLOR, for: .normal)
         sampleButton2.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         sampleButton2.tag = 2
-        sampleButton2.sizeToFit()
         sampleButton2.addTarget(self, action: #selector(sampleButtonTapAction(_:)), for: .touchUpInside)
         sampleButtonSV.addArrangedSubview(sampleButton2)
         
@@ -87,7 +87,6 @@ class ConvertToAttributedStringTestView: UIView {
         sampleButton3.setTitleColor(C02_COLOR, for: .normal)
         sampleButton3.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         sampleButton3.tag = 3
-        sampleButton3.sizeToFit()
         sampleButton3.addTarget(self, action: #selector(sampleButtonTapAction(_:)), for: .touchUpInside)
         sampleButtonSV.addArrangedSubview(sampleButton3)
         
@@ -95,7 +94,6 @@ class ConvertToAttributedStringTestView: UIView {
         sampleButton4.setTitleColor(C02_COLOR, for: .normal)
         sampleButton4.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         sampleButton4.tag = 4
-        sampleButton4.sizeToFit()
         sampleButton4.addTarget(self, action: #selector(sampleButtonTapAction(_:)), for: .touchUpInside)
         sampleButtonSV.addArrangedSubview(sampleButton4)
         
@@ -103,7 +101,6 @@ class ConvertToAttributedStringTestView: UIView {
         
         titleLabel4.text = "Convert Button"
         titleLabel4.font = UIFont(name: "HiraKakuProN-W6", size: 24)
-        titleLabel4.sizeToFit()
         scrollView.addSubview(titleLabel4)
         
         convertButtonSV.axis = .horizontal
@@ -115,7 +112,6 @@ class ConvertToAttributedStringTestView: UIView {
         convertButton1.setTitle("HTML", for: .normal)
         convertButton1.setTitleColor(C02_COLOR, for: .normal)
         convertButton1.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        convertButton1.sizeToFit()
         convertButton1.addTarget(self, action: #selector(convertButtonTapAction(_:)), for: .touchUpInside)
         convertButton1.tag = 1
         convertButtonSV.addArrangedSubview(convertButton1)
@@ -123,7 +119,6 @@ class ConvertToAttributedStringTestView: UIView {
         convertButton2.setTitle("CustomTag", for: .normal)
         convertButton2.setTitleColor(C02_COLOR, for: .normal)
         convertButton2.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        convertButton2.sizeToFit()
         convertButton2.addTarget(self, action: #selector(convertButtonTapAction(_:)), for: .touchUpInside)
         convertButton2.tag = 2
         convertButtonSV.addArrangedSubview(convertButton2)
@@ -132,17 +127,28 @@ class ConvertToAttributedStringTestView: UIView {
         
         titleLabel2.text = "After Convert Text"
         titleLabel2.font = UIFont(name: "HiraKakuProN-W6", size: 24)
-        titleLabel2.sizeToFit()
         scrollView.addSubview(titleLabel2)
         
+        titleLabel5.text = "UITextView"
+        titleLabel5.font = UIFont(name: "HiraKakuProN-W6", size: 20)
+        scrollView.addSubview(titleLabel5)
+        
         customTagTV.backgroundColor = C03_COLOR
-        customTagTV.sizeToFit()
         customTagTV.actionHandlers = [
             { print("1つ目タップ") },
             { print("2つ目タップ") },
             { print("3つ目タップ") }
         ]
         scrollView.addSubview(customTagTV)
+        
+        titleLabel6.text = "UILabel"
+        titleLabel6.font = UIFont(name: "HiraKakuProN-W6", size: 20)
+        scrollView.addSubview(titleLabel6)
+        
+        customTagLabel.backgroundColor = C03_COLOR
+        customTagLabel.numberOfLines = 0
+        customTagLabel.lineBreakMode = .byCharWrapping
+        scrollView.addSubview(customTagLabel)
         
         self.addSubview(scrollView)
         
@@ -155,8 +161,6 @@ class ConvertToAttributedStringTestView: UIView {
         
         titleLabel1.translatesAutoresizingMaskIntoConstraints = false
         titleLabel1.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50).isActive = true
-        titleLabel1.widthAnchor.constraint(equalToConstant: titleLabel1.frame.width).isActive = true
-        titleLabel1.heightAnchor.constraint(equalToConstant: titleLabel1.frame.height).isActive = true
         titleLabel1.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -167,8 +171,6 @@ class ConvertToAttributedStringTestView: UIView {
         
         titleLabel3.translatesAutoresizingMaskIntoConstraints = false
         titleLabel3.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 50).isActive = true
-        titleLabel3.widthAnchor.constraint(equalToConstant: titleLabel3.frame.width).isActive = true
-        titleLabel3.heightAnchor.constraint(equalToConstant: titleLabel3.frame.height).isActive = true
         titleLabel3.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
         sampleButtonSV.translatesAutoresizingMaskIntoConstraints = false
@@ -178,8 +180,6 @@ class ConvertToAttributedStringTestView: UIView {
         
         titleLabel4.translatesAutoresizingMaskIntoConstraints = false
         titleLabel4.topAnchor.constraint(equalTo: sampleButtonSV.bottomAnchor, constant: 50).isActive = true
-        titleLabel4.widthAnchor.constraint(equalToConstant: titleLabel4.frame.width).isActive = true
-        titleLabel4.heightAnchor.constraint(equalToConstant: titleLabel4.frame.height).isActive = true
         titleLabel4.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
         convertButtonSV.translatesAutoresizingMaskIntoConstraints = false
@@ -189,15 +189,26 @@ class ConvertToAttributedStringTestView: UIView {
         
         titleLabel2.translatesAutoresizingMaskIntoConstraints = false
         titleLabel2.topAnchor.constraint(equalTo: convertButtonSV.bottomAnchor, constant: 50).isActive = true
-        titleLabel2.widthAnchor.constraint(equalToConstant: titleLabel2.frame.width).isActive = true
-        titleLabel2.heightAnchor.constraint(equalToConstant: titleLabel2.frame.height).isActive = true
         titleLabel2.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
+        titleLabel5.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel5.topAnchor.constraint(equalTo: titleLabel2.bottomAnchor,constant: 30).isActive = true
+        titleLabel5.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        
         customTagTV.translatesAutoresizingMaskIntoConstraints = false
-        customTagTV.topAnchor.constraint(equalTo: titleLabel2.bottomAnchor, constant: 25).isActive = true
-        customTagTV.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100).isActive = true
+        customTagTV.topAnchor.constraint(equalTo: titleLabel5.bottomAnchor, constant: 20).isActive = true
         customTagTV.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
         customTagTV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        
+        titleLabel6.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel6.topAnchor.constraint(equalTo: customTagTV.bottomAnchor,constant: 30).isActive = true
+        titleLabel6.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        
+        customTagLabel.translatesAutoresizingMaskIntoConstraints = false
+        customTagLabel.topAnchor.constraint(equalTo: titleLabel6.bottomAnchor, constant: 20).isActive = true
+        customTagLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100).isActive = true
+        customTagLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
+        customTagLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
     }
     
     
@@ -213,7 +224,7 @@ class ConvertToAttributedStringTestView: UIView {
         case 2:
             textView.text = "<strong><u>取引利用料改定後に同意した取引</u></strong>は、4.4%(税込)の利用料率が適用されます。詳しくはコチラ"
         case 3:
-            textView.text = "<lineheightmultiple=\"1.5\">行の高さ\n行の高さ\n行の高さ<fontsize=\"28\">行の高さ</fontsize>\n行の高さ\n行の高さ\nABCDefgh\nabcd</lineheightmultiple>"
+            textView.text = "<linespace=\"10\">行間\n行間\n行間\n行間\n</linespace>行間\n行間\n<linespace=\"20\">行間\n行間\n行間\n</linespace>行間\n<linespace=\"30\">行間\n行間</linespace>"
         case 4:
             textView.text =
             "<bold><underline><color=\"#FF0000\">あ</color>い<color=\"#00FF00\">う</color>え<color=\"#0000FF\">お</color></underline></bold>\n\n" +
@@ -244,7 +255,13 @@ class ConvertToAttributedStringTestView: UIView {
             var actionCount = 0
             customTagTV.attributedText = str.customTagToAttributedString(
                 withFont: UIFont(name: "HiraKakuProN-W3", size: 14),
-                actionCount: &actionCount
+                actionCount: &actionCount,
+                isUILabelMode: false
+            )
+            customTagLabel.attributedText = str.customTagToAttributedString(
+                withFont: UIFont(name: "HiraKakuProN-W3", size: 14),
+                actionCount: &actionCount,
+                isUILabelMode: true
             )
         default:
             return
@@ -260,7 +277,7 @@ class ConvertToAttributedStringTestView: UIView {
 }
 
 
-// カスタムタグによる修飾を行ったテキストを表示するためのUITextView
+/// カスタムタグによる修飾を行ったテキストを表示するためのUITextView
 class CustomTagTextView: UITextView, UITextViewDelegate, UITextDragDelegate {
     // MARK: - Member
     /// <action>タグで囲まれたリンクをタップした時のアクションを保持する配列

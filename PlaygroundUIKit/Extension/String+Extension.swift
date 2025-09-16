@@ -108,10 +108,12 @@ extension String {
     /// - Parameters:
     ///   - withFont: 指定したいフォント
     ///   - actionCount: <action>タグの解析のために内部的に必要な変数（！！！必ず0を指定！！！）
+    ///   - isUILabelMode: UILabelで使用する修飾文字列用に解析する（true: UILabel用修飾文字列として解析、false: 通常の修飾文字列として解析）
     /// - Returns: タグを解析した結果の修飾されたAttributedString
     func customTagToAttributedString(
         withFont: UIFont? = nil,
-        actionCount: inout Int
+        actionCount: inout Int,
+        isUILabelMode: Bool
     ) -> NSAttributedString {
         // 検索対象の正規表現
         let pattern =
@@ -161,7 +163,8 @@ extension String {
                         
                         let innerAttributedString = fontSizeText.customTagToAttributedString(
                             withFont: withFont,
-                            actionCount: &actionCount
+                            actionCount: &actionCount,
+                            isUILabelMode: isUILabelMode
                         )
                         let resizedText = NSMutableAttributedString(attributedString: innerAttributedString)
                         
@@ -198,7 +201,8 @@ extension String {
                         
                         let innerAttributedString = boldText.customTagToAttributedString(
                             withFont: withFont,
-                            actionCount: &actionCount
+                            actionCount: &actionCount,
+                            isUILabelMode: isUILabelMode
                         )
                         let boldedText = NSMutableAttributedString(attributedString: innerAttributedString)
                         
@@ -235,7 +239,8 @@ extension String {
                         
                         let innerAttributedString = underlineText.customTagToAttributedString(
                             withFont: withFont,
-                            actionCount: &actionCount
+                            actionCount: &actionCount,
+                            isUILabelMode: isUILabelMode
                         )
                         let underlinedText = NSMutableAttributedString(attributedString: innerAttributedString)
                         underlinedText.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: underlinedText.length))
@@ -254,7 +259,8 @@ extension String {
                         if let color = UIColor(hex: colorCode) {
                             let innerAttributedString = colorText.customTagToAttributedString(
                                 withFont: withFont,
-                                actionCount: &actionCount
+                                actionCount: &actionCount,
+                                isUILabelMode: isUILabelMode
                             )
                             let coloredText = NSMutableAttributedString(attributedString: innerAttributedString)
                             coloredText.addAttribute(.foregroundColor, value: color, range: NSRange(location: 0, length: coloredText.length))
@@ -283,7 +289,8 @@ extension String {
                                     let lineText = String(itemsText[lineRange])
                                     let lineAttributedString = lineText.customTagToAttributedString(
                                         withFont: withFont,
-                                        actionCount: &actionCount
+                                        actionCount: &actionCount,
+                                        isUILabelMode: isUILabelMode
                                     )
                                     
                                     if index > 0 {
@@ -317,7 +324,8 @@ extension String {
                                     let orderLineText = String(orderListText[orderLineRange])
                                     let orderLineAttributedString = orderLineText.customTagToAttributedString(
                                         withFont: withFont,
-                                        actionCount: &actionCount
+                                        actionCount: &actionCount,
+                                        isUILabelMode: isUILabelMode
                                     )
                                     
                                     if index > 0 {
@@ -341,13 +349,17 @@ extension String {
                         
                         let innerAttributedString = actionText.customTagToAttributedString(
                             withFont: withFont,
-                            actionCount: &actionCount
+                            actionCount: &actionCount,
+                            isUILabelMode: isUILabelMode
                         )
                         let actionSettingText = NSMutableAttributedString(attributedString: innerAttributedString)
                         
-                        actionCount += 1
-                        if let url = URL(string: "action://\(actionCount)") {
-                            actionSettingText.addAttribute(.link, value: url, range: NSRange(location: 0, length: actionSettingText.length))
+                        if !isUILabelMode {
+                            // UILabel用の修飾文字列でない場合は<action>タグを解析
+                            actionCount += 1
+                            if let url = URL(string: "action://\(actionCount)") {
+                                actionSettingText.addAttribute(.link, value: url, range: NSRange(location: 0, length: actionSettingText.length))
+                            }
                         }
                         
                         attributedString.append(actionSettingText)
@@ -361,7 +373,8 @@ extension String {
                         
                         let innerAttributedString = centerText.customTagToAttributedString(
                             withFont: withFont,
-                            actionCount: &actionCount
+                            actionCount: &actionCount,
+                            isUILabelMode: isUILabelMode
                         )
                         let centeredText = NSMutableAttributedString(attributedString: innerAttributedString)
                         
@@ -386,17 +399,49 @@ extension String {
                         
                         let innerAttributedString = spaceText.customTagToAttributedString(
                             withFont: withFont,
-                            actionCount: &actionCount
+                            actionCount: &actionCount,
+                            isUILabelMode: isUILabelMode
                         )
                         let lineSpaceText = NSMutableAttributedString(attributedString: innerAttributedString)
                         
-                        mergeParagraphStyle(
-                            attr: lineSpaceText,
-                            range: NSRange(location: 0, length: lineSpaceText.length),
-                            merge: { style in
-                                style.lineSpacing = space
+                        // <linespace>タグ内の対象文字列を段落毎に分割
+                        let lineSpaceString = lineSpaceText.string
+                        var lineSpaceParagraphRanges: [NSRange] = []
+                        lineSpaceString.enumerateSubstrings(
+                            in: lineSpaceString.startIndex..<lineSpaceString.endIndex,
+                            options: .byParagraphs
+                        ) { _, range, _, _ in
+                            lineSpaceParagraphRanges.append(NSRange(range, in: lineSpaceString))
+                        }
+                        
+                        if lineSpaceParagraphRanges.count > 1 {
+                            // <linespace>タグの対象文字列が2段落以上の場合
+                            if isUILabelMode {
+                                // UILabel用の修飾文字列の場合
+                                let lineSpaceApplyRanges = lineSpaceParagraphRanges.dropLast()
+                                for r in lineSpaceApplyRanges {
+                                    mergeParagraphStyle(
+                                        attr: lineSpaceText,
+                                        range: r,
+                                        merge: { style in
+                                            style.lineSpacing = space
+                                        }
+                                    )
+                                }
+                            } else {
+                                // UILabel用の修飾文字列でない場合
+                                let lineSpaceApplyRanges = lineSpaceParagraphRanges.dropFirst()
+                                for r in lineSpaceApplyRanges {
+                                    mergeParagraphStyle(
+                                        attr: lineSpaceText,
+                                        range: r,
+                                        merge: { style in
+                                            style.lineSpacing = space
+                                        }
+                                    )
+                                }
                             }
-                        )
+                        }
                         
                         attributedString.append(lineSpaceText)
                     }
@@ -411,7 +456,8 @@ extension String {
                         
                         let innerAttributedString = multipleText.customTagToAttributedString(
                             withFont: withFont,
-                            actionCount: &actionCount
+                            actionCount: &actionCount,
+                            isUILabelMode: isUILabelMode
                         )
                         let lineHeightMultipleText = NSMutableAttributedString(attributedString: innerAttributedString)
 
