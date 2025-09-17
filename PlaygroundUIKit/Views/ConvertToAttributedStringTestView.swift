@@ -224,7 +224,7 @@ class ConvertToAttributedStringTestView: UIView {
         case 2:
             textView.text = "<strong><u>取引利用料改定後に同意した取引</u></strong>は、4.4%(税込)の利用料率が適用されます。詳しくはコチラ"
         case 3:
-            textView.text = "<linespace=\"10\">行間\n行間\n行間\n行間\n</linespace>行間\n行間\n<linespace=\"20\">行間\n行間\n行間\n</linespace>行間\n<linespace=\"30\">行間\n行間</linespace>"
+            textView.text = "<lineheightmultiple=\"1.3\"><list=\"・\"><line>あああああああああああああああああああああああああ</line><line>あaaaaaaaaaaaaaaaaaaaaあaaaaaaaaaaaaaaaaaaa</line><line>bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</line><line>cccccccccccccccccccccccccccccccccccccccccccccccccc</line></list><orderlist><orderline>あああああああああああああああああああああああああ</orderline><orderline>あaaaaaaaaaaaaaaaaaaaaあaaaaaaaaaaaaaaaaaaa</orderline><orderline>bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</orderline><orderline>cccccccccccccccccccccccccccccccccccccccccccccccccc</orderline></orderlist></lineheightmultiple>"
         case 4:
             textView.text =
             "<bold><underline><color=\"#FF0000\">あ</color>い<color=\"#00FF00\">う</color>え<color=\"#0000FF\">お</color></underline></bold>\n\n" +

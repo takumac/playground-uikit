@@ -296,8 +296,25 @@ extension String {
                                     if index > 0 {
                                         attributedString.append(NSAttributedString(string: "\n"))
                                     }
+                                    
+                                    // プレフィックス+line内テキスト
                                     let listItemText = NSMutableAttributedString(string: "\(prefix) ")
                                     listItemText.append(lineAttributedString)
+                                    
+                                    // プレフィックス幅
+                                    let font = withFont ?? UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                                    let prefixWidth = (prefix as NSString).size(withAttributes: [.font: font]).width + 4
+                                    
+                                    mergeParagraphStyle(
+                                        attr: listItemText,
+                                        range: NSRange(location: 0, length: listItemText.length),
+                                        merge: { style in
+                                            style.lineBreakMode = .byCharWrapping
+                                            style.firstLineHeadIndent = 0
+                                            style.headIndent = prefixWidth
+                                        }
+                                    )
+                                    
                                     attributedString.append(listItemText)
                                 }
                             }
@@ -331,8 +348,26 @@ extension String {
                                     if index > 0 {
                                         attributedString.append(NSAttributedString(string: "\n"))
                                     }
-                                    let orderListItemText = NSMutableAttributedString(string: "\(index + 1). ")
+                                    
+                                    // プレフィックス+orderline内テキスト
+                                    let prefix = "\(index + 1). "
+                                    let orderListItemText = NSMutableAttributedString(string: "\(prefix) ")
                                     orderListItemText.append(orderLineAttributedString)
+                                    
+                                    // プレフィックス幅
+                                    let font = withFont ?? UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                                    let prefixWidth = (prefix as NSString).size(withAttributes: [.font: font]).width + 4
+                                    
+                                    mergeParagraphStyle(
+                                        attr: orderListItemText,
+                                        range: NSRange(location: 0, length: orderListItemText.length),
+                                        merge: { style in
+                                            style.lineBreakMode = .byCharWrapping
+                                            style.firstLineHeadIndent = 0
+                                            style.headIndent = prefixWidth
+                                        }
+                                    )
+                                    
                                     attributedString.append(orderListItemText)
                                 }
                             }
