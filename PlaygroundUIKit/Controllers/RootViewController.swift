@@ -93,4 +93,8 @@ class RootViewController: UIViewController, RootViewDelegate {
         self.navigationController?.pushViewController(CompositionalLayoutTestViewController(), animated: true)
     }
     
+    func speechBubbleButtonTapAction() {
+        self.navigationController?.pushViewController(SpeechBubbleTestViewController(), animated: true)
+    }
+    
 }

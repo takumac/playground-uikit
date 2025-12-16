@@ -20,6 +20,7 @@ protocol RootViewDelegate {
     func actionSheetButtonTapAction()
     func attributedStringButtonTapAction()
     func compositionalLayoutButtonTapAction()
+    func speechBubbleButtonTapAction()
 }
 
 class RootView: UIView {
@@ -62,6 +63,9 @@ class RootView: UIView {
     
     /// CompositionalLayoutの実験画面に飛ぶためのボタン
     let compositionalLayoutButton: UIButton = UIButton()
+    
+    /// SpeechBubbleの実験画面に飛ぶためのボタン
+    let speechBubbleButton: UIButton = UIButton()
     
     
     // MARK: - Init
@@ -159,6 +163,12 @@ class RootView: UIView {
         compositionalLayoutButton.addTarget(self, action: #selector(compositionalLayoutButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(compositionalLayoutButton)
         
+        speechBubbleButton.setTitle("Speech Bubble", for: .normal)
+        speechBubbleButton.setTitleColor(C02_COLOR, for: .normal)
+        speechBubbleButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        speechBubbleButton.addTarget(self, action: #selector(speechBubbleButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(speechBubbleButton)
+        
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
         
@@ -221,6 +231,10 @@ class RootView: UIView {
     
     @objc func compositionalLayoutButtonTapAction(_ sender: UIButton) {
         rootViewDelegate?.compositionalLayoutButtonTapAction()
+    }
+    
+    @objc func speechBubbleButtonTapAction(_ sender: UIButton) {
+        rootViewDelegate?.speechBubbleButtonTapAction()
     }
     
 }
