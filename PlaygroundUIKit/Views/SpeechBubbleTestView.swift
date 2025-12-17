@@ -14,13 +14,83 @@ class SpeechBubbleTestView: UIView {
     let scrollView: UIScrollView = UIScrollView()
     let scrollContentView: UIView = UIView()
     let speechBubble: SpeechBubble = {
+        let label1Str = "2次元コードを表示しますか？\n（2次元コードはボタンの下に表示されます）\n\n表示から30日以内に発送手続の完了が必要です。"
+        let label1AttrStr: NSMutableAttributedString = NSMutableAttributedString(string: label1Str)
+        
+        let paragraph1 = NSMutableParagraphStyle()
+        paragraph1.alignment = .center
+        paragraph1.lineHeightMultiple = 1.3
+        label1AttrStr.addAttribute(
+            .paragraphStyle,
+            value: paragraph1,
+            range: NSMakeRange(0, 14)
+        )
+        label1AttrStr.addAttribute(
+            .paragraphStyle,
+            value: paragraph1,
+            range: NSMakeRange(15, 21)
+        )
+        // 行間設定、文字寄せ2
+        let paragraph2 = NSMutableParagraphStyle()
+        paragraph2.alignment = .left
+        paragraph2.lineHeightMultiple = 1.3
+        label1AttrStr.addAttribute(
+            .paragraphStyle,
+            value: paragraph2,
+            range: NSMakeRange(38, 23)
+        )
+        // 文字設定1
+        label1AttrStr.addAttribute(
+            .font,
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
+            range: NSMakeRange(0, 14)
+        )
+        // 文字設定2
+        label1AttrStr.addAttribute(
+            .font,
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W3, size: 16) as Any,
+            range: NSMakeRange(15, 21)
+        )
+        // 文字設定3
+        label1AttrStr.addAttributes([
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
+            .foregroundColor: UIColor.black,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: UIColor.black
+        ], range: NSMakeRange(38, 4))
+        // 文字設定4
+        label1AttrStr.addAttributes([
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
+            .foregroundColor: UIColor.red,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: UIColor.red,
+        ], range: NSMakeRange(42, 5))
+        // 文字設定5
+        label1AttrStr.addAttributes([
+            .font: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
+            .foregroundColor: UIColor.black,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: UIColor.black
+        ], range: NSMakeRange(47, 8))
+        // 文字設定6
+        label1AttrStr.addAttribute(
+            .font,
+            value: UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 20) as Any,
+            range: NSMakeRange(55, 6)
+        )
+        
+        
         let speechBubble = SpeechBubble(
-            text: "あああああ",
-            arrowPosition: .top,
+            text: "ああああああああああああああaaaaaあああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ",
+            attrText: label1AttrStr,
+            fillColor: UIColor(red: 255/255, green: 251/255, blue: 198/255, alpha: 1.0),
+            strokeColor: UIColor(red: 242/255, green: 234/255, blue: 128/255, alpha: 1.0),
+            arrowPosition: .bottom,
             arrowType: .curve,
-            arrowBaseLeft: 10,
+            arrowOffsetRatio: 0.7,
             arrowHeight: 20,
-            arrowBaseRight: 32
+            arrowWidthLeft: 64,
+            arrowWidthRight: 32
         )
         return speechBubble
     }()
@@ -77,9 +147,6 @@ class SpeechBubbleTestView: UIView {
 //            speechBubble.centerXAnchor.constraint(equalTo: scrollContentView.centerXAnchor),
         ])
     }
-            
-    
-    
 }
 
 
@@ -87,287 +154,505 @@ class SpeechBubbleTestView: UIView {
 class SpeechBubble: UIView {
 
     // MARK: - Member
-    let label = UILabel()
-
-    // MARK: - Config
-    private let contentInsets: UIEdgeInsets
-    private let cornerRadius: CGFloat
-
-    private let arrowPosition: ArrowPosition
-    private let arrowType: ArrowType
-    private let arrowOffsetRatio: CGFloat
-
-    /// 矢印の移動量（すべて init で受け取る）
-    private let arrowBaseLeft: CGFloat?
-    private let arrowHeight: CGFloat?
-    private let arrowBaseRight: CGFloat?
-
-    private let fillColor: UIColor
-    private let strokeColor: UIColor
-    private let lineWidth: CGFloat
-
-    // MARK: - Layer
+    /// 枠線用のレイヤー
     private let shapeLayer = CAShapeLayer()
+    
+    // ラベル
+    /// 文言表示ラベル
+    private let label = UILabel()
+    /// 文言テキスト
+    private let text: String
+    /// 文言フォント
+    private let font: UIFont
+    /// 文言文字色
+    private let textColor: UIColor
+    /// 文言テキスト（修飾済み）
+    private let attrText: NSAttributedString?
+    
+    // 吹き出しUI
+    /// 吹き出し内の余白
+    private let contentInsets: UIEdgeInsets
+    /// 吹き出しの角丸
+    private let cornerRadius: CGFloat
+    /// 吹き出しの色
+    private let fillColor: UIColor
+    /// 吹き出しの枠線の色
+    private let strokeColor: UIColor
+    /// 吹き出しの枠線の幅
+    private let lineWidth: CGFloat
+    
+    // 矢印
+    /// 矢印の位置
+    private let arrowPosition: ArrowPosition
+    /// 矢印の種類
+    private let arrowType: ArrowType
+    /// 矢印の描画位置
+    private let arrowOffsetRatio: CGFloat
+    /// 矢印の高さ
+    private let arrowHeight: CGFloat
+    /// 矢印の中心から左の幅
+    private let arrowWidthLeft: CGFloat
+    /// 矢印の中心から右の幅
+    private let arrowWidthRight: CGFloat
+    
 
     // MARK: - Init
+    /// 初期化
+    /// ・描画は反時計回りに行われる（左上→右上→右下→左下）
+    /// ・矢印の位置は上下左右の中から設定可能
+    /// ・矢印の描画位置を設定すると、矢印の位置で設定した辺で描画方向に対して設定値分移動した箇所が矢印の頂点となる ※0.0〜1.0で設定
+    /// ・矢印の中心からの左右の幅は、矢印の位置を上にした時を基準として設定する（矢印の位置が下、左の幅が10、右の幅が20の場合、描画される矢印としては左の幅が20、右の幅が10となる）
+    ///
+    /// - Parameters:
+    ///   - text: 文言テキスト
+    ///   - font: 文言フォント
+    ///   - textColor: 文言文字色
+    ///   - attrText: 文言テキスト（修飾済み）
+    ///   - contentInsets: 吹き出し内の余白
+    ///   - cornerRadius: 吹き出しの角丸
+    ///   - fillColor: 吹き出しの色
+    ///   - strokeColor: 吹き出しの枠線の色
+    ///   - lineWidth: 吹き出しの枠線の幅
+    ///   - arrowPosition: 矢印の位置
+    ///   - arrowType: 矢印の種類
+    ///   - arrowOffsetRatio: 矢印の描画位置（0〜1）
+    ///   - arrowHeight: 矢印の高さ
+    ///   - arrowWidthLeft: 矢印の中心から左の幅
+    ///   - arrowWidthRight: 矢印の中心から右の幅
     init(
         text: String,
-
+        font: UIFont = .systemFont(ofSize: 16),
+        textColor: UIColor = .black,
+        attrText: NSAttributedString? = nil,
+        contentInsets: UIEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12),
+        cornerRadius: CGFloat = 12,
+        fillColor: UIColor,
+        strokeColor: UIColor,
+        lineWidth: CGFloat = 1,
         arrowPosition: ArrowPosition = .bottom,
         arrowType: ArrowType = .straight,
         arrowOffsetRatio: CGFloat = 0.5,
-
-        arrowBaseLeft: CGFloat? = nil,
-        arrowHeight: CGFloat? = nil,
-        arrowBaseRight: CGFloat? = nil,
-
-        contentInsets: UIEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12),
-        cornerRadius: CGFloat = 10,
-
-        fillColor: UIColor = UIColor(red: 1.0, green: 0.98, blue: 0.88, alpha: 1.0),
-        strokeColor: UIColor = UIColor(red: 0.93, green: 0.80, blue: 0.28, alpha: 1.0),
-        lineWidth: CGFloat = 1
+        arrowHeight: CGFloat = 8,
+        arrowWidthLeft: CGFloat = 8,
+        arrowWidthRight: CGFloat = 8
     ) {
+        self.text = text
+        self.font = font
+        self.textColor = textColor
+        self.attrText = attrText
         self.contentInsets = contentInsets
         self.cornerRadius = cornerRadius
-
-        self.arrowPosition = arrowPosition
-        self.arrowType = arrowType
-        self.arrowOffsetRatio = arrowOffsetRatio
-
-        self.arrowBaseLeft = arrowBaseLeft
-        self.arrowHeight = arrowHeight
-        self.arrowBaseRight = arrowBaseRight
-
         self.fillColor = fillColor
         self.strokeColor = strokeColor
         self.lineWidth = lineWidth
-
+        self.arrowPosition = arrowPosition
+        self.arrowType = arrowType
+        self.arrowOffsetRatio = arrowOffsetRatio
+        self.arrowHeight = arrowHeight
+        self.arrowWidthLeft = arrowWidthLeft
+        self.arrowWidthRight = arrowWidthRight
         super.init(frame: .zero)
-
-        label.text = text
-        setup()
+        
+        viewLoad()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: - Setup
-    private func setup() {
-        backgroundColor = .clear
-
-        shapeLayer.fillColor = fillColor.cgColor
-        shapeLayer.strokeColor = strokeColor.cgColor
-        shapeLayer.lineWidth = lineWidth
-        layer.addSublayer(shapeLayer)
-        
-        label.font = .systemFont(ofSize: 16)
-        label.textColor = .black
-        label.numberOfLines = 0
-        label.lineBreakMode = .byCharWrapping
-        addSubview(label)
-    }
-
-    // MARK: - Layout
+    
+    
+    // MARK: - Override
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        shapeLayer.frame = bounds
-        shapeLayer.path = makePath(in: bounds).cgPath
-
-        let arrowH = arrowHeight ?? 0
-        let labelY = arrowPosition == .top ? contentInsets.top + arrowH : contentInsets.top
-        let labelHeight = bounds.height - contentInsets.top - contentInsets.bottom - arrowH
-        let labelWidth = bounds.width - contentInsets.left - contentInsets.right
-        label.preferredMaxLayoutWidth = labelWidth
-        invalidateIntrinsicContentSize()
+        guard self.bounds.size != .zero else { return }
+        shapeLayer.frame = self.bounds
+        shapeLayer.path = makePath(rect: self.bounds).cgPath
+    }
+    
+    
+    // MARK: - ViewLoad
+    private func viewLoad() {
+        // 各UIの初期設定
+        setupUI()
+        // レイアウト設定
+        setupConstraint()
+    }
+    
+    /// 各UIの初期設定を行う
+    private func setupUI() {
+        self.backgroundColor = .clear
         
-        label.frame = CGRect(
-            x: contentInsets.left,
-            y: labelY,
-            width: labelWidth,
-            height: labelHeight
-        )
-    }
-
-    override var intrinsicContentSize: CGSize {
-        // 幅が決まっていればそれを使う（複数行対応）
-        let maxLabelWidth: CGFloat
-        if bounds.width > 0 {
-            maxLabelWidth = bounds.width - contentInsets.left - contentInsets.right
+        // ラベル
+        label.font = font
+        label.textColor = textColor
+        if let attrText = attrText, !attrText.string.isEmpty {
+            label.attributedText = attrText
         } else {
-            maxLabelWidth = CGFloat.greatestFiniteMagnitude
-        }
-
-        let labelSize = label.sizeThatFits(
-            CGSize(
-                width: maxLabelWidth,
-                height: CGFloat.greatestFiniteMagnitude
+            let attrText = NSMutableAttributedString(string: text)
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            attrText.addAttribute(
+                .paragraphStyle,
+                value: paragraphStyle,
+                range: NSMakeRange(0, attrText.length)
             )
-        )
-
-        let arrowH = arrowHeight ?? 0
-
-        return CGSize(
-            width: labelSize.width + contentInsets.left + contentInsets.right,
-            height: labelSize.height + contentInsets.top + contentInsets.bottom + arrowH
-        )
+            label.attributedText = attrText
+        }
+        label.numberOfLines = 0
+        label.lineBreakMode = .byCharWrapping
+        
+        // 吹き出しUI
+        shapeLayer.fillColor = fillColor.cgColor
+        shapeLayer.strokeColor = strokeColor.cgColor
+        shapeLayer.lineWidth = lineWidth
     }
-
-
-    // MARK: - Path
-    private func makePath(in rect: CGRect) -> UIBezierPath {
-
-        let arrowH = arrowHeight ?? 0
-
+    
+    /// UIの制約設定
+    private func setupConstraint() {
+        self.layer.addSublayer(shapeLayer)
+        self.addSubview(label)
+        
+        // MARK: AutoLayout
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor, constant: contentInsets.top + (arrowPosition == .top ? arrowHeight : 0)),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInsets.left + (arrowPosition == .left ? arrowHeight : 0)),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(contentInsets.right + (arrowPosition == .right ? arrowHeight : 0))),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(contentInsets.bottom + (arrowPosition == .bottom ? arrowHeight : 0)))
+        ])
+    }
+    
+    
+    // MARK: - Common
+    /// 吹き出し全体（角丸＋矢印）を描画するためのパスを生成する
+    /// - Parameter rect: パス生成の基準となる矩形（AutoLayout確定後のbounds）
+    /// - Returns: 吹き出し形状を表すUIBezierPath
+    private func makePath(rect: CGRect) -> UIBezierPath {
         let body: CGRect = {
             switch arrowPosition {
             case .top:
                 return CGRect(
                     x: rect.minX,
-                    y: rect.minY + arrowH,
+                    y: rect.minY + arrowHeight,
                     width: rect.width,
-                    height: rect.height - arrowH
+                    height: rect.height - arrowHeight
                 )
             case .bottom:
                 return CGRect(
                     x: rect.minX,
                     y: rect.minY,
                     width: rect.width,
-                    height: rect.height - arrowH
+                    height: rect.height - arrowHeight
+                )
+            case .left:
+                return CGRect(
+                    x: rect.minX + arrowHeight,
+                    y: rect.minY,
+                    width: rect.width - arrowHeight,
+                    height: rect.height
+                )
+            case .right:
+                return CGRect(
+                    x: rect.minX,
+                    y: rect.minY,
+                    width: rect.width - arrowHeight,
+                    height: rect.height
                 )
             }
         }()
-
-        let r = min(cornerRadius, min(body.width, body.height) / 2)
-        let p = UIBezierPath()
+        let radius = min(cornerRadius, min(body.width, body.height) / 2)
+        let curveCpRatio = ArrowCurveCpRatio.pattern1
         
-        let bl = arrowBaseLeft ?? 0
-        let br = arrowBaseRight ?? 0
-        let h  = arrowHeight ?? 0
-
-        // ===== top edge (start) =====
-        p.move(to: CGPoint(x: body.minX + r, y: body.minY))
-
+        // 吹き出しUI描画開始
+        let path = UIBezierPath()
+        
+        // スタート地点に移動
+        path.move(to: CGPoint(x: body.minX + radius, y: body.minY))
+        
+        // 上辺
         if arrowPosition == .top {
             // 上矢印の場合
-            let tip = CGPoint(x: body.minX + body.width * arrowOffsetRatio, y: body.minY - h)
-            let arrowStart = CGPoint(x: tip.x - bl, y: body.minY)
-            let arrowEnd = CGPoint(x: tip.x + br, y: body.minY)
+            let arrowTip = CGPoint(x: body.minX + body.width * arrowOffsetRatio, y: body.minY - arrowHeight)
+            let arrowStart = CGPoint(x: arrowTip.x - arrowWidthLeft, y: body.minY)
+            let arrowEnd = CGPoint(x: arrowTip.x + arrowWidthRight, y: body.minY)
+            // 矢印のタイプによって描画を切り分ける
             switch arrowType {
             case .straight:
-                p.addLine(to: arrowStart)
-                p.addLine(to: tip)
-                p.addLine(to: arrowEnd)
-                p.addLine(to: CGPoint(x: body.maxX - r, y: body.minY))
+                // 直線
+                path.addLine(to: arrowStart)
+                path.addLine(to: arrowTip)
+                path.addLine(to: arrowEnd)
+                path.addLine(to: CGPoint(x: body.maxX - radius, y: body.minY))
             case .curve:
-                p.addLine(to: arrowStart)
-                if bl > 0 {
-                    let cp1 = CGPoint(x: arrowStart.x + bl * 0.3, y: arrowStart.y - h * 0.1)
-                    let cp2 = CGPoint(x: arrowStart.x + bl * 0.7, y: arrowStart.y - h * 0.3)
-                    p.addCurve(to: tip, controlPoint1: cp1, controlPoint2: cp2)
+                // 曲線
+                path.addLine(to: arrowStart)
+                if arrowWidthLeft > 0 {
+                    let cp1 = CGPoint(
+                        x: arrowStart.x + arrowWidthLeft * curveCpRatio.start.cp1X,
+                        y: arrowStart.y - arrowHeight * curveCpRatio.start.cp1Y
+                    )
+                    let cp2 = CGPoint(
+                        x: arrowStart.x + arrowWidthLeft * curveCpRatio.start.cp2X,
+                        y: arrowStart.y - arrowHeight * curveCpRatio.start.cp2Y
+                    )
+                    path.addCurve(to: arrowTip, controlPoint1: cp1, controlPoint2: cp2)
                 } else {
-                    p.addLine(to: tip)
+                    path.addLine(to: arrowTip)
                 }
-                if br > 0 {
-                    let cp1 = CGPoint(x: arrowEnd.x - br * 0.7, y: arrowEnd.y - h * 0.3)
-                    let cp2 = CGPoint(x: arrowEnd.x - br * 0.3, y: arrowEnd.y - h * 0.1)
-                    p.addCurve(to: arrowEnd, controlPoint1: cp1, controlPoint2: cp2)
+                if arrowWidthRight > 0 {
+                    let cp1 = CGPoint(
+                        x: arrowEnd.x - arrowWidthRight * curveCpRatio.end.cp1X,
+                        y: arrowEnd.y - arrowHeight * curveCpRatio.end.cp1Y
+                    )
+                    let cp2 = CGPoint(
+                        x: arrowEnd.x - arrowWidthRight * curveCpRatio.end.cp2X,
+                        y: arrowEnd.y - arrowHeight * curveCpRatio.end.cp2Y
+                    )
+                    path.addCurve(to: arrowEnd, controlPoint1: cp1, controlPoint2: cp2)
                 } else {
-                    p.addLine(to: arrowEnd)
+                    path.addLine(to: arrowEnd)
                 }
-                p.addLine(to: CGPoint(x: body.maxX - r, y: body.minY))
+                path.addLine(to: CGPoint(x: body.maxX - radius, y: body.minY))
             }
         } else {
-            // 通常の上辺
-            p.addLine(to: CGPoint(x: body.maxX - r, y: body.minY))
+            path.addLine(to: CGPoint(x: body.maxX - radius, y: body.minY))
         }
-
-        p.addArc(
-            withCenter: CGPoint(x: body.maxX - r, y: body.minY + r),
-            radius: r,
+        
+        // 右上角丸
+        path.addArc(
+            withCenter: CGPoint(x: body.maxX - radius, y: body.minY + radius),
+            radius: radius,
             startAngle: -.pi / 2,
             endAngle: 0,
             clockwise: true
         )
-
-        // ===== right edge =====
-        p.addLine(to: CGPoint(x: body.maxX, y: body.maxY - r))
-        p.addArc(
-            withCenter: CGPoint(x: body.maxX - r, y: body.maxY - r),
-            radius: r,
+        
+        // 右辺
+        if arrowPosition == .right {
+            // 右矢印の場合
+            let arrowTip = CGPoint(x: body.maxX + arrowHeight, y: body.minY + body.height * arrowOffsetRatio)
+            let arrowStart = CGPoint(x: body.maxX, y: arrowTip.y - arrowWidthLeft)
+            let arrowEnd = CGPoint(x: body.maxX, y: arrowTip.y + arrowWidthRight)
+            // 矢印のタイプによって描画を切り分ける
+            switch arrowType {
+            case .straight:
+                // 直線
+                path.addLine(to: arrowStart)
+                path.addLine(to: arrowTip)
+                path.addLine(to: arrowEnd)
+                path.addLine(to: CGPoint(x: body.maxX, y: body.maxY - radius))
+            case .curve:
+                // 曲線
+                path.addLine(to: arrowStart)
+                if arrowWidthLeft > 0 {
+                    let cp1 = CGPoint(
+                        x: arrowStart.x + arrowHeight * curveCpRatio.start.cp1Y,
+                        y: arrowStart.y + arrowWidthLeft * curveCpRatio.start.cp1X
+                    )
+                    let cp2 = CGPoint(
+                        x: arrowStart.x + arrowHeight * curveCpRatio.start.cp2Y,
+                        y: arrowStart.y + arrowWidthLeft * curveCpRatio.start.cp2X
+                    )
+                    path.addCurve(to: arrowTip, controlPoint1: cp1, controlPoint2: cp2)
+                } else {
+                    path.addLine(to: arrowTip)
+                }
+                if arrowWidthRight > 0 {
+                    let cp1 = CGPoint(
+                        x: arrowEnd.x + arrowHeight * curveCpRatio.end.cp1Y,
+                        y: arrowEnd.y - arrowWidthRight * curveCpRatio.end.cp1X
+                    )
+                    let cp2 = CGPoint(
+                        x: arrowEnd.x + arrowHeight * curveCpRatio.end.cp2Y,
+                        y: arrowEnd.y - arrowWidthRight * curveCpRatio.end.cp2X
+                    )
+                    path.addCurve(to: arrowEnd, controlPoint1: cp1, controlPoint2: cp2)
+                } else {
+                    path.addLine(to: arrowEnd)
+                }
+                path.addLine(to: CGPoint(x: body.maxX, y: body.maxY - radius))
+            }
+        } else {
+            path.addLine(to: CGPoint(x: body.maxX, y: body.maxY - radius))
+        }
+        
+        // 右下角丸
+        path.addArc(
+            withCenter: CGPoint(x: body.maxX - radius, y: body.maxY - radius),
+            radius: radius,
             startAngle: 0,
             endAngle: .pi / 2,
             clockwise: true
         )
-
-        // ===== bottom edge + arrow =====
+        
+        // 下辺
         if arrowPosition == .bottom {
             // 下矢印の場合
-            let baseX = body.maxX - body.width * arrowOffsetRatio
-
-            // 矢印開始まで（右 → 左に進む）
-            let arrowStart = CGPoint(
-                x: baseX - (arrowBaseLeft ?? 0),
-                y: body.maxY
-            )
-            p.addLine(to: arrowStart)
-
-            // 矢印の頂点まで（下へ）
-            let tip = CGPoint(
-                x: arrowStart.x,
-                y: arrowStart.y + (arrowHeight ?? 0)
-            )
-            p.addLine(to: tip)
-
-            // 矢印終了まで（さらに左へ）
-            let arrowEnd = CGPoint(
-                x: tip.x - (arrowBaseRight ?? 0),
-                y: body.maxY
-            )
-            p.addLine(to: arrowEnd)
-
-            // 下辺の終了まで
-            p.addLine(to: CGPoint(x: body.minX + r, y: body.maxY))
+            let arrowTip = CGPoint(x: body.maxX - body.width * arrowOffsetRatio, y: body.maxY + arrowHeight)
+            let arrowStart = CGPoint(x: arrowTip.x + arrowWidthLeft, y: body.maxY)
+            let arrowEnd = CGPoint(x: arrowTip.x - arrowWidthRight, y: body.maxY)
+            // 矢印のタイプによって描画を切り分ける
+            switch arrowType {
+            case .straight:
+                // 直線
+                path.addLine(to: arrowStart)
+                path.addLine(to: arrowTip)
+                path.addLine(to: arrowEnd)
+                path.addLine(to: CGPoint(x: body.minX + radius, y: body.maxY))
+            case .curve:
+                // 曲線
+                path.addLine(to: arrowStart)
+                if arrowWidthLeft > 0 {
+                    let cp1 = CGPoint(
+                        x: arrowStart.x - arrowWidthLeft * curveCpRatio.start.cp1X,
+                        y: arrowStart.y + arrowHeight * curveCpRatio.start.cp1Y
+                    )
+                    let cp2 = CGPoint(
+                        x: arrowStart.x - arrowWidthLeft * curveCpRatio.start.cp2X,
+                        y: arrowStart.y + arrowHeight * curveCpRatio.start.cp2Y
+                    )
+                    path.addCurve(to: arrowTip, controlPoint1: cp1, controlPoint2: cp2)
+                } else {
+                    path.addLine(to: arrowTip)
+                }
+                if arrowWidthRight > 0 {
+                    let cp1 = CGPoint(
+                        x: arrowEnd.x + arrowWidthRight * curveCpRatio.end.cp1X,
+                        y: arrowEnd.y + arrowHeight * curveCpRatio.end.cp1Y
+                    )
+                    let cp2 = CGPoint(
+                        x: arrowEnd.x + arrowWidthRight * curveCpRatio.end.cp2X,
+                        y: arrowEnd.y + arrowHeight * curveCpRatio.end.cp2Y
+                    )
+                    path.addCurve(to: arrowEnd, controlPoint1: cp1, controlPoint2: cp2)
+                } else {
+                    path.addLine(to: arrowEnd)
+                }
+                path.addLine(to: CGPoint(x: body.minX + radius, y: body.maxY))
+            }
         } else {
-            // 通常の下辺
-            p.addLine(to: CGPoint(x: body.minX + r, y: body.maxY))
+            path.addLine(to: CGPoint(x: body.minX + radius, y: body.maxY))
         }
-
-
-        p.addArc(
-            withCenter: CGPoint(x: body.minX + r, y: body.maxY - r),
-            radius: r,
+        
+        // 左下角丸
+        path.addArc(
+            withCenter: CGPoint(x: body.minX + radius, y: body.maxY - radius),
+            radius: radius,
             startAngle: .pi / 2,
             endAngle: .pi,
             clockwise: true
         )
-
-        // ===== left edge =====
-        p.addLine(to: CGPoint(x: body.minX, y: body.minY + r))
-        p.addArc(
-            withCenter: CGPoint(x: body.minX + r, y: body.minY + r),
-            radius: r,
+        
+        // 左辺
+        if arrowPosition == .left {
+            // 右矢印の場合
+            let arrowTip = CGPoint(x: body.minX - arrowHeight, y: body.maxY - body.height * arrowOffsetRatio)
+            let arrowStart = CGPoint(x: body.minX, y: arrowTip.y + arrowWidthLeft)
+            let arrowEnd = CGPoint(x: body.minX, y: arrowTip.y - arrowWidthRight)
+            // 矢印のタイプによって描画を切り分ける
+            switch arrowType {
+            case .straight:
+                // 直線
+                path.addLine(to: arrowStart)
+                path.addLine(to: arrowTip)
+                path.addLine(to: arrowEnd)
+                path.addLine(to: CGPoint(x: body.minX, y: body.minY + radius))
+            case .curve:
+                // 曲線
+                path.addLine(to: arrowStart)
+                if arrowWidthLeft > 0 {
+                    let cp1 = CGPoint(
+                        x: arrowStart.x - arrowHeight * curveCpRatio.start.cp1Y,
+                        y: arrowStart.y - arrowWidthLeft * curveCpRatio.start.cp1X
+                    )
+                    let cp2 = CGPoint(
+                        x: arrowStart.x - arrowHeight * curveCpRatio.start.cp2Y,
+                        y: arrowStart.y - arrowWidthLeft * curveCpRatio.start.cp2X
+                    )
+                    path.addCurve(to: arrowTip, controlPoint1: cp1, controlPoint2: cp2)
+                } else {
+                    path.addLine(to: arrowTip)
+                }
+                if arrowWidthRight > 0 {
+                    let cp1 = CGPoint(
+                        x: arrowEnd.x - arrowHeight * curveCpRatio.end.cp1Y,
+                        y: arrowEnd.y + arrowWidthRight * curveCpRatio.end.cp1X
+                    )
+                    let cp2 = CGPoint(
+                        x: arrowEnd.x - arrowHeight * curveCpRatio.end.cp2Y,
+                        y: arrowEnd.y + arrowWidthRight * curveCpRatio.end.cp2X
+                    )
+                    path.addCurve(to: arrowEnd, controlPoint1: cp1, controlPoint2: cp2)
+                } else {
+                    path.addLine(to: arrowEnd)
+                }
+                path.addLine(to: CGPoint(x: body.minX, y: body.minY + radius))
+            }
+        } else {
+            path.addLine(to: CGPoint(x: body.minX, y: body.minY + radius))
+        }
+        
+        // 左上角丸
+        path.addArc(
+            withCenter: CGPoint(x: body.minX + radius, y: body.minY + radius),
+            radius: radius,
             startAngle: .pi,
             endAngle: -.pi / 2,
             clockwise: true
         )
         
-        p.close()
-        return p
+        path.close()
+        return path
     }
 }
 
-
 // MARK: - ArrowPosition
-/// 吹き出しの矢印の位置
+/// 矢印の位置
 enum ArrowPosition {
+    /// 上
     case top
+    /// 下
     case bottom
+    /// 左
+    case left
+    /// 右
+    case right
 }
 
+// MARK: - ArrowType
+/// 矢印のタイプ
 enum ArrowType {
+    /// 直線
     case straight
+    /// 曲線
     case curve
 }
+
+// MARK: - ArrowCurveCpRatio
+/// 矢印のタイプが「curve」の際のcp1とcp2の倍率
+/// 矢印の位置が「上下」の場合はXとYはそのまま設定で良いが、「左右」の場合はXとYを反転して設定する ※軸の概念が反転するため
+private struct ArrowCurveCpRatio {
+    struct Start {
+        let cp1X: CGFloat
+        let cp1Y: CGFloat
+        let cp2X: CGFloat
+        let cp2Y: CGFloat
+    }
+    
+    struct End {
+        let cp1X: CGFloat
+        let cp1Y: CGFloat
+        let cp2X: CGFloat
+        let cp2Y: CGFloat
+    }
+    
+    let start: Start
+    let end: End
+    
+    static let pattern1 = ArrowCurveCpRatio(
+        start: .init(cp1X: 0.3, cp1Y: 0.1, cp2X: 0.7, cp2Y: 0.3),
+        end: .init(cp1X: 0.7, cp1Y: 0.3, cp2X: 0.3, cp2Y: 0.1)
+    )
+}
+
