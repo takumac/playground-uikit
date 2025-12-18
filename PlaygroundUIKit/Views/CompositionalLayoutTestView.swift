@@ -243,9 +243,9 @@ class CompositionalLayoutTestView: UIView {
     }
     /// セグメント1のアイテムタイプ
     private enum ItemTypeSeg1: Hashable {
-        case grid(id: UUID, imageName: String, text: String)
-        case instagram(id: UUID, imageName: String)
-        case netflix(id: UUID, imageName: String, text: String)
+        case grid(id: UUID)
+        case instagram(id: UUID)
+        case netflix(id: UUID)
     }
     
     private var gridItemDatasSeg1: [GridCellData] = [
@@ -350,7 +350,7 @@ class CompositionalLayoutTestView: UIView {
     }
     /// セグメント2のアイテムタイプ
     private enum ItemTypeSeg2: Hashable {
-        case grid(id: UUID, imageName: String, text: String)
+        case grid(id: UUID)
     }
     
     private var gridItemDatasSeg2: [GridCellData] = [
@@ -434,25 +434,33 @@ class CompositionalLayoutTestView: UIView {
                 switch item {
                 case .seg1(let subItem):
                     switch subItem {
-                    case .grid(_ ,let imageName, let text):
+                    case .grid(let id):
                         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as! GridCell
-                        cell.configure(imageName: imageName, text: text)
+                        if let data = self.gridItemDatasSeg1.first(where: { $0.id == id }) {
+                            cell.configure(imageName: data.imageName, text: data.text)
+                        }
                         return cell
-                    case .instagram(_ , let imageName):
+                    case .instagram(let id):
                         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InstagramCell.identifier, for: indexPath) as! InstagramCell
-                        cell.configure(imageName: imageName)
+                        if let data = self.instagramItemDatasSeg1.first(where: { $0.id == id }) {
+                            cell.configure(imageName: data.imageName)
+                        }
                         return cell
-                    case .netflix(_, let imageName, let text):
+                    case .netflix(let id):
                         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NetflixCell.identifier, for: indexPath) as! NetflixCell
-                        cell.configure(imageName: imageName, text: text)
+                        if let data = self.netflixItemDatasSeg1.first(where: { $0.id == id }) {
+                            cell.configure(imageName: data.imageName, text: data.text)
+                        }
                         return cell
                     }
                     
                 case .seg2(let subItem):
                     switch subItem {
-                    case .grid(_, let imageName, let text):
+                    case .grid(let id):
                         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as! GridCell
-                        cell.configure(imageName: imageName, text: text)
+                        if let data = self.gridItemDatasSeg2.first(where: { $0.id == id }) {
+                            cell.configure(imageName: data.imageName, text: data.text)
+                        }
                         return cell
                     }
                 }
@@ -506,21 +514,15 @@ class CompositionalLayoutTestView: UIView {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         snapshot.appendSections([.seg1(.grid), .seg1(.instagram), .seg1(.netflix)])
         snapshot.appendItems(
-            gridItemDatasSeg1.map {
-                .seg1(.grid(id: $0.id, imageName: $0.imageName, text: $0.text))
-            },
+            gridItemDatasSeg1.map { .seg1(.grid(id: $0.id)) },
             toSection: .seg1(.grid)
         )
         snapshot.appendItems(
-            instagramItemDatasSeg1.map {
-                .seg1(.instagram(id: $0.id, imageName: $0.imageName))
-            },
+            instagramItemDatasSeg1.map { .seg1(.instagram(id: $0.id)) },
             toSection: .seg1(.instagram)
         )
         snapshot.appendItems(
-            netflixItemDatasSeg1.map {
-                .seg1(.netflix(id: $0.id, imageName: $0.imageName, text: $0.text))
-            },
+            netflixItemDatasSeg1.map { .seg1(.netflix(id: $0.id)) },
             toSection: .seg1(.netflix)
         )
         dataSource.apply(snapshot, animatingDifferences: true)
@@ -547,9 +549,7 @@ class CompositionalLayoutTestView: UIView {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         snapshot.appendSections([.seg2(.grid)])
         snapshot.appendItems(
-            gridItemDatasSeg2.map {
-                .seg2(.grid(id: $0.id, imageName: $0.imageName, text: $0.text))
-            },
+            gridItemDatasSeg2.map { .seg2(.grid(id: $0.id)) },
             toSection: .seg2(.grid)
         )
         dataSource.apply(snapshot, animatingDifferences: true)
