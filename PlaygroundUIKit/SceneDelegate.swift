@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // ステータスバーの高さを設定
         SizeConstant.shared.STATUSBAR_HEIGHT = windowScene.statusBarManager?.statusBarFrame.height ?? 0
         // ナビゲーションバーの高さを取得するためにダミーのインスタンスを作成する
-        let dummyRootViewController: RootViewController = RootViewController.init()
+        let dummyRootViewController: RootTabBarController = RootTabBarController.init()
         let dummyNavigationController: UINavigationController =
             UINavigationController.init(rootViewController: dummyRootViewController)
         // ナビゲーションバーの高さを設定
