@@ -14,7 +14,7 @@ class RootTabBarController: UITabBarController, UITabBarControllerDelegate {
     // MARK: - Init
     
     
-    // MARK: - LifeCycle
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         viewLoad()

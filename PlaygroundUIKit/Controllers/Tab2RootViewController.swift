@@ -14,7 +14,7 @@ class Tab2RootViewController: UIViewController, Tab2RootViewDelegate {
     // MARK: - Init
     
     
-    // MARK: - LyfeCycle
+    // MARK: - Lyfecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // 背景色設定

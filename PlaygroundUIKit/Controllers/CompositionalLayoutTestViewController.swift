@@ -13,7 +13,7 @@ class CompositionalLayoutTestViewController: UIViewController {
     var compositionalLayoutTestView: CompositionalLayoutTestView?
     
     
-    // MARK: - LifeCycle
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // 背景色設定
