@@ -1,39 +1,37 @@
 //
-//  CompositionalLayoutTestViewController.swift
+//  Tab2RootViewController.swift
 //  PlaygroundUIKit
 //
-//  Created by Takumi Sakai on 2025/07/08.
+//  Created by Takumi Sakai on 2026/01/20.
 //
 
 import UIKit
 
-class CompositionalLayoutTestViewController: UIViewController {
-    
+class Tab2RootViewController: UIViewController, Tab2RootViewDelegate {
     // MARK: - Member
-    var compositionalLayoutTestView: CompositionalLayoutTestView?
+    var tab2RootView: Tab2RootView?
+    
+    // MARK: - Init
     
     
-    // MARK: - LifeCycle
+    // MARK: - LyfeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // 背景色設定
         self.view.backgroundColor = C01_COLOR
         // タイトル設定
-        self.title = "Compositional Layout"
+        self.title = "Tab2"
         // 画面描画
         viewLoad()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     
     // MARK: - ViewLoad
-    func viewLoad() {
+    private func viewLoad() {
         // 画面Viewの生成
-        let view = CompositionalLayoutTestView()
-        compositionalLayoutTestView = view
+        let view = Tab2RootView()
+        view.delegate = self
+        tab2RootView = view
         self.view.addSubview(view)
         // 画面ViewのAutoLayout
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -44,5 +42,4 @@ class CompositionalLayoutTestViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
     }
-    
 }

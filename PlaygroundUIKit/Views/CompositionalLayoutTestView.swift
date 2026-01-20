@@ -258,7 +258,7 @@ class CompositionalLayoutTestView: UIView {
         GridCellData(id: UUID(), imageName: "seg1-grid-7", text: "grid 7"),
         GridCellData(id: UUID(), imageName: "seg1-grid-8", text: "grid 8"),
         GridCellData(id: UUID(), imageName: "seg1-grid-9", text: "grid 9"),
-        GridCellData(id: UUID(), imageName: "seg1-grid-10", text: "grid 10"),
+        GridCellData(id: UUID(), imageName: "seg1-grid-10", text: "grid 10")
     ]
     private var instagramItemDatasSeg1: [InstagramCellData] = [
         InstagramCellData(id: UUID(), imageName: "seg1-instagram-1"),
@@ -287,8 +287,7 @@ class CompositionalLayoutTestView: UIView {
         NetflixCellData(id: UUID(), imageName: "seg1-netflix-7", text: "少林サッカー"),
         NetflixCellData(id: UUID(), imageName: "seg1-netflix-8", text: "SW"),
         NetflixCellData(id: UUID(), imageName: "seg1-netflix-9", text: "クローズ"),
-        NetflixCellData(id: UUID(), imageName: "seg1-netflix-10", text: "バイオ"),
-        
+        NetflixCellData(id: UUID(), imageName: "seg1-netflix-10", text: "バイオ")
     ]
     
     /// セグメント2のセクションタイプ
@@ -387,8 +386,8 @@ class CompositionalLayoutTestView: UIView {
     
     
     // MARK: - Init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         // UI設定
         setupView()
         // データソース設定
@@ -406,6 +405,8 @@ class CompositionalLayoutTestView: UIView {
     private func setupView() {
         backgroundColor = .white
         
+        segmentControl.addTarget(self, action: #selector(didChangeSegment(_:)), for: .valueChanged)
+        
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
         collectionView.register(InstagramCell.self, forCellWithReuseIdentifier: "InstagramCell")
@@ -415,16 +416,15 @@ class CompositionalLayoutTestView: UIView {
         addSubview(collectionView)
         
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentControl.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
-        segmentControl.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 8).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        
-        segmentControl.addTarget(self, action: #selector(didChangeSegment(_:)), for: .valueChanged)
+        NSLayoutConstraint.activate([
+            segmentControl.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
+            segmentControl.centerXAnchor.constraint(equalTo: centerXAnchor),
+            collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 8),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+        ])
     }
     
     private func setupDataSource() {

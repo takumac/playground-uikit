@@ -54,20 +54,41 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             height: SizeConstant.shared.MODELESS_VIEW_HEIGHT
         )
         
+        // setup TabBar
+        let tabBarAppearance = UITabBarAppearance()
+        if #available(iOS 26.0, *) {
+            tabBarAppearance.configureWithTransparentBackground()
+        } else {
+            tabBarAppearance.configureWithOpaqueBackground()
+            tabBarAppearance.backgroundColor = .systemBackground
+        }
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        if #available(iOS 15.0, *) {
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        }
+        if #unavailable(iOS 26.0) {
+            UINavigationBar.appearance().isTranslucent = false
+        }
+        
         // setup NavigationBar
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = C01_COLOR
-        UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        let navigationBarAppearance = UINavigationBarAppearance()
+        if #available(iOS 26.0, *) {
+            navigationBarAppearance.configureWithTransparentBackground()
+        } else {
+            navigationBarAppearance.configureWithOpaqueBackground()
+            navigationBarAppearance.backgroundColor = .systemBackground
+        }
+        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+        if #available(iOS 15.0, *) {
+            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+        }
+        if #unavailable(iOS 26.0) {
+            UINavigationBar.appearance().isTranslucent = false
+        }
         
-        let rootViewController: RootViewController = RootViewController.init()
-        let navigationController: UINavigationController = UINavigationController(rootViewController: rootViewController)
-        
+        let rootVC = RootTabBarController()
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = navigationController
+        window.rootViewController = rootVC
         
         self.window = window
         window.makeKeyAndVisible()
