@@ -8,14 +8,14 @@
 import Foundation
 import UIKit
 
-protocol PhpickerTestViewDelegate {
+protocol PhpickerTestViewDelegate: AnyObject {
     func phpickerButtonTapAction()
 }
 
 class PhpickerTestView: UIView {
     
     /// Delegate
-    var phpickerTestViewDelegate: PhpickerTestViewDelegate?
+    weak var delegate: PhpickerTestViewDelegate?
     
     /// 画像を設定するImageView
     let imageView: UIImageView = UIImageView()
@@ -25,8 +25,8 @@ class PhpickerTestView: UIView {
     
     
     // MARK: - Init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         viewLoad()
     }
     
@@ -39,31 +39,32 @@ class PhpickerTestView: UIView {
         imageView.backgroundColor = .lightGray
         imageView.layer.borderColor = UIColor.gray.cgColor
         imageView.layer.borderWidth = 1
-        self.addSubview(imageView)
         
         phpickerButton.setTitle("PHPicker Run", for: .normal)
         phpickerButton.setTitleColor(C02_COLOR, for: .normal)
         phpickerButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         phpickerButton.sizeToFit()
         phpickerButton.addTarget(self, action: #selector(phpickerButtonTapAction(_:)), for: .touchUpInside)
-        self.addSubview(phpickerButton)
+        
+        addSubview(imageView)
+        addSubview(phpickerButton)
         
         // AutoLayout
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 30).isActive = true
-        imageView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9).isActive = true
-        imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9).isActive = true
-        imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        
         phpickerButton.translatesAutoresizingMaskIntoConstraints = false
-        phpickerButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30).isActive = true
-        phpickerButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
+            imageView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9),
+            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9),
+            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            phpickerButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30),
+            phpickerButton.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+        ])
     }
     
     
     // MARK: - Action
     @objc func phpickerButtonTapAction(_ sender: UIButton) {
-        phpickerTestViewDelegate?.phpickerButtonTapAction()
+        delegate?.phpickerButtonTapAction()
     }
 }

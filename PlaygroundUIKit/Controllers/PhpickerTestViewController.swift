@@ -19,19 +19,9 @@ class PhPickerTestViewController: UIViewController, PhpickerTestViewDelegate, PH
         super.viewDidLoad()
         // 背景色設定
         self.view.backgroundColor = C01_COLOR
-        // Navigationbarのタイトル
-        let navigationTitleLabel = UILabel()
-        navigationTitleLabel.font = .boldSystemFont(ofSize: 25)
-        navigationTitleLabel.text = "PhpickerTest"
-        navigationTitleLabel.adjustsFontSizeToFitWidth = true
-        navigationTitleLabel.sizeToFit()
-        navigationTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        if let navigationBarHeight = navigationController?.navigationBar.bounds.height {
-            navigationTitleLabel.heightAnchor.constraint(equalToConstant: navigationBarHeight).isActive = true
-        }
-        navigationTitleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: navigationTitleLabel.bounds.width).isActive = true
-        self.navigationItem.titleView = navigationTitleLabel
-        
+        // タイトル設定
+        self.title = "PHPicker"
+        // 画面描画
         viewLoad()
     }
     
@@ -41,9 +31,19 @@ class PhPickerTestViewController: UIViewController, PhpickerTestViewDelegate, PH
     
     // MARK: - Viewload
     func viewLoad() {
-        phpickerTestView = PhpickerTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
-        phpickerTestView?.phpickerTestViewDelegate = self
-        self.view.addSubview(phpickerTestView!)
+        // 画面Viewの生成
+        let view = PhpickerTestView()
+        view.delegate = self
+        phpickerTestView = view
+        self.view.addSubview(view)
+        // 画面ViewのAutoLayout
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: self.view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
     }
     
     // MARK: - Delegate(PhpickerTestViewDelegate)
@@ -62,7 +62,9 @@ class PhPickerTestViewController: UIViewController, PhpickerTestViewDelegate, PH
     
     // MARK: - Delegate(PHPickerViewControllerDelegate)
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true) {
+        picker.dismiss(animated: true) { [weak self] () in
+            guard let self = self else { return }
+            
             // プロバイダーの取得
             guard let provider = results.first?.itemProvider else {
                 // キャンセルの場合はプロバイダーが取得できないので、アラートなしでreturn
@@ -90,7 +92,8 @@ class PhPickerTestViewController: UIViewController, PhpickerTestViewDelegate, PH
             // URLデータを取得する
             let typeIdentifier = UTType.image.identifier
             if provider.hasItemConformingToTypeIdentifier(typeIdentifier) {
-                provider.loadFileRepresentation(forTypeIdentifier: typeIdentifier) { url, error in
+                provider.loadFileRepresentation(forTypeIdentifier: typeIdentifier) { [weak self] url, error in
+                    guard let self = self else { return }
                     // URLの取得エラーが発生した場合はエラーとする
                     if error != nil {
                         let alert = UIAlertController(title: "エラー", message: "URL取得時にエラー", preferredStyle: .alert)
@@ -111,7 +114,8 @@ class PhPickerTestViewController: UIViewController, PhpickerTestViewDelegate, PH
                         }
                         
                         // 画像情報を設定
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.async { [weak self] () in
+                            guard let self = self else { return }
                             self.phpickerTestView?.imageView.image = imageData
                         }
                     }
@@ -119,6 +123,5 @@ class PhPickerTestViewController: UIViewController, PhpickerTestViewDelegate, PH
             }
         }
     }
-    
     
 }
