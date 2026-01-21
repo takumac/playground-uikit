@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol RadioButtonTestViewDelegate {
+protocol RadioButtonTestViewDelegate: AnyObject {
     func radioButton1TapAction()
 }
 
@@ -16,10 +16,10 @@ class RadioButtonTestView: UIView {
     
     // MARK: - Member
     /// Delegate
-    var radioButtonTestViewDelegate: RadioButtonTestViewDelegate?
+    weak var delegate: RadioButtonTestViewDelegate?
     
     let scrollView: UIScrollView = UIScrollView()
-    let contentView: UIStackView = UIStackView()
+    let contentView = UIView()
     
     let baseView1: UIView = {
         let uiView = UIView()
@@ -100,8 +100,8 @@ class RadioButtonTestView: UIView {
     
     
     // MARK: - Init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         viewLoad()
     }
     
@@ -113,96 +113,86 @@ class RadioButtonTestView: UIView {
     // MARK: - ViewLoad
     func viewLoad() {
         // ViewSetting
-        contentView.axis = .vertical
-        contentView.alignment = .fill
-        contentView.distribution = .equalSpacing
-        
         let baseView1tapGesture = UITapGestureRecognizer(target: self, action: #selector(radioButton1BaseViewTapAction(_:)))
         baseView1.addGestureRecognizer(baseView1tapGesture)
         let baseView2tapGesture = UITapGestureRecognizer(target: self, action: #selector(radioButton1BaseViewTapAction(_:)))
         baseView2.addGestureRecognizer(baseView2tapGesture)
         
-        // AddSubView
+        // ラジオボタン1
         baseView1.addSubview(radioButton1_1)
         baseView1.addSubview(textLabel1_1)
         baseView1.addSubview(textLabel1_2)
         baseView1.addSubview(textLabel1_3)
-        contentView.addSubview(baseView1)
+        radioButton1_1.translatesAutoresizingMaskIntoConstraints = false
+        textLabel1_1.translatesAutoresizingMaskIntoConstraints = false
+        textLabel1_2.translatesAutoresizingMaskIntoConstraints = false
+        textLabel1_3.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            radioButton1_1.topAnchor.constraint(equalTo: baseView1.topAnchor, constant: 20),
+            radioButton1_1.leadingAnchor.constraint(equalTo: baseView1.leadingAnchor, constant: 16),
+            radioButton1_1.widthAnchor.constraint(equalToConstant: radioButton1_1.frame.width),
+            radioButton1_1.heightAnchor.constraint(equalToConstant: radioButton1_1.frame.height),
+            textLabel1_1.leadingAnchor.constraint(equalTo: radioButton1_1.trailingAnchor, constant: 32),
+            textLabel1_1.centerYAnchor.constraint(equalTo: radioButton1_1.centerYAnchor),
+            textLabel1_2.topAnchor.constraint(equalTo: textLabel1_1.bottomAnchor, constant: 20),
+            textLabel1_2.leadingAnchor.constraint(equalTo: textLabel1_1.leadingAnchor),
+            textLabel1_3.topAnchor.constraint(equalTo: textLabel1_2.bottomAnchor, constant: 20),
+            textLabel1_3.bottomAnchor.constraint(equalTo: baseView1.bottomAnchor, constant: -20),
+            textLabel1_3.leadingAnchor.constraint(equalTo: textLabel1_1.leadingAnchor),
+        ])
         
+        // ラジオボタン2
         baseView2.addSubview(radioButton1_2)
         baseView2.addSubview(textLabel2_1)
         baseView2.addSubview(textLabel2_2)
         baseView2.addSubview(textLabel2_3)
+        radioButton1_2.translatesAutoresizingMaskIntoConstraints = false
+        textLabel2_1.translatesAutoresizingMaskIntoConstraints = false
+        textLabel2_2.translatesAutoresizingMaskIntoConstraints = false
+        textLabel2_3.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            radioButton1_2.topAnchor.constraint(equalTo: baseView2.topAnchor, constant: 20),
+            radioButton1_2.leadingAnchor.constraint(equalTo: baseView2.leadingAnchor, constant: 16),
+            radioButton1_2.widthAnchor.constraint(equalToConstant: radioButton1_2.frame.width),
+            radioButton1_2.heightAnchor.constraint(equalToConstant: radioButton1_2.frame.height),
+            textLabel2_1.leadingAnchor.constraint(equalTo: radioButton1_2.trailingAnchor, constant: 32),
+            textLabel2_1.centerYAnchor.constraint(equalTo: radioButton1_2.centerYAnchor),
+            textLabel2_2.topAnchor.constraint(equalTo: textLabel2_1.bottomAnchor, constant: 20),
+            textLabel2_2.leadingAnchor.constraint(equalTo: textLabel2_1.leadingAnchor),
+            textLabel2_3.topAnchor.constraint(equalTo: textLabel2_2.bottomAnchor, constant: 20),
+            textLabel2_3.bottomAnchor.constraint(equalTo: baseView2.bottomAnchor, constant: -20),
+            textLabel2_3.leadingAnchor.constraint(equalTo: textLabel2_1.leadingAnchor)
+        ])
+        
+        // 全体
+        contentView.addSubview(baseView1)
         contentView.addSubview(baseView2)
-        
         scrollView.addSubview(contentView)
-        
         self.addSubview(scrollView)
         
         // AutoLayout
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1).isActive = true
-        
         baseView1.translatesAutoresizingMaskIntoConstraints = false
-        baseView1.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 50).isActive = true
-        baseView1.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
-        baseView1.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        
-        radioButton1_1.translatesAutoresizingMaskIntoConstraints = false
-        radioButton1_1.topAnchor.constraint(equalTo: baseView1.topAnchor, constant: 20).isActive = true
-        radioButton1_1.leadingAnchor.constraint(equalTo: baseView1.leadingAnchor, constant: 15).isActive = true
-        radioButton1_1.widthAnchor.constraint(equalToConstant: radioButton1_1.frame.width).isActive = true
-        radioButton1_1.heightAnchor.constraint(equalToConstant: radioButton1_1.frame.height).isActive = true
-        
-        textLabel1_1.translatesAutoresizingMaskIntoConstraints = false
-        textLabel1_1.leadingAnchor.constraint(equalTo: radioButton1_1.trailingAnchor, constant: 30).isActive = true
-        textLabel1_1.centerYAnchor.constraint(equalTo: radioButton1_1.centerYAnchor).isActive = true
-        
-        textLabel1_2.translatesAutoresizingMaskIntoConstraints = false
-        textLabel1_2.topAnchor.constraint(equalTo: textLabel1_1.bottomAnchor, constant: 20).isActive = true
-        textLabel1_2.leadingAnchor.constraint(equalTo: textLabel1_1.leadingAnchor).isActive = true
-        
-        textLabel1_3.translatesAutoresizingMaskIntoConstraints = false
-        textLabel1_3.topAnchor.constraint(equalTo: textLabel1_2.bottomAnchor, constant: 20).isActive = true
-        textLabel1_3.bottomAnchor.constraint(equalTo: baseView1.bottomAnchor, constant: -20).isActive = true
-        textLabel1_3.leadingAnchor.constraint(equalTo: textLabel1_1.leadingAnchor).isActive = true
-        
         baseView2.translatesAutoresizingMaskIntoConstraints = false
-        baseView2.topAnchor.constraint(equalTo: baseView1.bottomAnchor, constant: 50).isActive = true
-        baseView2.leadingAnchor.constraint(equalTo: baseView1.leadingAnchor).isActive = true
-        baseView2.trailingAnchor.constraint(equalTo: baseView1.trailingAnchor).isActive = true
-        
-        radioButton1_2.translatesAutoresizingMaskIntoConstraints = false
-        radioButton1_2.topAnchor.constraint(equalTo: baseView2.topAnchor, constant: 20).isActive = true
-        radioButton1_2.leadingAnchor.constraint(equalTo: baseView2.leadingAnchor, constant: 15).isActive = true
-        radioButton1_2.widthAnchor.constraint(equalToConstant: radioButton1_2.frame.width).isActive = true
-        radioButton1_2.heightAnchor.constraint(equalToConstant: radioButton1_2.frame.height).isActive = true
-        
-        textLabel2_1.translatesAutoresizingMaskIntoConstraints = false
-        textLabel2_1.leadingAnchor.constraint(equalTo: radioButton1_2.trailingAnchor, constant: 30).isActive = true
-        textLabel2_1.centerYAnchor.constraint(equalTo: radioButton1_2.centerYAnchor).isActive = true
-        
-        textLabel2_2.translatesAutoresizingMaskIntoConstraints = false
-        textLabel2_2.topAnchor.constraint(equalTo: textLabel2_1.bottomAnchor, constant: 20).isActive = true
-        textLabel2_2.leadingAnchor.constraint(equalTo: textLabel2_1.leadingAnchor).isActive = true
-        
-        textLabel2_3.translatesAutoresizingMaskIntoConstraints = false
-        textLabel2_3.topAnchor.constraint(equalTo: textLabel2_2.bottomAnchor, constant: 20).isActive = true
-        textLabel2_3.bottomAnchor.constraint(equalTo: baseView2.bottomAnchor, constant: -20).isActive = true
-        textLabel2_3.leadingAnchor.constraint(equalTo: textLabel2_1.leadingAnchor).isActive = true
-        
-        
-        baseView2.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -100).isActive = true
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1),
+            baseView1.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            baseView1.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            baseView1.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            baseView2.topAnchor.constraint(equalTo: baseView1.bottomAnchor, constant: 40),
+            baseView2.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -600),
+            baseView2.leadingAnchor.constraint(equalTo: baseView1.leadingAnchor),
+            baseView2.trailingAnchor.constraint(equalTo: baseView1.trailingAnchor),
+        ])
     }
     
     

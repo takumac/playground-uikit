@@ -19,19 +19,9 @@ class RadioButtonTestViewController: UIViewController, RadioButtonTestViewDelega
         super.viewDidLoad()
         // 背景色設定
         self.view.backgroundColor = C01_COLOR
-        // Navigationbarのタイトル
-        let navigationTitleLabel = UILabel()
-        navigationTitleLabel.font = .boldSystemFont(ofSize: 25)
-        navigationTitleLabel.text = "RadioButtonTest"
-        navigationTitleLabel.adjustsFontSizeToFitWidth = true
-        navigationTitleLabel.sizeToFit()
-        navigationTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        if let navigationBarHeight = navigationController?.navigationBar.bounds.height {
-            navigationTitleLabel.heightAnchor.constraint(equalToConstant: navigationBarHeight).isActive = true
-        }
-        navigationTitleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: navigationTitleLabel.bounds.width).isActive = true
-        self.navigationItem.titleView = navigationTitleLabel
-        
+        // タイトル設定
+        self.title = "RadioButton"
+        // 画面描画
         viewLoad()
     }
     
@@ -42,9 +32,19 @@ class RadioButtonTestViewController: UIViewController, RadioButtonTestViewDelega
     
     // MARK: - Viewload
     func viewLoad() {
-        radioButtonTestView = RadioButtonTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
-        radioButtonTestView?.radioButtonTestViewDelegate = self
-        self.view.addSubview(radioButtonTestView!)
+        // 画面Viewの生成
+        let view = RadioButtonTestView()
+        view.delegate = self
+        radioButtonTestView = view
+        self.view.addSubview(view)
+        // 画面ViewのAutoLayout
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: self.view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
     }
     
     
