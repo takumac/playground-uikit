@@ -51,17 +51,14 @@ class ConvertToAttributedStringTestView: UIView {
         
         titleLabel1.text = "Before Convert Text"
         titleLabel1.font = UIFont(name: "HiraKakuProN-W6", size: 24)
-        scrollView.addSubview(titleLabel1)
         
         textView.font = UIFont(name: "HiraKakuProN-W3", size: 12)
         textView.backgroundColor = C03_COLOR
         textView.layer.borderColor = UIColor.lightGray.cgColor
         textView.layer.borderWidth = 1
-        scrollView.addSubview(textView)
         
         titleLabel3.text = "Sample Text"
         titleLabel3.font = UIFont(name: "HiraKakuProN-W6", size: 24)
-        scrollView.addSubview(titleLabel3)
         
         sampleButtonSV.axis = .horizontal
         sampleButtonSV.alignment = .center
@@ -97,11 +94,8 @@ class ConvertToAttributedStringTestView: UIView {
         sampleButton4.addTarget(self, action: #selector(sampleButtonTapAction(_:)), for: .touchUpInside)
         sampleButtonSV.addArrangedSubview(sampleButton4)
         
-        scrollView.addSubview(sampleButtonSV)
-        
         titleLabel4.text = "Convert Button"
         titleLabel4.font = UIFont(name: "HiraKakuProN-W6", size: 24)
-        scrollView.addSubview(titleLabel4)
         
         convertButtonSV.axis = .horizontal
         convertButtonSV.alignment = .center
@@ -123,15 +117,11 @@ class ConvertToAttributedStringTestView: UIView {
         convertButton2.tag = 2
         convertButtonSV.addArrangedSubview(convertButton2)
         
-        scrollView.addSubview(convertButtonSV)
-        
         titleLabel2.text = "After Convert Text"
         titleLabel2.font = UIFont(name: "HiraKakuProN-W6", size: 24)
-        scrollView.addSubview(titleLabel2)
         
         titleLabel5.text = "UITextView"
         titleLabel5.font = UIFont(name: "HiraKakuProN-W6", size: 20)
-        scrollView.addSubview(titleLabel5)
         
         customTagTV.backgroundColor = C03_COLOR
         customTagTV.actionHandlers = [
@@ -139,76 +129,76 @@ class ConvertToAttributedStringTestView: UIView {
             { print("2つ目タップ") },
             { print("3つ目タップ") }
         ]
-        scrollView.addSubview(customTagTV)
         
         titleLabel6.text = "UILabel"
         titleLabel6.font = UIFont(name: "HiraKakuProN-W6", size: 20)
-        scrollView.addSubview(titleLabel6)
         
         customTagLabel.backgroundColor = C03_COLOR
         customTagLabel.numberOfLines = 0
         customTagLabel.lineBreakMode = .byCharWrapping
-        scrollView.addSubview(customTagLabel)
         
+        scrollView.addSubview(titleLabel1)
+        scrollView.addSubview(textView)
+        scrollView.addSubview(titleLabel3)
+        scrollView.addSubview(sampleButtonSV)
+        scrollView.addSubview(titleLabel4)
+        scrollView.addSubview(convertButtonSV)
+        scrollView.addSubview(titleLabel2)
+        scrollView.addSubview(titleLabel5)
+        scrollView.addSubview(customTagTV)
+        scrollView.addSubview(titleLabel6)
+        scrollView.addSubview(customTagLabel)
         self.addSubview(scrollView)
         
         // AutoLayout
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
         titleLabel1.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel1.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50).isActive = true
-        titleLabel1.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.topAnchor.constraint(equalTo: titleLabel1.bottomAnchor, constant: 25).isActive = true
-        textView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
-        textView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3).isActive = true
-        textView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         titleLabel3.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel3.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 50).isActive = true
-        titleLabel3.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         sampleButtonSV.translatesAutoresizingMaskIntoConstraints = false
-        sampleButtonSV.topAnchor.constraint(equalTo: titleLabel3.bottomAnchor, constant: 25).isActive = true
-        sampleButtonSV.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        sampleButtonSV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         titleLabel4.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel4.topAnchor.constraint(equalTo: sampleButtonSV.bottomAnchor, constant: 50).isActive = true
-        titleLabel4.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         convertButtonSV.translatesAutoresizingMaskIntoConstraints = false
-        convertButtonSV.topAnchor.constraint(equalTo: titleLabel4.bottomAnchor, constant: 25).isActive = true
-        convertButtonSV.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        convertButtonSV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         titleLabel2.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel2.topAnchor.constraint(equalTo: convertButtonSV.bottomAnchor, constant: 50).isActive = true
-        titleLabel2.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         titleLabel5.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel5.topAnchor.constraint(equalTo: titleLabel2.bottomAnchor,constant: 30).isActive = true
-        titleLabel5.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         customTagTV.translatesAutoresizingMaskIntoConstraints = false
-        customTagTV.topAnchor.constraint(equalTo: titleLabel5.bottomAnchor, constant: 20).isActive = true
-        customTagTV.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
-        customTagTV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         titleLabel6.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel6.topAnchor.constraint(equalTo: customTagTV.bottomAnchor,constant: 30).isActive = true
-        titleLabel6.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
         customTagLabel.translatesAutoresizingMaskIntoConstraints = false
-        customTagLabel.topAnchor.constraint(equalTo: titleLabel6.bottomAnchor, constant: 20).isActive = true
-        customTagLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100).isActive = true
-        customTagLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
-        customTagLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            titleLabel1.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50),
+            titleLabel1.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            textView.topAnchor.constraint(equalTo: titleLabel1.bottomAnchor, constant: 25),
+            textView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8),
+            textView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3),
+            textView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            titleLabel3.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 50),
+            titleLabel3.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            sampleButtonSV.topAnchor.constraint(equalTo: titleLabel3.bottomAnchor, constant: 25),
+            sampleButtonSV.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            sampleButtonSV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            titleLabel4.topAnchor.constraint(equalTo: sampleButtonSV.bottomAnchor, constant: 50),
+            titleLabel4.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            convertButtonSV.topAnchor.constraint(equalTo: titleLabel4.bottomAnchor, constant: 25),
+            convertButtonSV.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            convertButtonSV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            titleLabel2.topAnchor.constraint(equalTo: convertButtonSV.bottomAnchor, constant: 50),
+            titleLabel2.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            titleLabel5.topAnchor.constraint(equalTo: titleLabel2.bottomAnchor,constant: 30),
+            titleLabel5.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            customTagTV.topAnchor.constraint(equalTo: titleLabel5.bottomAnchor, constant: 20),
+            customTagTV.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8),
+            customTagTV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            titleLabel6.topAnchor.constraint(equalTo: customTagTV.bottomAnchor,constant: 30),
+            titleLabel6.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            customTagLabel.topAnchor.constraint(equalTo: titleLabel6.bottomAnchor, constant: 20),
+            customTagLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -100),
+            customTagLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8),
+            customTagLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+        ])
     }
     
     
