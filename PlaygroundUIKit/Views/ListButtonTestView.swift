@@ -8,15 +8,13 @@
 import Foundation
 import UIKit
 
-protocol ListButtonTestViewDelegate {
+protocol ListButtonTestViewDelegate: AnyObject {
     func listButtonTapAction()
 }
 
 class ListButtonTestView: UIView {
     
-    var listButtonTestViewDelegate: ListButtonTestViewDelegate?
-    
-    var listButton: ListButton?
+    weak var delegate: ListButtonTestViewDelegate?
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -35,26 +33,32 @@ class ListButtonTestView: UIView {
         let listButtonView: UIView = UIView()
         listButtonView.addSubview(listButtonText)
         listButtonText.translatesAutoresizingMaskIntoConstraints = false
-        listButtonText.topAnchor.constraint(equalTo: listButtonView.topAnchor, constant: 15).isActive = true
-        listButtonText.bottomAnchor.constraint(equalTo: listButtonView.bottomAnchor, constant: -15).isActive = true
-        listButtonText.leadingAnchor.constraint(equalTo: listButtonView.leadingAnchor, constant: 12).isActive = true
+        NSLayoutConstraint.activate([
+            listButtonText.topAnchor.constraint(equalTo: listButtonView.topAnchor, constant: 16),
+            listButtonText.bottomAnchor.constraint(equalTo: listButtonView.bottomAnchor, constant: -16),
+            listButtonText.leadingAnchor.constraint(equalTo: listButtonView.leadingAnchor, constant: 12)
+        ])
         
-        listButton = ListButton(contentView: listButtonView,
-                                borderColor: .lightGray,
-                                target: self,
-                                action: #selector(listButtonTapAction))
-        listButton?.setAutoLayout(paddingRight: 12)
+        let listButton = ListButton(
+            contentView: listButtonView,
+            borderColor: .lightGray,
+            target: self,
+            action: #selector(listButtonTapAction)
+        )
+        listButton.setAutoLayout(paddingRight: 12)
+        addSubview(listButton)
         
-        self.addSubview(listButton!)
-        
-        listButton?.translatesAutoresizingMaskIntoConstraints = false
-        listButton?.topAnchor.constraint(equalTo: self.topAnchor, constant: 50).isActive = true
-        listButton?.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9).isActive = true
-        listButton?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        // AutoLayout
+        listButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            listButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 50),
+            listButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9),
+            listButton.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
     
     @objc func listButtonTapAction(_ sender: UIButton) {
-        listButtonTestViewDelegate?.listButtonTapAction()
+        delegate?.listButtonTapAction()
     }
     
 }
@@ -100,12 +104,14 @@ class ListButton: UIControl {
     ///   - highlightColor: ハイライト時の色
     ///   - target: タップ時のアクションを飛ばす相手（基本はViewを配置した画面）
     ///   - action: タップ時のアクション
-    convenience init(contentView: UIView,
-                     borderColor: UIColor = .lightGray,
-                     borderWidth: CGFloat = 1.0,
-                     highlightColor: UIColor = .lightGray,
-                     target: Any? = nil,
-                     action: Selector? = nil) {
+    convenience init(
+        contentView: UIView,
+        borderColor: UIColor = .lightGray,
+        borderWidth: CGFloat = 1.0,
+        highlightColor: UIColor = .lightGray,
+        target: Any? = nil,
+        action: Selector? = nil
+    ) {
         self.init()
         
         // ボタンの中身のViewを設定

@@ -18,19 +18,9 @@ class ListButtonTestViewController: UIViewController, ListButtonTestViewDelegate
         super.viewDidLoad()
         // 背景色設定
         self.view.backgroundColor = C01_COLOR
-        // Navigationbarのタイトル
-        let navigationTitleLabel = UILabel()
-        navigationTitleLabel.font = .boldSystemFont(ofSize: 25)
-        navigationTitleLabel.text = "ListButtonTest"
-        navigationTitleLabel.adjustsFontSizeToFitWidth = true
-        navigationTitleLabel.sizeToFit()
-        navigationTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        if let navigationBarHeight = navigationController?.navigationBar.bounds.height {
-            navigationTitleLabel.heightAnchor.constraint(equalToConstant: navigationBarHeight).isActive = true
-        }
-        navigationTitleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: navigationTitleLabel.bounds.width).isActive = true
-        self.navigationItem.titleView = navigationTitleLabel
-        
+        // タイトル設定
+        self.title = "ListButton"
+        // 画面描画
         viewLoad()
     }
     
@@ -40,9 +30,19 @@ class ListButtonTestViewController: UIViewController, ListButtonTestViewDelegate
     
     // MARK: - Viewload
     func viewLoad() {
-        listButtonTestView = ListButtonTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
-        listButtonTestView?.listButtonTestViewDelegate = self
-        self.view.addSubview(listButtonTestView!)
+        // 画面Viewの生成
+        let view = ListButtonTestView()
+        view.delegate = self
+        listButtonTestView = view
+        self.view.addSubview(view)
+        // 画面ViewのAutoLayout
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: self.view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
     }
     
     func listButtonTapAction() {
