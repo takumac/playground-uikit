@@ -19,19 +19,9 @@ class AccordionButtonTestViewController: UIViewController {
         super.viewDidLoad()
         // 背景色設定
         self.view.backgroundColor = C01_COLOR
-        // Navigationbarのタイトル
-        let navigationTitleLabel = UILabel()
-        navigationTitleLabel.font = .boldSystemFont(ofSize: 25)
-        navigationTitleLabel.text = "AccordionButtonTest"
-        navigationTitleLabel.adjustsFontSizeToFitWidth = true
-        navigationTitleLabel.sizeToFit()
-        navigationTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        if let navigationBarHeight = navigationController?.navigationBar.bounds.height {
-            navigationTitleLabel.heightAnchor.constraint(equalToConstant: navigationBarHeight).isActive = true
-        }
-        navigationTitleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: navigationTitleLabel.bounds.width).isActive = true
-        self.navigationItem.titleView = navigationTitleLabel
-        
+        // タイトル設定
+        self.title = "AccordionButton"
+        // 画面描画
         viewLoad()
     }
     
@@ -42,7 +32,17 @@ class AccordionButtonTestViewController: UIViewController {
     
     // MARK: - Viewload
     func viewLoad() {
-        accordionButtonTestView = AccordionButtonTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
-        self.view.addSubview(accordionButtonTestView!)
+        // 画面Viewの生成
+        let view = AccordionButtonTestView()
+        accordionButtonTestView = view
+        self.view.addSubview(view)
+        // 画面ViewのAutoLayout
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: self.view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
     }
 }
