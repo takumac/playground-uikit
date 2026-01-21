@@ -8,11 +8,16 @@
 import UIKit
 
 enum TableViewCellEnum: Int, CaseIterable {
-    case cell1
+    case cell1 = 0
     case cell2
     case cell3
     case cell4
     case cell5
+    case cell6
+    case cell7
+    case cell8
+    case cell9
+    case cell10
 }
 
 protocol TableViewTestViewDelegate: AnyObject {
@@ -22,11 +27,10 @@ protocol TableViewTestViewDelegate: AnyObject {
 class TableViewTestView: UIView, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
     // MARK: - Member
-    var delegate: TableViewTestViewDelegate?
+    weak var delegate: TableViewTestViewDelegate?
     
     var scrollView: UIScrollView = UIScrollView()
-    var contentView: UIStackView = UIStackView()
-    
+    var contentView = UIView()
     let tableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
         tableView.isScrollEnabled = false
@@ -37,15 +41,13 @@ class TableViewTestView: UIView, UITableViewDataSource, UITableViewDelegate, UIG
         tableView.separatorInset = UIEdgeInsets.zero
         tableView.cellLayoutMarginsFollowReadableWidth = false
         tableView.contentInsetAdjustmentBehavior = .never
-        
         return tableView
     }()
     
     
     // MARK: - Init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+    init() {
+        super.init(frame: .zero)
         viewLoad()
     }
     
@@ -56,36 +58,34 @@ class TableViewTestView: UIView, UITableViewDataSource, UITableViewDelegate, UIG
     
     // MARK: - ViewLoad
     func viewLoad() {
-        contentView.axis = .vertical
-        contentView.alignment = .fill
-        contentView.distribution = .equalSpacing
-        
+        scrollView.backgroundColor = .red
+        contentView.backgroundColor = .blue
         tableView.dataSource = self
         tableView.delegate = self
-        contentView.addSubview(tableView)
         
+        contentView.addSubview(tableView)
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
         
         // AutoLayout
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1).isActive = true
-        
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -500).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1),
+            tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -500),
+            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
     }
     
     
@@ -105,18 +105,17 @@ class TableViewTestView: UIView, UITableViewDataSource, UITableViewDelegate, UIG
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         
         switch indexPath.section {
-            
         default:
             // テスト用セル
             let label: UILabel = UILabel()
             label.text = "hoge"
-            
             cell.contentView.addSubview(label)
-            
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 10).isActive = true
-            label.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -10).isActive = true
-            label.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 20).isActive = true
+            NSLayoutConstraint.activate([
+                label.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 10),
+                label.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -10),
+                label.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 20)
+            ])
             
             return cell
         }
@@ -137,6 +136,27 @@ class TableViewTestView: UIView, UITableViewDataSource, UITableViewDelegate, UIG
     /// フッターの高さ
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNormalMagnitude
+    }
+    
+    /// セルのタップ時
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        // 偶数行のセルはタップ不可（選択状態にしない）にする
+        switch indexPath.section {
+        case TableViewCellEnum.cell2.rawValue
+            ,TableViewCellEnum.cell4.rawValue
+            ,TableViewCellEnum.cell6.rawValue
+            ,TableViewCellEnum.cell8.rawValue
+            ,TableViewCellEnum.cell10.rawValue:
+            return false
+        default:
+            return true
+        }
+    }
+    
+    /// 選択状態になった時
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        print("row \(indexPath.section + 1) tapped")
     }
     
 }

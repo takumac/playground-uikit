@@ -11,33 +11,20 @@ class TableViewTestViewController: UIViewController, TableViewTestViewDelegate {
     
     // MARK: - Member
     var tableViewTestView: TableViewTestView?
-    
     var tableViewHeightConstraint: NSLayoutConstraint?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
-        super.viewDidLoad()
         // 背景色設定
         self.view.backgroundColor = C01_COLOR
-        // Navigationbarのタイトル
-        let navigationTitleLabel = UILabel()
-        navigationTitleLabel.font = .boldSystemFont(ofSize: 25)
-        navigationTitleLabel.text = "TableViewTest"
-        navigationTitleLabel.adjustsFontSizeToFitWidth = true
-        navigationTitleLabel.sizeToFit()
-        navigationTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        if let navigationBarHeight = navigationController?.navigationBar.bounds.height {
-            navigationTitleLabel.heightAnchor.constraint(equalToConstant: navigationBarHeight).isActive = true
-        }
-        navigationTitleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: navigationTitleLabel.bounds.width).isActive = true
-        self.navigationItem.titleView = navigationTitleLabel
-        
+        // タイトル設定
+        self.title = "TableView"
+        // 画面描画
+        viewLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        viewLoad()
     }
     
     override func viewWillLayoutSubviews() {
@@ -47,9 +34,19 @@ class TableViewTestViewController: UIViewController, TableViewTestViewDelegate {
     
     // MARK: - Viewload
     func viewLoad() {
-        // Viewの生成
-        tableViewTestView = TableViewTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
-        tableViewTestView?.delegate = self
+        // 画面Viewの生成
+        let view = TableViewTestView()
+        view.delegate = self
+        tableViewTestView = view
+        self.view.addSubview(view)
+        // 画面ViewのAutoLayout
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: self.view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
         
         // テーブルビューの高さに対する制約を生成
         tableViewHeightConstraint = NSLayoutConstraint(
@@ -61,14 +58,10 @@ class TableViewTestViewController: UIViewController, TableViewTestViewDelegate {
             multiplier: 1.0,
             constant: 0
         )
-        
         // Viewに対して生成した制約を設定
-        tableViewTestView?.addConstraint(tableViewHeightConstraint!)
-        
-        self.view.addSubview(tableViewTestView!)
-        
+        view.addConstraint(tableViewHeightConstraint!)
         // Viewの持つテーブルビューの高さの制約を更新
-        tableViewTestView?.tableView.reloadData()
+        view.tableView.reloadData()
         self.updateConstraint()
     }
     
