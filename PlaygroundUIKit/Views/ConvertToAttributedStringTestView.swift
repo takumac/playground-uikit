@@ -44,6 +44,21 @@ class ConvertToAttributedStringTestView: UIView {
     
     // MARK: - ViewLoad
     func viewLoad() {
+        // 通知登録
+        // キーボード表示通知
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(notification:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        // キーボード非表示通知
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(notification:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
         
         let scrollViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapAction(_:)))
         scrollViewTapGesture.cancelsTouchesInView = false
@@ -203,6 +218,65 @@ class ConvertToAttributedStringTestView: UIView {
     
     
     // MARK: - Action
+    /// キーボードが表示される時の処理
+    @objc func keyboardWillShow(notification: Notification) {
+        // 必要な情報の取得
+        guard
+            let userInfo = notification.userInfo,
+            let keyboardInfo = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+            let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+            let curve = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt
+        else { return }
+        
+        // 全体のスクロールビューに対するcontentInsetsの設定
+        // ※bottomにキーボードの高さ分の余白を追加する
+        let keyboardSize = keyboardInfo.cgRectValue.size
+        let contentInsets = UIEdgeInsets(
+            top: 0,
+            left: 0,
+            bottom: max(0, keyboardSize.height - self.safeAreaInsets.bottom),
+            right: 0
+        )
+        UIView.animate(
+            withDuration: duration,
+            delay: 0,
+            options: UIView.AnimationOptions(rawValue: curve << 16),
+            animations: {
+                self.scrollView.contentInset = contentInsets
+                self.scrollView.scrollIndicatorInsets = contentInsets
+                self.layoutIfNeeded()
+            }
+        )
+        
+        // フォーカス中のUIがキーボードの上に表示されるようにスクロール量を調整
+        if let responder = findFirstResponder(in: scrollView) {
+            let frame = responder.convert(responder.bounds, to: scrollView)
+            scrollView.scrollRectToVisible(frame, animated: true)
+        }
+    }
+    
+    /// キーボードが非表示になる時のアクション
+    @objc func keyboardWillHide(notification: Notification) {
+        // 必要な情報の取得
+        guard
+            let userInfo = notification.userInfo,
+            let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+            let curve = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt
+        else { return }
+        
+        // 全体のスクロールビューに対するcontentInsetsをリセット
+        UIView.animate(
+            withDuration: duration,
+            delay: 0,
+            options: UIView.AnimationOptions(rawValue: curve << 16),
+            animations: {
+                self.scrollView.contentInset = .zero
+                self.scrollView.scrollIndicatorInsets = .zero
+                self.layoutIfNeeded()
+            }
+        )
+    }
+    
     @objc func scrollViewTapAction(_ sender: UITapGestureRecognizer) {
         self.endEditing(true)
     }
@@ -263,6 +337,23 @@ class ConvertToAttributedStringTestView: UIView {
     /// 画面をタップ時に,キーボードを閉じる
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.endEditing(true)
+    }
+    
+    
+    // MARK: - Common
+    /// 引数で渡されたView上のfirstResponderを返却する
+    /// - Parameter view: 検索対象のView
+    /// - Returns: firstResponder
+    private func findFirstResponder(in view: UIView) -> UIView? {
+        if view.isFirstResponder {
+            return view
+        }
+        for subview in view.subviews {
+            if let responder = findFirstResponder(in: subview) {
+                return responder
+            }
+        }
+        return nil
     }
 }
 
