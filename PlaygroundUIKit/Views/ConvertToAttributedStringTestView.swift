@@ -32,8 +32,8 @@ class ConvertToAttributedStringTestView: UIView {
     
     
     // MARK: - Init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         viewLoad()
     }
     
@@ -148,7 +148,7 @@ class ConvertToAttributedStringTestView: UIView {
         scrollView.addSubview(customTagTV)
         scrollView.addSubview(titleLabel6)
         scrollView.addSubview(customTagLabel)
-        self.addSubview(scrollView)
+        addSubview(scrollView)
         
         // AutoLayout
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -165,10 +165,10 @@ class ConvertToAttributedStringTestView: UIView {
         customTagLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
             titleLabel1.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50),
             titleLabel1.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             textView.topAnchor.constraint(equalTo: titleLabel1.bottomAnchor, constant: 25),
