@@ -57,8 +57,6 @@ class PickerTextFieldTestView: UIView, UIPickerViewDelegate, UIPickerViewDataSou
         underArrowImageView.contentMode = .scaleAspectFit
         
         // 入力用のPicker
-        picker.frame.size.width = SizeConstant.shared.SCREEN_WIDTH
-        picker.frame.size.height = 220
         picker.delegate = self
         picker.dataSource = self
         inputTextField.inputView = picker

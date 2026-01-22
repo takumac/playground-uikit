@@ -24,7 +24,7 @@ class RadioButtonTestView: UIView {
     let baseView1: UIView = {
         let uiView = UIView()
         uiView.backgroundColor = C03_COLOR
-        uiView.layer.cornerRadius = (SizeConstant.shared.SCREEN_WIDTH - 20) / 40
+        uiView.layer.cornerRadius = 10
         uiView.layer.borderColor = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
         uiView.layer.borderWidth = 2.0
         uiView.tag = 1
@@ -62,7 +62,7 @@ class RadioButtonTestView: UIView {
     let baseView2: UIView = {
         let uiView = UIView()
         uiView.backgroundColor = C03_COLOR
-        uiView.layer.cornerRadius = (SizeConstant.shared.SCREEN_WIDTH - 20) / 40
+        uiView.layer.cornerRadius = 10
         uiView.layer.borderColor = UIColor.rgb(r: 230, g: 230, b: 230, alpha: 1).cgColor
         uiView.layer.borderWidth = 2.0
         uiView.tag = 2

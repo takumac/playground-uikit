@@ -20,39 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // WindowSceneを取得
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        // 各Constantsの設定
-        // 画面サイズを設定
-        SizeConstant.shared.SCREEN_SIZE = windowScene.screen.bounds.size
-        // 画面の幅を設定
-        SizeConstant.shared.SCREEN_WIDTH = windowScene.screen.bounds.size.width
-        // 画面の高さを設定
-        SizeConstant.shared.SCREEN_HEIGHT = windowScene.screen.bounds.size.height
-        // ステータスバーの高さを設定
-        SizeConstant.shared.STATUSBAR_HEIGHT = windowScene.statusBarManager?.statusBarFrame.height ?? 0
-        // ナビゲーションバーの高さを取得するためにダミーのインスタンスを作成する
-        let dummyRootViewController: RootTabBarController = RootTabBarController.init()
-        let dummyNavigationController: UINavigationController =
-            UINavigationController.init(rootViewController: dummyRootViewController)
-        // ナビゲーションバーの高さを設定
-        SizeConstant.shared.NAVIGATIONBAR_HEIGHT = dummyNavigationController.navigationBar.frame.size.height
-        // モーダルビューの高さを設定
-        SizeConstant.shared.MODAL_VIEW_HEIGHT = SizeConstant.shared.SCREEN_HEIGHT - SizeConstant.shared.STATUSBAR_HEIGHT - SizeConstant.shared.NAVIGATIONBAR_HEIGHT
-        // モーダルビューの画面フレームを設定
-        SizeConstant.shared.MODAL_VIEW_FRAME = CGRect(
-            x: 0,
-            y: 0,
-            width: SizeConstant.shared.SCREEN_WIDTH,
-            height: SizeConstant.shared.MODAL_VIEW_HEIGHT
-        )
-        // モーダレスビューの高さを設定
-        SizeConstant.shared.MODELESS_VIEW_HEIGHT = SizeConstant.shared.MODAL_VIEW_HEIGHT
-        // モーダレスビューの画面フレームを設定
-        SizeConstant.shared.MODELESS_VIEW_FRAME = CGRect(
-            x: 0,
-            y: 0,
-            width: SizeConstant.shared.SCREEN_WIDTH,
-            height: SizeConstant.shared.MODELESS_VIEW_HEIGHT
-        )
         
         // setup TabBar
         let tabBarAppearance = UITabBarAppearance()
