@@ -18,19 +18,9 @@ class ActionSheetTestViewController: UIViewController, ActionSheetViewDelegate {
         super.viewDidLoad()
         // 背景色設定
         self.view.backgroundColor = C01_COLOR
-        // Navigationbarのタイトル
-        let navigationTitleLabel = UILabel()
-        navigationTitleLabel.font = .boldSystemFont(ofSize: 20)
-        navigationTitleLabel.text = "ActionSheet"
-        navigationTitleLabel.adjustsFontSizeToFitWidth = true
-        navigationTitleLabel.sizeToFit()
-        navigationTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        if let navigationBarHeight = navigationController?.navigationBar.bounds.height {
-            navigationTitleLabel.heightAnchor.constraint(equalToConstant: navigationBarHeight).isActive = true
-        }
-        navigationTitleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: navigationTitleLabel.bounds.width).isActive = true
-        self.navigationItem.titleView = navigationTitleLabel
-        
+        // タイトル設定
+        self.title = "ActionSheet"
+        // 画面描画
         viewLoad()
     }
     
@@ -41,9 +31,19 @@ class ActionSheetTestViewController: UIViewController, ActionSheetViewDelegate {
     
     // MARK: - Viewload
     func viewLoad() {
-        actionSheetTestView = ActionSheetTestView(frame: SizeConstant.shared.MODELESS_VIEW_FRAME)
-        actionSheetTestView?.delegate = self
-        self.view.addSubview(actionSheetTestView!)
+        // 画面Viewの生成
+        let view = ActionSheetTestView()
+        view.delegate = self
+        actionSheetTestView = view
+        self.view.addSubview(view)
+        // 画面ViewのAutoLayout
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: self.view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
     }
     
     
@@ -56,7 +56,9 @@ class ActionSheetTestViewController: UIViewController, ActionSheetViewDelegate {
         actionSheet.addAction(UIAlertAction(title: "edit", style: .default))
         actionSheet.addAction(UIAlertAction(title: "copy", style: .default))
         actionSheet.addAction(UIAlertAction(title: "delete", style: .destructive))
-        actionSheet.addAction(UIAlertAction(title: "cancel", style: .cancel))
+        if #unavailable(iOS 26.0) {
+            actionSheet.addAction(UIAlertAction(title: "cancel", style: .cancel))
+        }
         
         self.present(actionSheet, animated: true, completion: nil)
     }
