@@ -70,10 +70,6 @@ class Tab1RootViewController: UIViewController, Tab1RootViewDelegate {
         self.navigationController?.pushViewController(RadioButtonTestViewController(), animated: true)
     }
     
-    func globalFrameButtonTapAction() {
-        self.navigationController?.pushViewController(GlobalFrameTestViewController(), animated: true)
-    }
-    
     func convertToAttributedStringButtonTapAction() {
         self.navigationController?.pushViewController(ConvertToAttributedStringTestViewController(), animated: true)
     }

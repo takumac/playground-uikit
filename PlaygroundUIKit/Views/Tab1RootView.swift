@@ -14,7 +14,6 @@ protocol Tab1RootViewDelegate: AnyObject {
     func pickerTextFieldButtonTapAction()
     func tableViewButtonTapAction()
     func radioButtonTapAction()
-    func globalFrameButtonTapAction()
     func convertToAttributedStringButtonTapAction()
     func actionSheetButtonTapAction()
     func attributedStringButtonTapAction()
@@ -84,7 +83,7 @@ class Tab1RootView: UIView {
         contentView.axis = .vertical
         contentView.alignment = .center
         contentView.distribution = .equalSpacing
-        contentView.spacing = 50
+        contentView.spacing = 40
         
         phpickerButton.setTitle("PHPicker", for: .normal)
         phpickerButton.setTitleColor(C02_COLOR, for: .normal)
@@ -121,12 +120,6 @@ class Tab1RootView: UIView {
         radioButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         radioButton.addTarget(self, action: #selector(radioButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(radioButton)
-        
-        globalFrameButton.setTitle("Global Frame", for: .normal)
-        globalFrameButton.setTitleColor(C02_COLOR, for: .normal)
-        globalFrameButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        globalFrameButton.addTarget(self, action: #selector(globalFrameButtonTapAction(_:)), for: .touchUpInside)
-        contentView.addArrangedSubview(globalFrameButton)
         
         convertToAttributedStringButton.setTitle("Convert To AttributedString", for: .normal)
         convertToAttributedStringButton.setTitleColor(C02_COLOR, for: .normal)
@@ -170,8 +163,8 @@ class Tab1RootView: UIView {
             scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -150),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 40),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -200),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1)
@@ -202,10 +195,6 @@ class Tab1RootView: UIView {
     
     @objc func radioButtonTapAction(_ sender: UIButton) {
         delegate?.radioButtonTapAction()
-    }
-    
-    @objc func globalFrameButtonTapAction(_ sender: UIButton) {
-        delegate?.globalFrameButtonTapAction()
     }
     
     @objc func htmlToAttributedStringButtonTapAction(_ sender: UIButton) {
