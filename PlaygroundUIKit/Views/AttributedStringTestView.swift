@@ -30,8 +30,8 @@ class AttributedStringTestView: UIView {
     
     
     // MARK: - Init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         viewLoad()
     }
     
@@ -48,7 +48,6 @@ class AttributedStringTestView: UIView {
         
         let label1Str = "2次元コードを表示しますか？\n（2次元コードはボタンの下に表示されます）\n\n表示から30日以内に発送手続の完了が必要です。"
         let label1AttrStr: NSMutableAttributedString = NSMutableAttributedString(string: label1Str)
-        
         label1.font = UIFont(name: HIRAGINO_KAKU_GOTHIC_W6, size: 16)
         label1.text = label1Str
         label1.numberOfLines = 0
@@ -138,7 +137,15 @@ class AttributedStringTestView: UIView {
         )
         label1.attributedText = label1AttrStr
         label1BaseView.addSubview(label1)
-        contentView.addSubview(label1BaseView)
+        
+        // Label1 AutoLayout
+        label1.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label1.topAnchor.constraint(equalTo: label1BaseView.topAnchor, constant: 8),
+            label1.bottomAnchor.constraint(equalTo: label1BaseView.bottomAnchor, constant: -8),
+            label1.leadingAnchor.constraint(equalTo: label1BaseView.leadingAnchor, constant: 20),
+            label1.trailingAnchor.constraint(equalTo: label1BaseView.trailingAnchor, constant: -20),
+        ])
         
         
         // MARK: Label2
@@ -146,14 +153,21 @@ class AttributedStringTestView: UIView {
         
         let label2Str = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let label2AttrStr: NSMutableAttributedString = NSMutableAttributedString(string: label2Str)
-        
         label2.font = UIFont(name: HIRAGINO_KAKU_GOTHIC_W3, size: 16)
         label2.text = label1Str
         label2.numberOfLines = 0
         label2.lineBreakMode = .byCharWrapping
         label2.attributedText = label2AttrStr
         label2BaseView.addSubview(label2)
-        contentView.addSubview(label2BaseView)
+        
+        // Label2 AutoLayout
+        label2.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label2.topAnchor.constraint(equalTo: label2BaseView.topAnchor, constant: 8),
+            label2.bottomAnchor.constraint(equalTo: label2BaseView.bottomAnchor, constant: -8),
+            label2.leadingAnchor.constraint(equalTo: label2BaseView.leadingAnchor, constant: 20),
+            label2.trailingAnchor.constraint(equalTo: label2BaseView.trailingAnchor, constant: -20),
+        ])
         
         
         // MARK: Label3
@@ -215,9 +229,16 @@ class AttributedStringTestView: UIView {
         label3StackView.addArrangedSubview(label3_1)
         label3StackView.addArrangedSubview(label3_2)
         label3StackView.addArrangedSubview(label3_3)
-        
         label3BaseView.addSubview(label3StackView)
-        contentView.addSubview(label3BaseView)
+        
+        // Label3 AutoLayout
+        label3StackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label3StackView.topAnchor.constraint(equalTo: label3BaseView.topAnchor, constant: 8),
+            label3StackView.bottomAnchor.constraint(equalTo: label3BaseView.bottomAnchor, constant: -8),
+            label3StackView.leadingAnchor.constraint(equalTo: label3BaseView.leadingAnchor, constant: 20),
+            label3StackView.trailingAnchor.constraint(equalTo: label3BaseView.trailingAnchor, constant: -20),
+        ])
         
         
         // MARK: Label4
@@ -299,70 +320,56 @@ class AttributedStringTestView: UIView {
         )
         textView4.attributedText = label4AttrStr
         label4BaseView.addSubview(textView4)
-        contentView.addSubview(label4BaseView)
         
+        // Label4 AutoLayout
+        textView4.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            textView4.topAnchor.constraint(equalTo: label4BaseView.topAnchor, constant: 8),
+            textView4.bottomAnchor.constraint(equalTo: label4BaseView.bottomAnchor, constant: -8),
+            textView4.leadingAnchor.constraint(equalTo: label4BaseView.leadingAnchor, constant: 20),
+            textView4.trailingAnchor.constraint(equalTo: label4BaseView.trailingAnchor, constant: -20),
+        ])
+        
+        
+        // 各ラベルを追加
+        contentView.addSubview(label2BaseView)
+        contentView.addSubview(label1BaseView)
+        contentView.addSubview(label3BaseView)
+        contentView.addSubview(label4BaseView)
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
         
-        
         // AutoLayout
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1.0).isActive = true
-        
         label1BaseView.translatesAutoresizingMaskIntoConstraints = false
-        label1BaseView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40).isActive = true
-        label1BaseView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
-        label1BaseView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        
-        label1.translatesAutoresizingMaskIntoConstraints = false
-        label1.topAnchor.constraint(equalTo: label1BaseView.topAnchor, constant: 10).isActive = true
-        label1.bottomAnchor.constraint(equalTo: label1BaseView.bottomAnchor, constant: -10).isActive = true
-        label1.leadingAnchor.constraint(equalTo: label1BaseView.leadingAnchor, constant: 20).isActive = true
-        label1.trailingAnchor.constraint(equalTo: label1BaseView.trailingAnchor, constant: -20).isActive = true
-        
         label2BaseView.translatesAutoresizingMaskIntoConstraints = false
-        label2BaseView.topAnchor.constraint(equalTo: label1BaseView.bottomAnchor, constant: 40).isActive = true
-        label2BaseView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
-        label2BaseView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        
-        label2.translatesAutoresizingMaskIntoConstraints = false
-        label2.topAnchor.constraint(equalTo: label2BaseView.topAnchor, constant: 10).isActive = true
-        label2.bottomAnchor.constraint(equalTo: label2BaseView.bottomAnchor, constant: -10).isActive = true
-        label2.leadingAnchor.constraint(equalTo: label2BaseView.leadingAnchor, constant: 20).isActive = true
-        label2.trailingAnchor.constraint(equalTo: label2BaseView.trailingAnchor, constant: -20).isActive = true
-        
         label3BaseView.translatesAutoresizingMaskIntoConstraints = false
-        label3BaseView.topAnchor.constraint(equalTo: label2BaseView.bottomAnchor, constant: 40).isActive = true
-        label3BaseView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
-        label3BaseView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        
-        label3StackView.translatesAutoresizingMaskIntoConstraints = false
-        label3StackView.topAnchor.constraint(equalTo: label3BaseView.topAnchor, constant: 10).isActive = true
-        label3StackView.bottomAnchor.constraint(equalTo: label3BaseView.bottomAnchor, constant: -10).isActive = true
-        label3StackView.leadingAnchor.constraint(equalTo: label3BaseView.leadingAnchor, constant: 20).isActive = true
-        label3StackView.trailingAnchor.constraint(equalTo: label3BaseView.trailingAnchor, constant: -20).isActive = true
-        
         label4BaseView.translatesAutoresizingMaskIntoConstraints = false
-        label4BaseView.topAnchor.constraint(equalTo: label3BaseView.bottomAnchor, constant: 40).isActive = true
-        label4BaseView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -500).isActive = true
-        label4BaseView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
-        label4BaseView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        
-        textView4.translatesAutoresizingMaskIntoConstraints = false
-        textView4.topAnchor.constraint(equalTo: label4BaseView.topAnchor, constant: 10).isActive = true
-        textView4.bottomAnchor.constraint(equalTo: label4BaseView.bottomAnchor, constant: -10).isActive = true
-        textView4.leadingAnchor.constraint(equalTo: label4BaseView.leadingAnchor, constant: 20).isActive = true
-        textView4.trailingAnchor.constraint(equalTo: label4BaseView.trailingAnchor, constant: -20).isActive = true
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1.0),
+            label1BaseView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            label1BaseView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            label1BaseView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            label2BaseView.topAnchor.constraint(equalTo: label1BaseView.bottomAnchor, constant: 40),
+            label2BaseView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            label2BaseView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            label3BaseView.topAnchor.constraint(equalTo: label2BaseView.bottomAnchor, constant: 40),
+            label3BaseView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            label3BaseView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            label4BaseView.topAnchor.constraint(equalTo: label3BaseView.bottomAnchor, constant: 40),
+            label4BaseView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -500),
+            label4BaseView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            label4BaseView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+        ])
     }
     
 }
