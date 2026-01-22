@@ -97,8 +97,8 @@ class SpeechBubbleTestView: UIView {
     
     
     // MARK: - Init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         viewLoad()
     }
     
@@ -131,10 +131,10 @@ class SpeechBubbleTestView: UIView {
         speechBubble.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
             scrollContentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             scrollContentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             scrollContentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
