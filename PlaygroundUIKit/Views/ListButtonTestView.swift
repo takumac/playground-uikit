@@ -30,13 +30,18 @@ class ListButtonTestView: UIView {
     func viewLoad() {
         let listButtonText: UILabel = UILabel()
         listButtonText.text = "あいうえお"
+        listButtonText.numberOfLines = 0
+        listButtonText.lineBreakMode = .byCharWrapping
+        listButtonText.isUserInteractionEnabled = false
         let listButtonView: UIView = UIView()
+        listButtonView.isUserInteractionEnabled = false
         listButtonView.addSubview(listButtonText)
         listButtonText.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             listButtonText.topAnchor.constraint(equalTo: listButtonView.topAnchor, constant: 16),
             listButtonText.bottomAnchor.constraint(equalTo: listButtonView.bottomAnchor, constant: -16),
-            listButtonText.leadingAnchor.constraint(equalTo: listButtonView.leadingAnchor, constant: 12)
+            listButtonText.leadingAnchor.constraint(equalTo: listButtonView.leadingAnchor, constant: 12),
+            listButtonText.trailingAnchor.constraint(equalTo: listButtonView.trailingAnchor)
         ])
         
         let listButton = ListButton(
@@ -45,7 +50,7 @@ class ListButtonTestView: UIView {
             target: self,
             action: #selector(listButtonTapAction)
         )
-        listButton.setAutoLayout(paddingRight: 12)
+        listButton.setAutoLayout(imageViewPaddingRight: 12)
         addSubview(listButton)
         
         // AutoLayout
@@ -120,6 +125,7 @@ class ListButton: UIControl {
         
         // 「＞」の画像を設定
         imageView.image = UIImage(named: "arrow-icon")
+        imageView.contentMode = .scaleAspectFit
         self.addSubview(imageView)
         
         // ボーダーの色を設定
@@ -147,15 +153,23 @@ class ListButton: UIControl {
     
     
     // MARK: - AutoLayout
-    func setAutoLayout(paddingRight: CGFloat = 0.0) {
+    /// AutoLayoutを設定
+    ///   - contentViewPaddingRight: contentViewの右側の余白
+    ///   - imageViewPaddingRight: imageViewの右側の余白
+    func setAutoLayout(contentViewPaddingRight: CGFloat = 0.0, imageViewPaddingRight: CGFloat = 0.0) {
         // ボタンの中身のViewの設定
         contentView?.translatesAutoresizingMaskIntoConstraints = false
         contentView?.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         contentView?.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         contentView?.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        contentView?.trailingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: -contentViewPaddingRight).isActive = true
         // 画像の設定
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -paddingRight).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -imageViewPaddingRight).isActive = true
+        if let image = imageView.image {
+            imageView.widthAnchor.constraint(equalToConstant: image.size.width).isActive = true
+            imageView.heightAnchor.constraint(equalToConstant: image.size.height).isActive = true
+        }
         imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         // 上下のボーダーの設定
         self.drawTopBorder(color: borderColor!, borderWidth: borderWidth!)
