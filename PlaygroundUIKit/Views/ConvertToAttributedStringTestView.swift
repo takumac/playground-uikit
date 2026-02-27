@@ -144,6 +144,10 @@ class ConvertToAttributedStringTestView: UIView {
             { print("2つ目タップ") },
             { print("3つ目タップ") }
         ]
+        customTagTV.isViewTapEnable = true
+        customTagTV.viewTapAction = { [weak self] in
+            print("CustomTagTV全体のタップ")
+        }
         
         titleLabel6.text = "UILabel"
         titleLabel6.font = UIFont(name: "HiraKakuProN-W6", size: 20)
@@ -367,6 +371,9 @@ class CustomTagTextView: UITextView, UITextViewDelegate, UITextDragDelegate {
     var isViewTapEnable: Bool = false
     /// TextView自体のタップアクション
     var viewTapAction: (() -> Void)? = nil
+    /// TextView自体のタップアクションの2重発火防止
+    private var handledTouchIDs = Set<ObjectIdentifier>()
+    private let duplicateTouchHoldSeconds: TimeInterval = 2.0
     
     
     // MARK: - Init
@@ -398,11 +405,55 @@ class CustomTagTextView: UITextView, UITextViewDelegate, UITextDragDelegate {
     
     // UITextView自体のタップが有効の場合に、設定されているアクションを実行する
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if isViewTapEnable {
-            if let action = viewTapAction {
-                action()
-            }
+        guard isViewTapEnable, let action = viewTapAction else { return }
+        guard let touch = touches.first else { return }
+        
+        if isTapOnLink(touch) {
+            // 文字列内のリンクタップであればUITextView自体のアクションは発火させない
+            return
         }
+        
+        // 2重発火防止
+        let id = ObjectIdentifier(touch)
+        guard !handledTouchIDs.contains(id) else { return }
+        handledTouchIDs.insert(id)
+        DispatchQueue.main.asyncAfter(deadline: .now() + duplicateTouchHoldSeconds) { [weak self] in
+            self?.handledTouchIDs.remove(id)
+        }
+        
+        // アクション実行
+        action()
+    }
+    
+    /// タップされた位置がリンク設定されている文字であるか判定
+    private func isTapOnLink(_ touch: UITouch) -> Bool {
+        guard let attributed = self.attributedText, attributed.length > 0 else { return false }
+        
+        // タップ位置取得
+        let location = touch.location(in: self)
+        
+        // textContainer内の座標に変換
+        var point = location
+        point.x -= textContainerInset.left
+        point.y -= textContainerInset.top
+        
+        let layoutManager = self.layoutManager
+        let textContainer = self.textContainer
+        
+        // タッチ位置のglyphIndexを取得し、描画範囲内であるかチェック
+        let glyphIndex = layoutManager.glyphIndex(for: point, in: textContainer)
+        let glyphRect = layoutManager.boundingRect(
+            forGlyphRange: NSRange(location: glyphIndex, length: 1),
+            in: textContainer
+        )
+        guard glyphRect.contains(point) else { return false }
+        
+        // 文字列内のインデックスに変換
+        let charIndex = layoutManager.characterIndexForGlyph(at: glyphIndex)
+        if charIndex >= attributed.length { return false }
+        
+        // 対象文字にリンク属性が設定されているか判定
+        return attributed.attribute(.link, at: charIndex, effectiveRange: nil) != nil
     }
     
     
