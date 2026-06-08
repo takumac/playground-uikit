@@ -89,4 +89,8 @@ class Tab1RootViewController: UIViewController, Tab1RootViewDelegate {
     func speechBubbleButtonTapAction() {
         self.navigationController?.pushViewController(SpeechBubbleTestViewController(), animated: true)
     }
+    
+    func stackedHeaderListButtonTapAction() {
+        self.navigationController?.pushViewController(StackedHeaderListTestViewController(), animated: true)
+    }
 }

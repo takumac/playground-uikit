@@ -19,6 +19,7 @@ protocol Tab1RootViewDelegate: AnyObject {
     func attributedStringButtonTapAction()
     func compositionalLayoutButtonTapAction()
     func speechBubbleButtonTapAction()
+    func stackedHeaderListButtonTapAction()
 }
 
 
@@ -65,6 +66,9 @@ class Tab1RootView: UIView {
     
     /// SpeechBubbleの実験画面に飛ぶためのボタン
     let speechBubbleButton: UIButton = UIButton()
+    
+    /// StackedHeaderListの実験画面に飛ぶためのボタン
+    let stackedHeaderListButton = UIButton()
     
     
     // MARK: - Init
@@ -151,6 +155,12 @@ class Tab1RootView: UIView {
         speechBubbleButton.addTarget(self, action: #selector(speechBubbleButtonTapAction(_:)), for: .touchUpInside)
         contentView.addArrangedSubview(speechBubbleButton)
         
+        stackedHeaderListButton.setTitle("Stacked Header List", for: .normal)
+        stackedHeaderListButton.setTitleColor(C02_COLOR, for: .normal)
+        stackedHeaderListButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        stackedHeaderListButton.addTarget(self, action: #selector(stackedHeaderListButtonTapAction(_:)), for: .touchUpInside)
+        contentView.addArrangedSubview(stackedHeaderListButton)
+        
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
         
@@ -215,6 +225,10 @@ class Tab1RootView: UIView {
     
     @objc func speechBubbleButtonTapAction(_ sender: UIButton) {
         delegate?.speechBubbleButtonTapAction()
+    }
+    
+    @objc func stackedHeaderListButtonTapAction(_ sender: UIButton) {
+        delegate?.stackedHeaderListButtonTapAction()
     }
     
 }
