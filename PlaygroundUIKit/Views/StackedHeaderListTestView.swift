@@ -73,7 +73,7 @@ class StackedHeaderListTestView: UIView {
         return titles.map { title in
             ListSectionData(
                 title: title,
-                rows: (0..<8).map { ListRowData(text: "\(title) - Row \($0)") }
+                rows: (0..<10).map { ListRowData(text: "\(title) - Row \($0)") }
             )
         }
     }()
@@ -112,8 +112,8 @@ class StackedHeaderListTestView: UIView {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
@@ -202,17 +202,20 @@ class StackedHeaderListTestView: UIView {
 
 
 // MARK: - StackedHeaderCompositionalLayout
-/// UICollectionviewCompositionalLayoutのヘッダー部分が積み重なるように拡張したクラス
-/// 最終的には「ヘッダーのy座標」の決定を書き換えているだけのクラス
+/// UICollectionViewCompositionalLayout のヘッダー部分が、上端・下端の両方に積み重なるように拡張したクラス
+/// 最終的には「ヘッダーの y 座標」の決定を書き換えているだけのクラス
+/// ・通過済みセクションのヘッダー: 上端に積み上がる（前セクションのヘッダー分だけ下げる）
+/// ・未到達セクション（まだ見えていない下方のセクション）のヘッダー: 下端に積み上がる（自分以降のヘッダー分だけ上げる）
+/// ・両者は「本来位置を上ピンと下ピンの間にクランプする」一本の式で表現する
 final class StackedHeaderCompositionalLayout: UICollectionViewCompositionalLayout {
     // MARK: - Override
-    /// スクロールの際にレイアウトの更新（ヘッダーのy座標の再計算）を行うためにtrueを返却
+    /// スクロールの際にレイアウトの更新（ヘッダーの y 座標の再計算）を行うために true を返却
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         true
     }
     
     /// 補足ビュー(ヘッダー、フッター等)のレイアウト情報(frame等)を返却
-    /// ※各セクションのヘッダーがスタックされるようなレイアウト情報を設定して返す
+    /// ※各セクションのヘッダーが上端／下端にスタックされるようなレイアウト情報を設定して返す
     override func layoutAttributesForSupplementaryView(
         ofKind elementKind: String,
         at indexPath: IndexPath
@@ -230,19 +233,25 @@ final class StackedHeaderCompositionalLayout: UICollectionViewCompositionalLayou
             return base
         }
         
-        // CollectionViewのスクロール位置を取得(ナビゲーションバー、セーフエリア等を考慮)
-        let offsetY = cv.contentOffset.y + cv.adjustedContentInset.top
-        // このメソッドが呼ばれたセクションのヘッダーを止める位置のtopを計算
-        let pinnedTop = offsetY + stackedHeight(before: indexPath.section)
+        // 可視領域の上端／下端を取得（ナビゲーションバー、セーフエリア等を考慮）
+        let visibleTop = cv.contentOffset.y + cv.adjustedContentInset.top
+        let visibleBottom = cv.contentOffset.y + cv.bounds.height - cv.adjustedContentInset.bottom
         
-        // このメソッドが呼ばれた呼ばれたセクションのヘッダーの位置を指定(ヘッダーの固定化処理。このセクションより前のセクションの固定化分も考慮。)
+        // 上ピン: このセクションを上端に止める位置（自分より前のセクションのヘッダー高さ合計だけ下げる）
+        let topPinned = visibleTop + stackedHeaderHeight(before: indexPath.section)
+        // 下ピン: このセクションを下端に止める位置（自分以降＝自分を含むヘッダー高さ合計だけ可視下端から上げる）
+        let bottomPinned = visibleBottom - stackedHeaderHeight(fromInclusive: indexPath.section)
+        
+        // ヘッダーの位置を、本来位置を上ピンと下ピンの間にクランプして決定する
+        // ・本来位置が上ピンより上（通過済み） → max により上ピンに固定（上端スタック）
+        // ・本来位置が下ピンより下（未到達／まだ見えていない） → min により下ピンに固定（下端スタック）
+        // ・その間（画面内に普通に居る） → 本来位置のまま流れる
         var frame = attrs.frame
-        frame.origin.y = max(frame.origin.y, pinnedTop)
+        frame.origin.y = min(max(frame.origin.y, topPinned), bottomPinned)
         attrs.frame = frame
         
         // ヘッダーをセルより前面に表示
-        // ※後のセクションほど手前になるようなzIndexを指定
-        // ※後のセクションほど手前になる設定は重なった場合の保険。実際はframeを計算して前のセクションのヘッダーの下部とピッタリに位置するためヘッダー同士が重なる事はない。
+        // ※後のセクションほど手前になるような zIndex を指定（重なった場合の保険。実際は frame 計算でピッタリ揃うので重ならない）
         attrs.zIndex = 1000 + indexPath.section
         return attrs
     }
@@ -256,8 +265,7 @@ final class StackedHeaderCompositionalLayout: UICollectionViewCompositionalLayou
         // ※標準のレイアウト情報は内部で使い回される可能性があるため直接書き換えるとレイアウト情報が壊れる可能性がある。そのため複製する。
         var result = base.compactMap { $0.copy() as? UICollectionViewLayoutAttributes }
         
-        // 標準のレイアウト情報で取得できる内容にはスタックしているヘッダー分のレイアウト情報が含まれていないので補完する
-        // ※標準のレイアウト前提で、引数のrect内に含まれるCollectionView上の情報しか取得できないため。ヘッダーのスタック化はカスタマイズで実現しているため。
+        let sectionCount = collectionView?.numberOfSections ?? 0
         
         // 標準のレイアウト情報に含まれているヘッダーのセクションを取得
         var sectionsWithHeader = Set(
@@ -265,13 +273,12 @@ final class StackedHeaderCompositionalLayout: UICollectionViewCompositionalLayou
                 .filter { $0.representedElementKind == UICollectionView.elementKindSectionHeader }
                 .map { $0.indexPath.section }
         )
-        // 標準のレイアウト情報に含まれているセクション(セル、ヘッダー、フッター、何かしらが含まれている)を取得
+        // 標準のレイアウト情報に含まれているセクション(セル、ヘッダー、何かしらが含まれている)を取得
         let visibleSections = result.map { $0.indexPath.section }
         
-        // 標準のレイアウト情報に含まれていないセクションのヘッダーの固定情報を追加
-        // ※追加するセクションのヘッダーは現在の表示範囲より前のセクションを対象とする(topVisible = visibleSections.min())
-        // ※ループ条件が section in 0...topVisible だが、見えている一番上のセクションは標準レイアウトとしてフレームワーク側が返却する。
-        // ※そのため sectionsWithHeader に含まれるため実質的に問題はない。
+        // ===== 上方向のスタック補完（通過済みセクション）=====
+        // 標準のレイアウト情報に含まれていない、表示範囲より上のセクションのヘッダー固定情報を追加
+        // ※追加対象は topVisible = visibleSections.min() まで
         if let topVisible = visibleSections.min() {
             for section in 0...topVisible where !sectionsWithHeader.contains(section) {
                 if let attrs = layoutAttributesForSupplementaryView(
@@ -284,9 +291,24 @@ final class StackedHeaderCompositionalLayout: UICollectionViewCompositionalLayou
             }
         }
         
-        // 最終的に表示するヘッダーのレイアウト情報を設定
-        // ※前のループにて標準のレイアウト情報に含まれていないセクションのヘッダーの固定情報が追加されている。
-        // ※追加されたヘッダーの固定情報を考慮して、標準のレイアウト情報に含まれているヘッダーのレイアウト情報を決める必要があるため。
+        // ===== 下方向のスタック補完（未到達セクション：まだ見えていない下方のセクション）=====
+        // 標準のレイアウト情報に含まれていない、表示範囲より下のセクションのヘッダー固定情報を追加
+        // ※標準実装では rect 内（＝可視範囲付近）のヘッダーしか返ってこないため、下方に控えているセクションのヘッダーは自前で補完する必要がある
+        // ※追加対象は bottomVisible = visibleSections.max() 以降の全セクション
+        if let bottomVisible = visibleSections.max(), sectionCount > 0 {
+            for section in bottomVisible..<sectionCount where !sectionsWithHeader.contains(section) {
+                if let attrs = layoutAttributesForSupplementaryView(
+                    ofKind: UICollectionView.elementKindSectionHeader,
+                    at: IndexPath(item: 0, section: section)
+                ) {
+                    result.append(attrs)
+                    sectionsWithHeader.insert(section)
+                }
+            }
+        }
+        
+        // ===== 最終的に表示するヘッダーのレイアウト情報を確定 =====
+        // ※前のループで追加された固定情報を考慮して、標準のレイアウト情報に含まれているヘッダーも再計算する必要があるため。
         for attrs in result where attrs.representedElementKind == UICollectionView.elementKindSectionHeader {
             if let pinned = layoutAttributesForSupplementaryView(
                 ofKind: UICollectionView.elementKindSectionHeader,
@@ -301,8 +323,8 @@ final class StackedHeaderCompositionalLayout: UICollectionViewCompositionalLayou
     }
     
     // MARK: - Helper
-    /// 引数の section より前にある各セクションのヘッダーの高さの合計を算出
-    private func stackedHeight(before section: Int) -> CGFloat {
+    /// 引数の section より前にある各セクションのヘッダーの高さの合計を算出（上端スタック用）
+    private func stackedHeaderHeight(before section: Int) -> CGFloat {
         var total: CGFloat = 0
         for s in 0..<section {
             total += naturalHeaderFrame(forSection: s)?.height ?? 0
@@ -310,9 +332,18 @@ final class StackedHeaderCompositionalLayout: UICollectionViewCompositionalLayou
         return total
     }
     
+    /// 引数の section 以降（自分を含む）の各セクションのヘッダーの高さの合計を算出（下端スタック用）
+    private func stackedHeaderHeight(fromInclusive section: Int) -> CGFloat {
+        guard let count = collectionView?.numberOfSections, section < count else { return 0 }
+        var total: CGFloat = 0
+        for s in section..<count {
+            total += naturalHeaderFrame(forSection: s)?.height ?? 0
+        }
+        return total
+    }
+    
     /// 本来のヘッダーの位置を取得
-    /// ※Stack化しない場合にフレームワーク側が返却するヘッダーのframeを取得する
-    /// ※superから取得する
+    /// ※Stack化しない場合にフレームワーク側が返却するヘッダーの frame を取得する（super から取得）
     private func naturalHeaderFrame(forSection section: Int) -> CGRect? {
         return super.layoutAttributesForSupplementaryView(
             ofKind: UICollectionView.elementKindSectionHeader,
